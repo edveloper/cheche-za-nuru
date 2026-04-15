@@ -10,7 +10,12 @@ export async function POST(request: Request) {
     phone?: string;
     interest?: string;
     message?: string;
+    website?: string;
   };
+
+  if (body.website) {
+    return NextResponse.json({ ok: true });
+  }
 
   if (!body.firstName || !body.email || !body.message) {
     return NextResponse.json(

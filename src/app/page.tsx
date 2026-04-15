@@ -29,7 +29,7 @@ export default function Home() {
             opportunity.
           </p>
           <div className="hero-actions">
-            <Link className="primary-button hero-orange" href="/contact">
+            <Link className="primary-button hero-orange" href="/donate">
               Make a Donation
             </Link>
             <Link className="secondary-link" href="/about">

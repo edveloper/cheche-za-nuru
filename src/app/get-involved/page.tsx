@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ContentImage } from "@/components/content-image";
+import { InvolvementForm } from "@/components/involvement-form";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { involvementDetails, involvementOptions, pageVisuals } from "@/data/site";
@@ -33,11 +34,38 @@ export default function GetInvolvedPage() {
             <article key={option.title} className="content-card">
               <h3>{option.title}</h3>
               <p>{option.description}</p>
-              <Link className="text-link" href="/contact">
-                Start the conversation
+              <Link
+                className="text-link"
+                href={option.title === "Donate" ? "/donate" : "#involvement-form"}
+              >
+                {option.title === "Donate" ? "Go to donate" : "Start the conversation"}
               </Link>
             </article>
           ))}
+        </div>
+      </PageSection>
+
+      <PageSection
+        label="Start Here"
+        title="Share the kind of help you have in mind."
+      >
+        <div id="involvement-form" className="action-grid">
+          <InvolvementForm />
+
+          <div className="reading-stack reading-panel">
+            <p className="card-label">How this works</p>
+            <p>
+              Use this form for volunteering, sponsorship, partnership, in-kind
+              support, or media outreach.
+            </p>
+            <p>
+              If your priority is financial giving, the dedicated donation route
+              will give you a cleaner way to choose an amount and support area.
+            </p>
+            <Link className="text-link" href="/donate">
+              Open the donation flow
+            </Link>
+          </div>
         </div>
       </PageSection>
 

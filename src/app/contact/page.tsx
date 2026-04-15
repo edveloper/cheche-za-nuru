@@ -10,7 +10,7 @@ export default function ContactPage() {
       <PageIntro
         label="Contact"
         title="Start a conversation with Cheche Za Nuru."
-        body="If you would like to donate, volunteer, partner, or learn more about our work, we would be glad to hear from you."
+        body="If you would like to volunteer, partner, ask a question, or learn more about our work, we would be glad to hear from you."
         aside="Every message is a chance to begin something meaningful for children, families, and communities."
       />
 

@@ -60,7 +60,7 @@ export function SiteHeader() {
         ))}
       </nav>
 
-      <Link className="header-cta" href="/contact">
+      <Link className="header-cta" href="/donate">
         Take Action
       </Link>
 
@@ -88,7 +88,7 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
-            <Link className="mobile-menu-cta" href="/contact" onClick={() => setIsMenuOpen(false)}>
+            <Link className="mobile-menu-cta" href="/donate" onClick={() => setIsMenuOpen(false)}>
               Take Action
             </Link>
           </nav>

@@ -1555,6 +1555,65 @@ textarea {
   color: var(--muted);
 }
 
+.field-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.field-help {
+  margin: -0.15rem 0 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.inline-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.inline-toggle input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--orange);
+}
+
+.panel-actions,
+.support-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.support-card {
+  display: grid;
+  gap: 0.65rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.support-card h3,
+.support-card p {
+  margin: 0;
+}
+
+.support-card h3 {
+  font-family: var(--font-display), serif;
+  font-size: 1.35rem;
+  line-height: 1.05;
+}
+
+.support-card-accent {
+  padding: 1.25rem;
+  border-top: none;
+  border-radius: 1.1rem;
+  background: linear-gradient(180deg, rgba(255, 241, 204, 0.9), rgba(255, 255, 255, 0.98));
+}
+
 .contact-line-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.2rem;
@@ -1958,6 +2017,10 @@ textarea {
   .form-panel,
   .form-panel-dark {
     padding: 2rem;
+  }
+
+  .inline-toggle {
+    align-items: flex-start;
   }
 
   .impact-bar-card,

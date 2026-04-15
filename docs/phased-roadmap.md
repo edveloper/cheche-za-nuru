@@ -17,7 +17,8 @@ This roadmap replaces ad hoc changes with a sequence that keeps the site usable 
 
 - Phase 1 is complete
 - Phase 2 is complete
-- The next implementation stage is Phase 3: Public conversion flows
+- Phase 3 is complete
+- The next implementation stage is Phase 4: Stories platform
 
 ## Core decisions for the next phase of work
 
@@ -161,6 +162,9 @@ Completion notes:
 Goal:
 Turn the current contact-first setup into proper supporter intake flows.
 
+Status:
+Complete
+
 Scope:
 
 - build a dedicated `/donate` route
@@ -187,6 +191,15 @@ Exit criteria:
 - donation CTA goes to a real donation flow
 - get involved submissions go into `involvement_leads`
 - contact page is no longer overloaded with unrelated intents
+
+Completion notes:
+
+- `/donate` now exists as a dedicated donation intake route
+- donation CTA paths point to `/donate` instead of routing through contact
+- donation fund options can be read from Supabase with a safe fallback set when no live records exist
+- `/get-involved` now submits structured leads into `involvement_leads`
+- contact remains available for general enquiries instead of acting as the main donation surface
+- public form handlers now include basic honeypot protection and stronger server-side validation
 
 ## Phase 4: Stories platform
 
@@ -317,11 +330,11 @@ This order matters because the current visual layer still needs correction, and 
 
 ## Immediate next actions
 
-The next practical sprint should focus on Phase 3:
+The next practical sprint should focus on Phase 4:
 
-- build a dedicated `/donate` route
-- move donation CTAs away from `/contact`
-- wire `involvement_leads` into `/get-involved`
-- expand public form validation and anti-spam protections
+- replace static stories content with structured blog, gallery, voice, and video data
+- add real story detail routes and remove dead-end story interactions
+- connect approved story content to Supabase-backed publishing
+- keep public submissions moderated instead of publishing directly
 
-That work turns the site from a polished brochure into a working intake surface without taking on the full content-platform migration yet.
+That work turns the current stories surface from a visual placeholder into the first real content domain on the platform.

@@ -1,8 +1,7 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useTransition } from "react";
-
-const donationAmounts = [5, 10, 20, 50, 100, 200, 500, 1000];
 
 const interestOptions = [
   "Volunteering",
@@ -12,47 +11,9 @@ const interestOptions = [
   "General Enquiry",
 ];
 
-const programOptions = [
-  "Support where it's needed most",
-  "Education - Nuru Scholars Program",
-  "Healthcare - Afya Kwa Wote",
-  "Sports - Rising Stars League",
-];
-
 export function ActionPanels() {
-  const [donationStatus, setDonationStatus] = useState<string | null>(null);
   const [contactStatus, setContactStatus] = useState<string | null>(null);
-  const [selectedAmount, setSelectedAmount] = useState(20);
-  const [isDonationPending, startDonationTransition] = useTransition();
   const [isContactPending, startContactTransition] = useTransition();
-
-  async function submitDonation(formData: FormData) {
-    setDonationStatus(null);
-
-    const amount = Number(formData.get("amount"));
-
-    const response = await fetch("/api/donations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount,
-        purpose: formData.get("purpose"),
-        donorName: formData.get("donorName"),
-        donorEmail: formData.get("donorEmail"),
-      }),
-    });
-
-    const result = (await response.json()) as { error?: string };
-
-    if (!response.ok) {
-      setDonationStatus(result.error ?? "Unable to submit donation intent.");
-      return;
-    }
-
-    setDonationStatus("Thank you. Your donation enquiry has been received and we will follow up with the next step.");
-  }
 
   async function submitContact(formData: FormData) {
     setContactStatus(null);
@@ -69,6 +30,7 @@ export function ActionPanels() {
         phone: formData.get("phone"),
         interest: formData.get("interest"),
         message: formData.get("message"),
+        website: formData.get("website"),
       }),
     });
 
@@ -84,74 +46,32 @@ export function ActionPanels() {
 
   return (
     <div className="action-grid">
-      <form
-        className="form-panel donation-panel"
-        onSubmit={(event) => {
-          event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          startDonationTransition(() => {
-            void submitDonation(formData);
-          });
-        }}
-      >
+      <article className="form-panel donation-panel">
         <p className="section-label">Donation</p>
-        <h3>Make a contribution</h3>
+        <h3>Use the dedicated donation flow</h3>
         <p className="panel-copy">
-          Choose a contribution amount, tell us where you would like your support to
-          go, and leave your details so we can follow up with the next step.
+          Donation intent now has its own route so supporters can choose a fund,
+          set an amount, and tell us whether support is one-time or recurring.
         </p>
-
-        <div className="amount-grid">
-          {donationAmounts.map((amount) => (
-            <button
-              key={amount}
-              className={selectedAmount === amount ? "amount-button active" : "amount-button"}
-              type="button"
-              onClick={() => setSelectedAmount(amount)}
-            >
-              ${amount.toLocaleString()}
-            </button>
-          ))}
+        <div className="support-stack">
+          <p className="field-help">
+            Choose support for education, healthcare, sports, or wherever the
+            need is greatest.
+          </p>
+          <p className="field-help">
+            Leave contact details so the team can follow up with the right next
+            payment or partnership step.
+          </p>
         </div>
-
-        <label className="field">
-          <span>Amount (USD)</span>
-          <input
-            name="amount"
-            type="number"
-            min="1"
-            value={selectedAmount}
-            onChange={(event) => setSelectedAmount(Number(event.target.value))}
-          />
-        </label>
-
-        <label className="field">
-          <span>Purpose</span>
-          <select name="purpose" defaultValue={programOptions[0]}>
-            {programOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="field">
-          <span>Your name</span>
-          <input name="donorName" type="text" placeholder="Full name" required />
-        </label>
-
-        <label className="field">
-          <span>Email address</span>
-          <input name="donorEmail" type="email" placeholder="you@email.com" required />
-        </label>
-
-        <button className="primary-button button-full" type="submit" disabled={isDonationPending}>
-          {isDonationPending ? "Sending..." : "Share Donation Intent"}
-        </button>
-
-        {donationStatus ? <p className="status-text">{donationStatus}</p> : null}
-      </form>
+        <div className="panel-actions">
+          <Link className="primary-button" href="/donate">
+            Go to Donate
+          </Link>
+          <Link className="text-link" href="/get-involved">
+            Explore other ways to help
+          </Link>
+        </div>
+      </article>
 
       <form
         className="form-panel"
@@ -169,6 +89,11 @@ export function ActionPanels() {
           Reach out about volunteering, partnerships, donations, media requests, or
           any other way you would like to be involved.
         </p>
+
+        <label className="field field-honeypot" aria-hidden="true">
+          <span>Website</span>
+          <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+        </label>
 
         <div className="form-row">
           <label className="field">
