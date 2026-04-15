@@ -1,3 +1,4 @@
+import { ContentImage } from "@/components/content-image";
 import { ParallaxImage } from "@/components/parallax-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
@@ -108,11 +109,10 @@ export default function StoriesPage() {
                     key={image.src}
                     className={imageIndex === 0 ? "gallery-collage-card gallery-collage-card-large" : "gallery-collage-card"}
                   >
-                    <ParallaxImage
+                    <ContentImage
                       src={image.src}
                       alt={image.alt}
                       sizes="(max-width: 900px) 100vw, 24vw"
-                      speed={14}
                     />
                     <figcaption>{image.caption}</figcaption>
                   </figure>

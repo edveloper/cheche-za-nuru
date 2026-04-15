@@ -1,3 +1,4 @@
+import { ContentImage } from "@/components/content-image";
 import { ParallaxImage } from "@/components/parallax-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
@@ -63,11 +64,10 @@ export default function AboutPage() {
                 key={image.src}
                 className={index === 0 ? "spotlight-card spotlight-card-large" : "spotlight-card"}
               >
-                <ParallaxImage
+                <ContentImage
                   src={image.src}
                   alt={image.alt}
                   sizes="(max-width: 900px) 100vw, 24vw"
-                  speed={14}
                 />
               </div>
             ))}

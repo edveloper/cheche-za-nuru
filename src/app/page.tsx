@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ContentImage } from "@/components/content-image";
 import { ParallaxImage } from "@/components/parallax-image";
 import { PageSection } from "@/components/page-section";
 import {
@@ -98,11 +99,10 @@ export default function Home() {
                 key={image.src}
                 className={index === 0 ? "spotlight-card spotlight-card-large" : "spotlight-card"}
               >
-                <ParallaxImage
+                <ContentImage
                   src={image.src}
                   alt={image.alt}
                   sizes="(max-width: 900px) 100vw, 24vw"
-                  speed={18}
                 />
               </div>
             ))}
@@ -144,11 +144,10 @@ export default function Home() {
           <div className="mini-gallery">
             {homepageVisuals.gallery.slice(0, 2).map((image) => (
               <div key={image.src} className="mini-gallery-card">
-                <ParallaxImage
+                <ContentImage
                   src={image.src}
                   alt={image.alt}
                   sizes="(max-width: 900px) 100vw, 22vw"
-                  speed={16}
                 />
               </div>
             ))}
@@ -173,11 +172,10 @@ export default function Home() {
           <div className="photo-strip">
             {homepageVisuals.gallery.slice(2).map((image) => (
               <div key={image.src} className="photo-strip-card">
-                <ParallaxImage
+                <ContentImage
                   src={image.src}
                   alt={image.alt}
                   sizes="(max-width: 900px) 100vw, 30vw"
-                  speed={16}
                 />
               </div>
             ))}
