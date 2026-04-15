@@ -1,5 +1,4 @@
 import { ContentImage } from "@/components/content-image";
-import { ParallaxImage } from "@/components/parallax-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import {
@@ -22,12 +21,11 @@ export default function AboutPage() {
       />
 
       <section className="page-photo-hero">
-        <ParallaxImage
+        <ContentImage
           src={pageVisuals.aboutHero.src}
           alt={pageVisuals.aboutHero.alt}
           sizes="100vw"
           className="page-photo-hero-image"
-          speed={24}
         />
       </section>
 

@@ -3,7 +3,7 @@
 import { useEffect, useEffectEvent, useRef } from "react";
 import Image from "next/image";
 
-type ParallaxImageProps = {
+type HeroImageProps = {
   src: string;
   alt: string;
   sizes: string;
@@ -13,7 +13,7 @@ type ParallaxImageProps = {
   quality?: 75 | 90 | 100;
 };
 
-export function ParallaxImage({
+export function HeroImage({
   src,
   alt,
   sizes,
@@ -21,10 +21,10 @@ export function ParallaxImage({
   speed = 24,
   preload = false,
   quality = 100,
-}: ParallaxImageProps) {
+}: HeroImageProps) {
   const frameRef = useRef<HTMLDivElement | null>(null);
 
-  const updateParallax = useEffectEvent(() => {
+  const updateMotion = useEffectEvent(() => {
     const node = frameRef.current;
     if (!node) {
       return;
@@ -35,7 +35,7 @@ export function ParallaxImage({
     const progress = (rect.top + rect.height / 2 - viewportHeight / 2) / viewportHeight;
     const offset = Math.max(-speed, Math.min(speed, progress * -speed));
 
-    node.style.setProperty("--parallax-y", `${offset}px`);
+    node.style.setProperty("--hero-image-y", `${offset}px`);
   });
 
   useEffect(() => {
@@ -44,11 +44,11 @@ export function ParallaxImage({
     const onScroll = () => {
       cancelAnimationFrame(frame);
       frame = window.requestAnimationFrame(() => {
-        updateParallax();
+        updateMotion();
       });
     };
 
-    updateParallax();
+    updateMotion();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
 
@@ -60,7 +60,10 @@ export function ParallaxImage({
   }, []);
 
   return (
-    <div ref={frameRef} className={className ? `${className} parallax-frame` : "parallax-frame"}>
+    <div
+      ref={frameRef}
+      className={className ? `${className} hero-image-media` : "hero-image-media"}
+    >
       <Image
         src={src}
         alt={alt}
@@ -68,7 +71,7 @@ export function ParallaxImage({
         preload={preload}
         quality={quality}
         sizes={sizes}
-        className="parallax-image"
+        className="hero-image-motion"
         style={{ objectFit: "cover" }}
       />
     </div>

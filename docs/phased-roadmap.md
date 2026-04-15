@@ -13,6 +13,12 @@ That means the next work should not be approached as isolated page edits. It sho
 
 This roadmap replaces ad hoc changes with a sequence that keeps the site usable while moving it from brochure site to operating content platform.
 
+## Current status
+
+- Phase 1 is complete
+- Phase 2 is complete
+- The next implementation stage is Phase 3: Public conversion flows
+
 ## Core decisions for the next phase of work
 
 ### 1. Branding should use a real logo asset
@@ -82,6 +88,9 @@ Exit criteria:
 Goal:
 Fix the visual and asset layer before building more platform behavior on top of it.
 
+Status:
+Complete
+
 Scope:
 
 - replace the text-based header mark with the actual logo image
@@ -107,6 +116,9 @@ Exit criteria:
 
 Goal:
 Stop treating all images as parallax images and create separate rendering paths based on purpose.
+
+Status:
+Complete
 
 Scope:
 
@@ -136,6 +148,13 @@ Exit criteria:
 - parallax is either removed or isolated to a very small set of places
 - image rendering is visually consistent without relying on the same motion effect everywhere
 - the site feels calmer and more deliberate
+
+Completion notes:
+
+- banner, card, collage, and editorial images now use static image primitives
+- the home hero uses a dedicated hero-motion component instead of the old shared parallax wrapper
+- image responsibilities are now separated by placement instead of by one generic effect
+- shared sports copy has been normalized across the public site content data
 
 ## Phase 3: Public conversion flows
 
@@ -298,11 +317,11 @@ This order matters because the current visual layer still needs correction, and 
 
 ## Immediate next actions
 
-The next practical sprint should focus on Phases 1 and 2 together:
+The next practical sprint should focus on Phase 3:
 
-- switch header and footer branding to the real logo
-- perform a full image audit and replacement pass
-- remove broad parallax usage and replace it with separate image components
-- clean up the image references in `src/data/site.ts`
+- build a dedicated `/donate` route
+- move donation CTAs away from `/contact`
+- wire `involvement_leads` into `/get-involved`
+- expand public form validation and anti-spam protections
 
-That work creates a cleaner foundation for every later phase and prevents new features from being built on top of presentation patterns you already know you want to change.
+That work turns the site from a polished brochure into a working intake surface without taking on the full content-platform migration yet.

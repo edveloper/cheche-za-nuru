@@ -213,7 +213,7 @@ export const pillars = [
     eyebrow: "Sports",
     title: "Rising Stars League",
     description:
-      "Structured football, athletics, and netball programs that build confidence, discipline, teamwork, and future pathways.",
+      "Structured football, athletics, basketball, and rugby programs that build confidence, discipline, teamwork, and future pathways.",
   },
 ];
 
@@ -244,7 +244,7 @@ export const programs = [
     eyebrow: "Sports",
     title: "Rising Stars League",
     description:
-      "Football, athletics, and netball academies that nurture talent, build character, and open pathways to scholarships and sporting institutions.",
+      "Football, athletics, basketball, and rugby academies that nurture talent, build character, and open pathways to scholarships and sporting institutions.",
     bullets: [
       "Structured leagues and academy support",
       "Discipline, teamwork, and leadership building",

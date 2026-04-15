@@ -1,5 +1,5 @@
 import { ActionPanels } from "@/components/action-panels";
-import { ParallaxImage } from "@/components/parallax-image";
+import { ContentImage } from "@/components/content-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { contactDetails, contactIntro, pageVisuals } from "@/data/site";
@@ -20,12 +20,11 @@ export default function ContactPage() {
             <p key={item}>{item}</p>
           ))}
         </div>
-        <ParallaxImage
+        <ContentImage
           src={pageVisuals.contact.src}
           alt={pageVisuals.contact.alt}
           sizes="(max-width: 900px) 100vw, 40vw"
           className="section-image-banner-card section-image-short"
-          speed={16}
         />
       </section>
 

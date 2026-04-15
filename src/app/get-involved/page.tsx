@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { ParallaxImage } from "@/components/parallax-image";
+import { ContentImage } from "@/components/content-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { involvementDetails, involvementOptions, pageVisuals } from "@/data/site";
@@ -16,12 +16,11 @@ export default function GetInvolvedPage() {
       />
 
       <section className="section-image-banner">
-        <ParallaxImage
+        <ContentImage
           src={pageVisuals.involved.src}
           alt={pageVisuals.involved.alt}
           sizes="100vw"
           className="section-image-banner-card"
-          speed={20}
         />
       </section>
 

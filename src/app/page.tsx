@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { ContentImage } from "@/components/content-image";
-import { ParallaxImage } from "@/components/parallax-image";
+import { HeroImage } from "@/components/hero-image";
 import { PageSection } from "@/components/page-section";
 import {
   foundationOverview,
@@ -46,7 +46,7 @@ export default function Home() {
               <span key={index} />
             ))}
           </div>
-          <ParallaxImage
+          <HeroImage
             src={homepageVisuals.hero.src}
             alt={homepageVisuals.hero.alt}
             preload

@@ -1,5 +1,4 @@
 import { ContentImage } from "@/components/content-image";
-import { ParallaxImage } from "@/components/parallax-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import {
@@ -24,12 +23,11 @@ export default function StoriesPage() {
       />
 
       <section className="section-image-banner">
-        <ParallaxImage
+        <ContentImage
           src={pageVisuals.stories.src}
           alt={pageVisuals.stories.alt}
           sizes="100vw"
           className="section-image-banner-card"
-          speed={20}
         />
       </section>
 

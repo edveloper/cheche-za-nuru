@@ -1,5 +1,5 @@
+import { ContentImage } from "@/components/content-image";
 import { ImpactVisualizations } from "@/components/impact-visualizations";
-import { ParallaxImage } from "@/components/parallax-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import {
@@ -23,12 +23,11 @@ export default function ImpactPage() {
       />
 
       <section className="section-image-banner">
-        <ParallaxImage
+        <ContentImage
           src={pageVisuals.impact.src}
           alt={pageVisuals.impact.alt}
           sizes="100vw"
           className="section-image-banner-card"
-          speed={20}
         />
       </section>
 

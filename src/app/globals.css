@@ -200,14 +200,14 @@ textarea {
   text-transform: uppercase;
 }
 
-.parallax-frame {
-  --parallax-y: 0px;
+.hero-image-media {
+  --hero-image-y: 0px;
   position: relative;
   overflow: hidden;
 }
 
-.parallax-image {
-  transform: translate3d(0, var(--parallax-y), 0) scale(1.07);
+.hero-image-motion {
+  transform: translate3d(0, var(--hero-image-y), 0) scale(1.07);
   will-change: transform;
 }
 
@@ -1324,20 +1324,10 @@ textarea {
   grid-row: span 2;
 }
 
-.gallery-collage-card .parallax-frame {
-  min-height: 15rem;
-  border-radius: 1.4rem;
-  overflow: hidden;
-}
-
 .gallery-collage-card .content-image-frame {
   min-height: 15rem;
   border-radius: 1.4rem;
   overflow: hidden;
-}
-
-.gallery-collage-card-large .parallax-frame {
-  min-height: 32rem;
 }
 
 .gallery-collage-card-large .content-image-frame {
@@ -1998,10 +1988,6 @@ textarea {
     min-height: 3.2rem;
     padding: 0 0.65rem;
     font-size: 0.96rem;
-  }
-
-  .gallery-collage-card-large .parallax-frame {
-    min-height: 18rem;
   }
 
   .amount-grid {
