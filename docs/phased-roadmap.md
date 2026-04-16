@@ -18,7 +18,8 @@ This roadmap replaces ad hoc changes with a sequence that keeps the site usable 
 - Phase 1 is complete
 - Phase 2 is complete
 - Phase 3 is complete
-- The next implementation stage is Phase 4: Stories platform
+- Phase 4 is complete
+- The next implementation stage is Phase 5: Programs and events
 
 ## Core decisions for the next phase of work
 
@@ -206,6 +207,9 @@ Completion notes:
 Goal:
 Replace the static stories page with a real storytelling system.
 
+Status:
+Complete
+
 Scope:
 
 - fetch published blog posts from Supabase
@@ -228,6 +232,14 @@ Exit criteria:
 - `/stories` is backed by real data
 - "Read more" interactions lead somewhere real
 - moderation-ready content flow exists for public submissions
+
+Completion notes:
+
+- the stories index now reads posts, voices, galleries, and videos through a shared story data layer
+- Supabase-backed story reads fall back to the existing local story content when no live records exist
+- blog post detail routes now exist at `/stories/[slug]`
+- gallery detail routes now exist at `/stories/galleries/[slug]`
+- dead-end story interactions have been replaced with real links
 
 ## Phase 5: Programs and events
 
@@ -330,11 +342,11 @@ This order matters because the current visual layer still needs correction, and 
 
 ## Immediate next actions
 
-The next practical sprint should focus on Phase 4:
+The next practical sprint should focus on Phase 5:
 
-- replace static stories content with structured blog, gallery, voice, and video data
-- add real story detail routes and remove dead-end story interactions
-- connect approved story content to Supabase-backed publishing
-- keep public submissions moderated instead of publishing directly
+- move program events onto `program_events`
+- replace hardcoded calendar and event content with structured event reads
+- add real upcoming and featured event behavior
+- introduce event detail routes only if public event pages are needed
 
-That work turns the current stories surface from a visual placeholder into the first real content domain on the platform.
+That work extends the same structured-content pattern from stories into the programs and events domain.

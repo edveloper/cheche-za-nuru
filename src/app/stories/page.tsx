@@ -1,18 +1,31 @@
+import Link from "next/link";
+
 import { ContentImage } from "@/components/content-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import {
-  featuredStory,
   pageVisuals,
-  stories,
   storiesIntro,
-  storyGalleries,
   storyThemes,
-  videoHighlights,
-  voiceSnippets,
 } from "@/data/site";
+import {
+  getStoryGalleries,
+  getStoryPosts,
+  getVideoStories,
+  getVoiceSnippets,
+} from "@/lib/story-content";
 
-export default function StoriesPage() {
+export default async function StoriesPage() {
+  const [posts, voiceSnippets, storyGalleries, videoHighlights] = await Promise.all([
+    getStoryPosts(),
+    getVoiceSnippets(),
+    getStoryGalleries(),
+    getVideoStories(),
+  ]);
+
+  const featuredStory = posts[0] ?? null;
+  const recentStories = posts.slice(1).length ? posts.slice(1) : posts;
+
   return (
     <>
       <PageIntro
@@ -46,13 +59,26 @@ export default function StoriesPage() {
 
       <PageSection
         label="Featured Story"
-        title={featuredStory.title}
-        body={featuredStory.summary}
+        title={featuredStory?.title ?? "Stories from the work"}
+        body={featuredStory?.excerpt ?? "Updates from the work will be featured here as they are published."}
       >
-        <article className="reading-panel stories-feature-copy">
-          <p className="card-label">{featuredStory.category}</p>
-          <p>{featuredStory.detail}</p>
-        </article>
+        {featuredStory ? (
+          <div className="stories-lead-grid">
+            <article className="reading-panel stories-feature-copy">
+              <p className="card-label">{featuredStory.category}</p>
+              <p>{featuredStory.body.split("\n\n")[0]}</p>
+              <Link className="text-link" href={`/stories/${featuredStory.slug}`}>
+                Read featured story
+              </Link>
+            </article>
+            <ContentImage
+              src={featuredStory.coverImagePath}
+              alt={featuredStory.title}
+              sizes="(max-width: 900px) 100vw, 44vw"
+              className="stories-feature-visual"
+            />
+          </div>
+        ) : null}
       </PageSection>
 
       <PageSection
@@ -77,13 +103,15 @@ export default function StoriesPage() {
         title="Scholarships, outreach, and youth development continue to shape what we share."
       >
         <div className="blog-grid">
-          {stories.map((story) => (
-            <article key={story.title} className="story-post-card">
+          {recentStories.map((story) => (
+            <article key={story.slug} className="story-post-card">
               <p className="card-label">{story.category}</p>
-              <small className="meta-line">{story.date}</small>
+              <small className="meta-line">{story.publishedAt}</small>
               <h3>{story.title}</h3>
-              <p>{story.summary}</p>
-              <span className="text-link">Read more</span>
+              <p>{story.excerpt}</p>
+              <Link className="text-link" href={`/stories/${story.slug}`}>
+                Read more
+              </Link>
             </article>
           ))}
         </div>
@@ -95,11 +123,14 @@ export default function StoriesPage() {
       >
         <div className="stacked-grid">
           {storyGalleries.map((gallery, index) => (
-            <article key={gallery.title} className="gallery-story-grid">
+            <article key={gallery.slug} className="gallery-story-grid">
               <div className="gallery-story-copy">
-                <p className="card-label">{gallery.date}</p>
+                <p className="card-label">{gallery.storyDate}</p>
                 <h3>{gallery.title}</h3>
-                <p>{gallery.intro}</p>
+                <p>{gallery.excerpt}</p>
+                <Link className="text-link" href={`/stories/galleries/${gallery.slug}`}>
+                  Open gallery
+                </Link>
               </div>
               <div className={index % 2 === 0 ? "gallery-collage" : "gallery-collage gallery-collage-alt"}>
                 {gallery.images.map((image, imageIndex) => (
@@ -129,13 +160,31 @@ export default function StoriesPage() {
           {videoHighlights.map((video) => (
             <article key={video.title} className="video-story-card">
               <div className="video-story-screen">
+                {video.thumbnailPath ? (
+                  <ContentImage
+                    src={video.thumbnailPath}
+                    alt={video.title}
+                    sizes="(max-width: 900px) 100vw, 30vw"
+                    className="video-story-thumbnail"
+                  />
+                ) : null}
                 <span className="video-story-play" aria-hidden="true">
                   Play
                 </span>
               </div>
-              <p className="card-label">{video.duration}</p>
+              <p className="card-label">{video.durationLabel}</p>
               <h3>{video.title}</h3>
               <p>{video.summary}</p>
+              {video.videoPath ? (
+                <a
+                  className="text-link"
+                  href={video.videoPath}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Watch video
+                </a>
+              ) : null}
             </article>
           ))}
         </div>

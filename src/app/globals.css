@@ -1222,6 +1222,11 @@ textarea {
   min-height: 100%;
 }
 
+.stories-feature-visual.content-image-frame {
+  min-height: 24rem;
+  border-radius: 1.4rem;
+}
+
 .voice-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
@@ -1347,6 +1352,11 @@ textarea {
     radial-gradient(circle at top left, rgba(255, 207, 47, 0.24), transparent 9rem),
     linear-gradient(135deg, #25245f 0%, #3948a4 100%);
   overflow: hidden;
+}
+
+.video-story-thumbnail {
+  position: absolute;
+  inset: 0;
 }
 
 .video-story-play {

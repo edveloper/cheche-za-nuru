@@ -3,7 +3,13 @@ type InsertTableName =
   | "donation_intents"
   | "involvement_leads";
 
-type ReadTableName = "donation_funds";
+type ReadTableName =
+  | "donation_funds"
+  | "blog_posts"
+  | "voice_submissions"
+  | "story_galleries"
+  | "story_gallery_items"
+  | "video_stories";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
