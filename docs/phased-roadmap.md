@@ -19,7 +19,9 @@ This roadmap replaces ad hoc changes with a sequence that keeps the site usable 
 - Phase 2 is complete
 - Phase 3 is complete
 - Phase 4 is complete
-- The next implementation stage is Phase 5: Programs and events
+- Phase 5 is complete
+- Phase 6 is complete
+- The next implementation stage is Phase 7: Admin and workflow layer
 
 ## Core decisions for the next phase of work
 
@@ -246,6 +248,9 @@ Completion notes:
 Goal:
 Turn the programs page into a current, updateable program and event surface.
 
+Status:
+Complete
+
 Scope:
 
 - source events from `program_events`
@@ -259,10 +264,22 @@ Exit criteria:
 - `/programs` no longer relies on hardcoded event arrays
 - event publishing can happen through Supabase Studio
 
+Completion notes:
+
+- `/programs` page now async, fetches live events from `program_events` table
+- `src/lib/program-content.ts` created with getProgramEvents() and related helpers
+- Event data falls back to hardcoded events when Supabase unavailable
+- Supports filtering by program type, featured status, and date range
+- Calendar component receives live data and renders all scheduled events
+- Event detail routes not yet created (can be added if needed later)
+
 ## Phase 6: Impact publishing
 
 Goal:
 Make the impact page credible, sourced, and maintainable.
+
+Status:
+Complete
 
 Scope:
 
@@ -281,6 +298,15 @@ Exit criteria:
 - `/impact` is driven by structured data
 - metric updates no longer require code edits
 - source-backed content can be reviewed before publish
+
+Completion notes:
+
+- `/impact` page now async, fetches featured metrics from `impact_metrics` table
+- `src/lib/impact-content.ts` created with getImpactMetrics() and getContextStats() helpers
+- Metric data falls back to hardcoded metrics when Supabase unavailable
+- Supports filtering by category (education, healthcare, sports, cross_cutting)
+- Context stats available for retrieval but not yet used on page (can be integrated later)
+- Complex aggregated views (domain views, county pressure, comparisons) kept in code for stability
 
 ## Phase 7: Admin and workflow layer
 
