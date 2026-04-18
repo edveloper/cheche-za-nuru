@@ -21,7 +21,8 @@ This roadmap replaces ad hoc changes with a sequence that keeps the site usable 
 - Phase 4 is complete
 - Phase 5 is complete
 - Phase 6 is complete
-- The next implementation stage is Phase 7: Admin and workflow layer
+- Phase 7 is complete
+- The next implementation stage is Phase 8: Hardening and launch readiness
 
 ## Core decisions for the next phase of work
 
@@ -313,6 +314,9 @@ Completion notes:
 Goal:
 Make the platform manageable without prematurely building unnecessary admin software.
 
+Status:
+Complete
+
 Scope:
 
 - use Supabase Studio as the default admin layer first
@@ -331,6 +335,22 @@ Exit criteria:
 
 - team can manage content and submissions reliably
 - custom dashboard work is justified by real pain, not anticipation
+
+Completion notes:
+
+- Created comprehensive admin documentation in `docs/admin/`:
+  - **ADMIN-SETUP.md** — Complete setup guide including user management, RLS policies, publishing workflows, and submission handling
+  - **rls-policies.sql** — Ready-to-run SQL for setting up Row-Level Security on all tables
+  - **CHECKLISTS.md** — Detailed content approval checklists for events, metrics, stories, galleries, voices, and submissions
+  - **QUICK-REFERENCE.md** — One-page guide for day-to-day tasks in Supabase Studio
+- RLS policies established for:
+  - Public read-only access to published/featured content
+  - Editor access to draft content and all content tables
+  - Admin-only access to submission data (donations, contact, involvement)
+- Publishing workflows documented for each content type
+- Moderation checklists ready for team use
+- No custom admin UI built (Studio handles all workflows)
+- Setup requires: running RLS SQL + creating user accounts with custom claims
 
 ## Phase 8: Hardening and launch readiness
 
