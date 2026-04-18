@@ -6,12 +6,24 @@ import {
   pageVisuals,
   pillars,
   programApproach,
-  programEvents,
   programNarrative,
   programs,
 } from "@/data/site";
+import { getProgramEvents } from "@/lib/program-content";
 
-export default function ProgramsPage() {
+export default async function ProgramsPage() {
+  // Fetch program events from Supabase, falls back to hardcoded data
+  const liveEvents = await getProgramEvents({ includePast: false });
+
+  // Convert to format expected by ProgramsCalendar component
+  const calendarEvents = liveEvents.map((event) => ({
+    title: event.title,
+    program: event.programType as "education" | "healthcare" | "sports",
+    date: event.startDate.split("T")[0], // Extract YYYY-MM-DD from ISO date
+    location: event.location,
+    summary: event.summary,
+  }));
+
   return (
     <>
       <PageIntro
@@ -58,7 +70,7 @@ export default function ProgramsPage() {
         body="These dates highlight moments when the foundation gathers around learning, outreach, and youth development. They help visitors see how the work unfolds across the year."
         tone="tint"
       >
-        <ProgramsCalendar events={programEvents} />
+        <ProgramsCalendar events={calendarEvents} />
       </PageSection>
 
       <PageSection

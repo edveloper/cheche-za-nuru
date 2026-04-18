@@ -87,11 +87,11 @@ export default async function StoriesPage() {
       >
         <div className="voice-grid">
           {voiceSnippets.map((voice) => (
-            <article key={voice.name} className="voice-card">
+            <article key={voice.displayName} className="voice-card">
               <p className="voice-quote">&ldquo;{voice.quote}&rdquo;</p>
               <div className="voice-meta">
-                <strong>{voice.name}</strong>
-                <span>{voice.role}</span>
+                <strong>{voice.displayName}</strong>
+                <span>{voice.roleLabel}</span>
               </div>
             </article>
           ))}

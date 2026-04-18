@@ -6,13 +6,16 @@ import {
   impactFrames,
   impactCountyPressure,
   impactDomainViews,
-  impactMetrics,
   impactMilestones,
   impactResponseComparisons,
   pageVisuals,
 } from "@/data/site";
+import { getImpactMetrics } from "@/lib/impact-content";
 
-export default function ImpactPage() {
+export default async function ImpactPage() {
+  // Fetch impact metrics from Supabase, falls back to hardcoded data
+  const liveMetrics = await getImpactMetrics();
+
   return (
     <>
       <PageIntro
@@ -50,8 +53,8 @@ export default function ImpactPage() {
         tone="dark"
       >
         <div className="metric-grid">
-          {impactMetrics.map((metric) => (
-            <article key={metric.label} className="metric-panel">
+          {liveMetrics.map((metric) => (
+            <article key={metric.slug} className="metric-panel">
               <strong>{metric.value}</strong>
               <span>{metric.label}</span>
             </article>

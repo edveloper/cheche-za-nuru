@@ -31,10 +31,11 @@ export function DonationForm() {
         return;
       }
 
-      setFunds(result.funds);
+      const availableFunds = result.funds;
+      setFunds(availableFunds);
       setSelectedFund((currentFund) => {
-        const hasCurrentFund = result.funds?.some((fund) => fund.slug === currentFund);
-        return hasCurrentFund ? currentFund : result.funds[0]!.slug;
+        const hasCurrentFund = availableFunds.some((fund) => fund.slug === currentFund);
+        return hasCurrentFund ? currentFund : availableFunds[0]!.slug;
       });
     }
 

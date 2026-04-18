@@ -9,7 +9,10 @@ type ReadTableName =
   | "voice_submissions"
   | "story_galleries"
   | "story_gallery_items"
-  | "video_stories";
+  | "video_stories"
+  | "program_events"
+  | "impact_metrics"
+  | "impact_context_stats";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
