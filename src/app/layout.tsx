@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Work_Sans } from "next/font/google";
 
+import { AuthErrorHandler } from "@/components/auth-error-handler";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
+        <AuthErrorHandler />
         <div className="site-shell">
           <div className="header-band">
             <div className="page-shell">
