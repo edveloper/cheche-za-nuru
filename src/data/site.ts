@@ -782,5 +782,5 @@ export const contactDetails = {
       label: "TikTok",
       href: "https://tiktok.com/@chechezanurufoundation",
     },
-  ],
+  ] as const,
 };

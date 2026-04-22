@@ -142,10 +142,7 @@ export default function AdminDashboard() {
               style={{
                 display: "block",
                 padding: "1rem",
-        overflow: "hidden",
-        overflow: "hidden",
-        overflow: "hidden",
-        overflow: "hidden",
+                overflow: "hidden",
                 backgroundColor: "var(--surface)",
                 border: "1px solid var(--line)",
                 borderRadius: "12px",
