@@ -14,6 +14,12 @@ export const brandAssets = {
     width: 1563,
     height: 1563,
   },
+  headerLogo: {
+    src: "/logo/czn-header-logo.png",
+    alt: "Cheche Za Nuru Foundation header logo.",
+    width: 1563,
+    height: 1563,
+  },
   wordmark: {
     title: "Cheche Za Nuru",
     subtitle: "Foundation",
@@ -757,7 +763,24 @@ export const contactIntro = [
 ];
 
 export const contactDetails = {
-  email: "info@czn.org",
-  phone: "+254 700 000 000",
-  location: "Nairobi, Kenya",
+  email: "info@chechezanurufoundation.org",
+  phones: ["+254795 969783", "+254723654024"],
+  location: "Mbagathi View Apartment, B10",
+  locationMapUrl:
+    "https://www.google.com/maps/dir/?api=1&destination=Mbagathi%20View%20Apartment%2C%20B10",
+  socialHandle: "@chechezanurufoundation",
+  socials: [
+    {
+      label: "Facebook",
+      href: "https://facebook.com/chechezanurufoundation",
+    },
+    {
+      label: "Instagram",
+      href: "https://instagram.com/chechezanurufoundation",
+    },
+    {
+      label: "TikTok",
+      href: "https://tiktok.com/@chechezanurufoundation",
+    },
+  ],
 };

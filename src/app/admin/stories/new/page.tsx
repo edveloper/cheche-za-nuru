@@ -11,10 +11,11 @@ export default function NewStoryPage() {
         background: `radial-gradient(circle at top right, rgba(245, 193, 26, 0.18), transparent 24rem),
                      radial-gradient(circle at bottom left, rgba(132, 184, 63, 0.08), transparent 20rem),
                      linear-gradient(180deg, #fffdf8 0%, #fff6e7 100%)`,
-        padding: "2rem",
+        padding: "1rem",
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "800px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
         <div style={{ marginBottom: "2rem" }}>
           <h1
             style={{
@@ -37,7 +38,8 @@ export default function NewStoryPage() {
             backgroundColor: "var(--surface)",
             border: "1px solid var(--line)",
             borderRadius: "12px",
-            padding: "2rem",
+            padding: "1.5rem",
+            overflow: "hidden",
           }}
         >
           <StoryForm />

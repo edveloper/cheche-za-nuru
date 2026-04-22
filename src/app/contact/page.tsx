@@ -2,6 +2,7 @@ import { ActionPanels } from "@/components/action-panels";
 import { ContentImage } from "@/components/content-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
+import { SocialIcon } from "@/components/social-icon";
 import { contactDetails, contactIntro, pageVisuals } from "@/data/site";
 
 export default function ContactPage() {
@@ -41,20 +42,47 @@ export default function ContactPage() {
             <span className="contact-detail-label">Email</span>
             <strong>{contactDetails.email}</strong>
           </a>
-          <a className="contact-detail-card" href={`tel:${contactDetails.phone.replaceAll(" ", "")}`}>
-            <span className="contact-detail-label">Phone</span>
-            <strong>{contactDetails.phone}</strong>
-          </a>
-          <div className="contact-detail-card">
+          {contactDetails.phones.map((phone) => (
+            <a key={phone} className="contact-detail-card" href={`tel:${phone.replaceAll(" ", "")}`}>
+              <span className="contact-detail-label">Phone</span>
+              <strong>{phone}</strong>
+            </a>
+          ))}
+          <a
+            className="contact-detail-card"
+            href={contactDetails.locationMapUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
             <span className="contact-detail-label">Location</span>
             <strong>{contactDetails.location}</strong>
+          </a>
+          <div className="contact-detail-card">
+            <span className="contact-detail-label">Socials</span>
+            <div className="social-chip-row">
+              {contactDetails.socials.map((social) => (
+                <a
+                  key={social.label}
+                  className="social-chip"
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={social.label}
+                  title={social.label}
+                >
+                  <span className="social-chip-icon" aria-hidden="true">
+                    <SocialIcon platform={social.label} />
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="contact-map-shell">
           <div className="contact-map-copy reading-panel">
             <p className="card-label">Find Us</p>
-            <h3>Nairobi, Kenya</h3>
+            <h3>{contactDetails.location}</h3>
             <p>
               If you are planning a visit, partnership meeting, or programme conversation,
               you can use the map below as a general guide and then contact us for the exact

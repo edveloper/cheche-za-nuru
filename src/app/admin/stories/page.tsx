@@ -47,10 +47,12 @@ export default function AdminStoriesPage() {
         background: `radial-gradient(circle at top right, rgba(245, 193, 26, 0.18), transparent 24rem),
                      radial-gradient(circle at bottom left, rgba(132, 184, 63, 0.08), transparent 20rem),
                      linear-gradient(180deg, #fffdf8 0%, #fff6e7 100%)`,
-        padding: "2rem",
+        padding: "1rem",
+        overflow: "hidden",
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
         {/* Header */}
         <div
           style={{

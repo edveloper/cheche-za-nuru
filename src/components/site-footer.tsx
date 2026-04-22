@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { SocialIcon } from "@/components/social-icon";
 import { brandAssets, contactDetails, navigation, programs } from "@/data/site";
 
 export function SiteFooter() {
@@ -57,17 +58,57 @@ export function SiteFooter() {
 
         <div>
           <h3>Contact</h3>
-          <ul>
+          <ul className="footer-contact-list">
             <li>
-              <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>
-            </li>
-            <li>
-              <a href={`tel:${contactDetails.phone.replaceAll(" ", "")}`}>
-                {contactDetails.phone}
+              <a className="footer-contact-link" href={`mailto:${contactDetails.email}`}>
+                <span className="footer-contact-icon" aria-hidden="true">
+                  <SocialIcon platform="Email" />
+                </span>
+                <span>{contactDetails.email}</span>
               </a>
             </li>
-            <li>{contactDetails.location}</li>
+            {contactDetails.phones.map((phone) => (
+              <li key={phone}>
+                <a className="footer-contact-link" href={`tel:${phone.replaceAll(" ", "")}`}>
+                  <span className="footer-contact-icon" aria-hidden="true">
+                    <SocialIcon platform="Phone" />
+                  </span>
+                  <span>{phone}</span>
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                className="footer-contact-link"
+                href={contactDetails.locationMapUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open directions to ${contactDetails.location}`}
+              >
+                <span className="footer-contact-icon" aria-hidden="true">
+                  <SocialIcon platform="Location" />
+                </span>
+                <span>{contactDetails.location}</span>
+              </a>
+            </li>
           </ul>
+          <div className="social-link-row" aria-label="Social links">
+            {contactDetails.socials.map((social) => (
+              <a
+                key={social.label}
+                className="social-link"
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={social.label}
+                title={social.label}
+              >
+                <span className="social-link-icon" aria-hidden="true">
+                  <SocialIcon platform={social.label} />
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 

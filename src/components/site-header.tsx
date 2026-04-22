@@ -41,13 +41,13 @@ export function SiteHeader() {
       <Link className="brand" href="/" onClick={() => setIsMenuOpen(false)}>
         <span className="brand-mark">
           <Image
-            src={brandAssets.logo.src}
-            alt={brandAssets.logo.alt}
-            width={brandAssets.logo.width}
-            height={brandAssets.logo.height}
+            src={brandAssets.headerLogo.src}
+            alt={brandAssets.headerLogo.alt}
+            width={brandAssets.headerLogo.width}
+            height={brandAssets.headerLogo.height}
             quality={100}
             className="brand-logo"
-            sizes="(max-width: 780px) 72px, 88px"
+            sizes="(max-width: 780px) 140px, 184px"
           />
         </span>
       </Link>

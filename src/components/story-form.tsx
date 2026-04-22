@@ -46,7 +46,7 @@ export function StoryForm({ initialStory, isEditing = false }: StoryFormProps) {
   };
 
   return (
-    <form action={formAction} style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+    <form action={formAction} style={{ display: "flex", flexDirection: "column", gap: "2rem", width: "100%", overflow: "hidden" }}>
       <input type="hidden" name="isEditing" value={isEditing ? "true" : "false"} />
       <input type="hidden" name="slug" value={initialStory?.slug || ""} />
 
