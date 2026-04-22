@@ -3,15 +3,15 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { StoryPost } from "@/lib/story-content";
-import { createStoryAction, deleteStoryAction } from "./actions";
-
-type Story = StoryPost;
+import { deleteStoryAction } from "./form-actions";
 
 export default function AdminStoriesPage() {
   const [stories, setStories] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+
+  type Story = StoryPost;
 
   useEffect(() => {
     async function loadStories() {
