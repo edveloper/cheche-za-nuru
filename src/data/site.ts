@@ -765,7 +765,7 @@ export const contactIntro = [
 export const contactDetails = {
   email: "info@chechezanurufoundation.org",
   phones: ["+254795 969783", "+254723654024"],
-  location: "Mbagathi View Apartment, B10",
+  location: "Mbagathi View, B10",
   locationMapUrl:
     "https://www.google.com/maps/dir/?api=1&destination=Mbagathi%20View%20Apartment%2C%20B10",
   socialHandle: "@chechezanurufoundation",
