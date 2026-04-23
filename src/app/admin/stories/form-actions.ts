@@ -16,7 +16,6 @@ export async function saveStoryAction(
     const title = formData.get("title") as string;
     const excerpt = formData.get("excerpt") as string;
     const body = formData.get("body") as string;
-    const category = formData.get("category") as string;
     const authorName = formData.get("authorName") as string;
     const isEditing = formData.get("isEditing") === "true";
     const slug = formData.get("slug") as string;
@@ -83,7 +82,6 @@ export async function saveStoryAction(
           title,
           excerpt,
           body_md: body,
-          category,
           author_name: authorName,
           ...(coverImagePath && { cover_image_path: coverImagePath }),
           updated_at: new Date().toISOString(),
@@ -107,7 +105,6 @@ export async function saveStoryAction(
         body_md: body,
         cover_image_path: coverImagePath || null,
         author_name: authorName,
-        category,
         status: "published",
         published_at: new Date().toISOString(),
         created_at: new Date().toISOString(),

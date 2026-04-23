@@ -16,7 +16,6 @@ export function StoryForm({ initialStory, isEditing = false }: StoryFormProps) {
     title: initialStory?.title || "",
     excerpt: initialStory?.excerpt || "",
     body: initialStory?.body || "",
-    category: initialStory?.category || "Impact",
     authorName: initialStory?.authorName || "Cheche Za Nuru",
     coverImage: initialStory?.coverImagePath || "",
   });
@@ -233,42 +232,6 @@ export function StoryForm({ initialStory, isEditing = false }: StoryFormProps) {
         <p style={{ fontSize: "12px", color: "var(--muted)", margin: "0.5rem 0 0 0" }}>
           Recommended: 1200x600px for best quality
         </p>
-      </div>
-
-      {/* Category */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-        <label
-          htmlFor="category"
-          style={{
-            fontSize: "14px",
-            fontWeight: 600,
-            color: "var(--ink)",
-          }}
-        >
-          Category
-        </label>
-        <select
-          id="category"
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          disabled={isPending}
-          style={{
-            padding: "0.75rem 1rem",
-            fontSize: "14px",
-            border: "1px solid var(--line)",
-            borderRadius: "6px",
-            backgroundColor: "var(--background)",
-            color: "var(--ink)",
-          }}
-        >
-          <option value="Impact">Impact</option>
-          <option value="Community">Community</option>
-          <option value="Education">Education</option>
-          <option value="Healthcare">Healthcare</option>
-          <option value="Sports">Sports</option>
-          <option value="Feature">Feature</option>
-        </select>
       </div>
 
       {/* Author */}
