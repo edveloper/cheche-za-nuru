@@ -97,12 +97,15 @@ textarea {
   width: 19.44rem;
   height: 6.804rem;
   flex-shrink: 0;
+  margin-left: -0.4rem;
 }
 
 .brand-logo {
   width: 100%;
   height: auto;
   object-fit: contain;
+  display: block;
+  margin-left: -0.4rem;
 }
 
 .desktop-nav {
@@ -1657,6 +1660,8 @@ textarea {
   font-size: 1.28rem;
   font-weight: 500;
   line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .social-chip-row {
