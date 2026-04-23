@@ -57,7 +57,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3>Contact</h3>
+          <h3>Contact Us</h3>
           <ul className="footer-contact-list">
             <li>
               <a className="footer-contact-link" href={`mailto:${contactDetails.email}`}>
@@ -115,13 +115,13 @@ export function SiteFooter() {
       <div className="footer-base">
         <span>&copy; 2026 Cheche Za Nuru Foundation</span>
         <span>
-          Website by{" "}
+          Built by{" "}
           <a
             href="https://www.eddie-ezekiel.com"
             target="_blank"
             rel="noreferrer"
           >
-            Eddie Ezekiel
+            Eddie Ezekiel Ochieng
           </a>
         </span>
       </div>
