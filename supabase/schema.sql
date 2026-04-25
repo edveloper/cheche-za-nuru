@@ -196,6 +196,18 @@ create table if not exists public.video_stories (
   updated_at timestamptz not null default timezone('utc', now())
 );
 
+create table if not exists public.team_members (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  role text not null,
+  bio text not null default '',
+  profile_photo_path text not null default '',
+  sort_order integer not null default 0,
+  is_active boolean not null default true,
+  created_at timestamptz not null default timezone('utc', now()),
+  updated_at timestamptz not null default timezone('utc', now())
+);
+
 create index if not exists idx_program_events_start_date on public.program_events(start_date);
 create index if not exists idx_program_events_program_type on public.program_events(program_type);
 create index if not exists idx_impact_metrics_category on public.impact_metrics(category);
@@ -204,6 +216,7 @@ create index if not exists idx_voice_submissions_status on public.voice_submissi
 create index if not exists idx_story_galleries_status on public.story_galleries(status);
 create index if not exists idx_story_gallery_items_gallery on public.story_gallery_items(gallery_id, sort_order);
 create index if not exists idx_video_stories_status on public.video_stories(status);
+create index if not exists idx_team_members_sort_order on public.team_members(sort_order);
 create index if not exists idx_involvement_leads_interest_type on public.involvement_leads(interest_type);
 
 drop trigger if exists donation_funds_set_updated_at on public.donation_funds;
@@ -261,6 +274,11 @@ create trigger video_stories_set_updated_at
 before update on public.video_stories
 for each row execute function public.set_updated_at();
 
+drop trigger if exists team_members_set_updated_at on public.team_members;
+create trigger team_members_set_updated_at
+before update on public.team_members
+for each row execute function public.set_updated_at();
+
 alter table public.donation_funds enable row level security;
 alter table public.donation_intents enable row level security;
 alter table public.contact_submissions enable row level security;
@@ -273,6 +291,7 @@ alter table public.voice_submissions enable row level security;
 alter table public.story_galleries enable row level security;
 alter table public.story_gallery_items enable row level security;
 alter table public.video_stories enable row level security;
+alter table public.team_members enable row level security;
 
 drop policy if exists "public can read active donation funds" on public.donation_funds;
 create policy "public can read active donation funds"
@@ -350,6 +369,48 @@ on public.video_stories
 for select
 to anon, authenticated
 using (status = 'published');
+
+drop policy if exists "public can read active team members" on public.team_members;
+create policy "public can read active team members"
+on public.team_members
+for select
+to anon, authenticated
+using (is_active = true);
+
+drop policy if exists "team_members_public_read_if_active" on public.team_members;
+create policy "team_members_public_read_if_active"
+on public.team_members
+for select
+to public
+using (is_active = true);
+
+drop policy if exists "team_members_editor_read_all" on public.team_members;
+create policy "team_members_editor_read_all"
+on public.team_members
+for select
+to public
+using ((auth.jwt() ->> 'role'::text) = ANY (ARRAY['editor'::text, 'admin'::text]));
+
+drop policy if exists "team_members_editor_write" on public.team_members;
+create policy "team_members_editor_write"
+on public.team_members
+for insert
+to public
+with check ((auth.jwt() ->> 'role'::text) = ANY (ARRAY['editor'::text, 'admin'::text]));
+
+drop policy if exists "team_members_editor_update" on public.team_members;
+create policy "team_members_editor_update"
+on public.team_members
+for update
+to public
+using ((auth.jwt() ->> 'role'::text) = ANY (ARRAY['editor'::text, 'admin'::text]));
+
+drop policy if exists "team_members_admin_delete" on public.team_members;
+create policy "team_members_admin_delete"
+on public.team_members
+for delete
+to public
+using ((auth.jwt() ->> 'role'::text) = 'admin'::text);
 
 -- Submission tables should typically be written through Next.js route handlers
 -- using the service role key. Keep public reads disabled.

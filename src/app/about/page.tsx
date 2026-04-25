@@ -1,6 +1,7 @@
 import { ContentImage } from "@/components/content-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
+import { TeamGrid } from "@/components/team-grid";
 import {
   aboutJourney,
   foundationOverview,
@@ -9,8 +10,10 @@ import {
   pageVisuals,
   values,
 } from "@/data/site";
+import { getTeamMembers } from "@/lib/team-content";
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const teamMembers = await getTeamMembers();
   return (
     <>
       <PageIntro
@@ -96,6 +99,10 @@ export default function AboutPage() {
             </article>
           ))}
         </div>
+      </PageSection>
+
+      <PageSection label="Our Team" title="The people leading this work.">
+        <TeamGrid members={teamMembers} />
       </PageSection>
 
       <PageSection

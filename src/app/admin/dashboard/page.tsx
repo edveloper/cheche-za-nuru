@@ -34,6 +34,13 @@ const adminSections = [
     color: "var(--green)",
   },
   {
+    title: "Team",
+    description: "Add and manage team members for the About page",
+    href: "/admin/team",
+    icon: "👥",
+    color: "var(--navy)",
+  },
+  {
     title: "Submissions",
     description: "View contact and involvement form submissions",
     href: "/admin/submissions",

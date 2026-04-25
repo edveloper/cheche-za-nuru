@@ -17,6 +17,9 @@ export function ContentImage({
   preload = false,
   quality = 100,
 }: ContentImageProps) {
+  // Disable optimization only for Supabase images to avoid private IP resolution issues
+  const isSupabaseImage = src.includes("efzetksxzvpvbobrxtgj.supabase.co");
+  
   return (
     <div className={className ? `${className} content-image-frame` : "content-image-frame"}>
       <Image
@@ -25,6 +28,7 @@ export function ContentImage({
         fill
         preload={preload}
         quality={quality}
+        unoptimized={isSupabaseImage}
         sizes={sizes}
         className="content-image"
         style={{ objectFit: "cover" }}
