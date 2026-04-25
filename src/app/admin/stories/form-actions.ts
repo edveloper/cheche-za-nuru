@@ -21,7 +21,8 @@ export async function saveStoryAction(
     const slug = formData.get("slug") as string;
     const imageFile = formData.get("coverImageFile") as File | null;
 
-    console.log("[Story Save] Starting story save:", { title, isEditing, hasImage: !!imageFile });
+    console.log("[Story Save] Form data keys:", Array.from(formData.keys()));
+    console.log("[Story Save] Starting story save:", { title, excerpt: excerpt?.substring(0, 50), body: body?.substring(0, 50), isEditing, hasImage: !!imageFile, authorName });
 
     // Validation
     if (!title || !excerpt || !body) {
@@ -58,8 +59,9 @@ export async function saveStoryAction(
         .from("story-covers")
         .getPublicUrl(uploadData.path);
 
-      coverImagePath = urlData.publicUrl;
-      console.log("[Story Save] Image public URL:", coverImagePath);
+      // Encode the public URL to handle special characters
+      coverImagePath = encodeURI(urlData.publicUrl);
+      console.log("[Story Save] Encoded Image public URL:", coverImagePath);
     } else {
       console.log("[Story Save] No image provided");
     }
@@ -125,9 +127,15 @@ export async function saveStoryAction(
       console.log("[Story Save] Story created successfully");
     }
 
-    console.log("[Story Save] Redirecting to /admin/stories");
+    console.log("[Story Save] Story saved successfully, redirecting to /admin/stories");
     redirect("/admin/stories");
   } catch (error) {
+    // Don't catch Next.js redirect errors - digest may include extra info
+    const digest = (error as any)?.digest;
+    if (digest && String(digest).toString().startsWith("NEXT_REDIRECT")) {
+      console.log("[Story Save] Redirect in progress, re-throwing", { digest });
+      throw error;
+    }
     const errorMsg = error instanceof Error ? error.message : String(error);
     console.error("[Story Save] Unhandled error:", errorMsg, error);
     return { error: `An error occurred: ${errorMsg}` };

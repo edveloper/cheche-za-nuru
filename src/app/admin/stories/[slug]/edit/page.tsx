@@ -21,7 +21,7 @@ export default function EditStoryPage({ params }: EditStoryPageProps) {
 
       async function loadStory() {
         try {
-          const response = await fetch("/api/stories", { cache: "no-store" });
+          const response = await fetch("/api/admin/stories", { cache: "no-store" });
           if (!response.ok) throw new Error("Failed to load stories");
           const data = (await response.json()) as { stories?: StoryPost[] };
           const foundStory = data.stories?.find((s) => s.slug === resolvedParams.slug);

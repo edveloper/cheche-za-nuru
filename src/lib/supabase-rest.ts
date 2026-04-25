@@ -1,7 +1,12 @@
 type InsertTableName =
   | "contact_submissions"
   | "donation_intents"
-  | "involvement_leads";
+  | "involvement_leads"
+  | "blog_posts"
+  | "story_galleries"
+  | "story_gallery_items"
+  | "video_stories"
+  | "voice_submissions";
 
 type ReadTableName =
   | "donation_funds"
@@ -12,7 +17,9 @@ type ReadTableName =
   | "video_stories"
   | "program_events"
   | "impact_metrics"
-  | "impact_context_stats";
+  | "impact_context_stats"
+  | "contact_submissions"
+  | "involvement_leads";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -44,6 +51,35 @@ export async function insertIntoSupabase(
   if (!response.ok) {
     const detail = await response.text();
     throw new Error(detail || `Supabase insert failed for ${table}.`);
+  }
+
+  return response.json();
+}
+
+export async function updateSupabase(
+  table: string,
+  filter: string,
+  payload: Record<string, unknown>,
+) {
+  if (!hasSupabaseConfig()) {
+    throw new Error("Supabase environment variables are missing.");
+  }
+
+  const response = await fetch(`${supabaseUrl}/rest/v1/${table}?${filter}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: serviceKey!,
+      Authorization: `Bearer ${serviceKey!}`,
+      Prefer: "return=representation",
+    },
+    body: JSON.stringify(payload),
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(detail || `Supabase update failed for ${table}.`);
   }
 
   return response.json();

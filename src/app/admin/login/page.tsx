@@ -20,6 +20,8 @@ export default function AdminLoginPage() {
                      radial-gradient(circle at bottom left, rgba(132, 184, 63, 0.08), transparent 20rem),
                      linear-gradient(180deg, #fffdf8 0%, #fff6e7 100%)`,
         padding: "2rem",
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
       <div
@@ -31,6 +33,7 @@ export default function AdminLoginPage() {
           border: "1px solid var(--line)",
           borderRadius: "12px",
           boxShadow: "0 4px 6px rgba(42, 36, 94, 0.08)",
+          boxSizing: "border-box",
         }}
       >
         <h1

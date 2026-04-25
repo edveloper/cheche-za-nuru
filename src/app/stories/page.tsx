@@ -60,13 +60,12 @@ export default async function StoriesPage() {
       <PageSection
         label="Featured Story"
         title={featuredStory?.title ?? "Stories from the work"}
-        body={featuredStory?.excerpt ?? "Updates from the work will be featured here as they are published."}
       >
         {featuredStory ? (
           <div className="stories-lead-grid">
             <article className="reading-panel stories-feature-copy">
               <p className="card-label">{featuredStory.category}</p>
-              <p>{featuredStory.body.split("\n\n")[0]}</p>
+              <p>{featuredStory.excerpt}</p>
               <Link className="text-link" href={`/stories/${featuredStory.slug}`}>
                 Read featured story
               </Link>
@@ -79,23 +78,6 @@ export default async function StoriesPage() {
             />
           </div>
         ) : null}
-      </PageSection>
-
-      <PageSection
-        label="Voices"
-        title="Short voices often hold the feeling of the work more clearly than a long report."
-      >
-        <div className="voice-grid">
-          {voiceSnippets.map((voice) => (
-            <article key={voice.displayName} className="voice-card">
-              <p className="voice-quote">&ldquo;{voice.quote}&rdquo;</p>
-              <div className="voice-meta">
-                <strong>{voice.displayName}</strong>
-                <span>{voice.roleLabel}</span>
-              </div>
-            </article>
-          ))}
-        </div>
       </PageSection>
 
       <PageSection
@@ -191,7 +173,23 @@ export default async function StoriesPage() {
       </PageSection>
 
       <PageSection
-        label="What We Share"
+        label="Voices"
+        title="Short voices often hold the feeling of the work more clearly than a long report."
+      >
+        <div className="voice-grid">
+          {voiceSnippets.map((voice) => (
+            <article key={voice.displayName} className="voice-card">
+              <p className="voice-quote">&ldquo;{voice.quote}&rdquo;</p>
+              <div className="voice-meta">
+                <strong>{voice.displayName}</strong>
+                <span>{voice.roleLabel}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </PageSection>
+
+      <PageSection
         title="Updates, voices, galleries, and video together create a fuller picture of community life."
       >
         <div className="three-column-grid">

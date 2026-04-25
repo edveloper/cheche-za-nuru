@@ -30,8 +30,8 @@ export function StoryForm({ initialStory, isEditing = false }: StoryFormProps) {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
+        console.log("[StoryForm] Image selected:", { name: file.name, size: file.size, type: file.type });
         setImagePreview(reader.result as string);
-        setFormData((prev) => ({ ...prev, coverImage: reader.result as string }));
       };
       reader.readAsDataURL(file);
     }
@@ -41,11 +41,20 @@ export function StoryForm({ initialStory, isEditing = false }: StoryFormProps) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    console.log("[StoryForm] Field changed:", { name, valueLength: value.length });
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("[StoryForm] Form submitting with:", formData);
+  };
+
   return (
-    <form action={formAction} style={{ display: "flex", flexDirection: "column", gap: "2rem", width: "100%", overflow: "hidden" }}>
+    <form 
+      action={formAction} 
+      onSubmit={handleSubmit}
+      style={{ display: "flex", flexDirection: "column", gap: "2rem", width: "100%", overflow: "hidden" }}
+    >
       <input type="hidden" name="isEditing" value={isEditing ? "true" : "false"} />
       <input type="hidden" name="slug" value={initialStory?.slug || ""} />
 
