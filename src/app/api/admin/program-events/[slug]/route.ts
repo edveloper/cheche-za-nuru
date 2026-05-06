@@ -3,7 +3,7 @@ import { updateSupabase, deleteFromSupabase } from "@/lib/supabase-rest";
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
     const { slug } = await context.params;
@@ -47,7 +47,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
     const { slug } = await context.params;
