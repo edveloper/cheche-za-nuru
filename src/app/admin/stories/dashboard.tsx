@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { StoryPost } from "@/lib/story-content";
 import { deleteStoryAction } from "./form-actions";
+import StoryGalleriesForm from "@/components/story-galleries-form";
+import VideoStoriesForm from "@/components/video-stories-form";
 
 type TabType = "blog" | "photos" | "videos" | "voices";
 
@@ -378,148 +380,10 @@ export function StoriesDashboard() {
           )
         ) : activeTab === "photos" ? (
           // PHOTO STORIES TAB
-          galleries.length === 0 ? (
-            <div
-              style={{
-                backgroundColor: "var(--surface)",
-                border: "1px solid var(--line)",
-                borderRadius: "12px",
-                padding: "2rem",
-                textAlign: "center",
-                color: "var(--muted)",
-              }}
-            >
-              <p style={{ margin: "0 0 1rem 0" }}>No photo galleries yet</p>
-              <p style={{ margin: 0, fontSize: "13px" }}>
-                Create galleries via the Supabase dashboard to manage photo stories
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: "grid", gap: "1rem" }}>
-              {galleries.map((gallery) => (
-                <div
-                  key={gallery.slug}
-                  style={{
-                    padding: "1.5rem",
-                    backgroundColor: "var(--surface)",
-                    border: "1px solid var(--line)",
-                    borderRadius: "8px",
-                    display: "grid",
-                    gridTemplateColumns: "1fr auto",
-                    gap: "1rem",
-                    alignItems: "center",
-                  }}
-                >
-                  <div>
-                    <h3
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: 600,
-                        color: "var(--ink)",
-                        margin: "0 0 0.25rem 0",
-                      }}
-                    >
-                      {gallery.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "var(--muted)",
-                        margin: "0 0 0.5rem 0",
-                      }}
-                    >
-                      {gallery.excerpt}
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "12px",
-                        color: "var(--muted)",
-                        margin: 0,
-                      }}
-                    >
-                      Status: <strong>{gallery.status}</strong>
-                      {gallery.published_at && ` • Published: ${new Date(gallery.published_at).toLocaleDateString()}`}
-                    </p>
-                  </div>
-                  <p style={{ fontSize: "12px", color: "var(--muted)", margin: 0 }}>
-                    Manage in Supabase
-                  </p>
-                </div>
-              ))}
-            </div>
-          )
+          <StoryGalleriesForm />
         ) : activeTab === "videos" ? (
           // VIDEO STORIES TAB
-          videos.length === 0 ? (
-            <div
-              style={{
-                backgroundColor: "var(--surface)",
-                border: "1px solid var(--line)",
-                borderRadius: "12px",
-                padding: "2rem",
-                textAlign: "center",
-                color: "var(--muted)",
-              }}
-            >
-              <p style={{ margin: "0 0 1rem 0" }}>No video stories yet</p>
-              <p style={{ margin: 0, fontSize: "13px" }}>
-                Create video stories via the Supabase dashboard to manage videos
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: "grid", gap: "1rem" }}>
-              {videos.map((video) => (
-                <div
-                  key={video.slug}
-                  style={{
-                    padding: "1.5rem",
-                    backgroundColor: "var(--surface)",
-                    border: "1px solid var(--line)",
-                    borderRadius: "8px",
-                    display: "grid",
-                    gridTemplateColumns: "1fr auto",
-                    gap: "1rem",
-                    alignItems: "center",
-                  }}
-                >
-                  <div>
-                    <h3
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: 600,
-                        color: "var(--ink)",
-                        margin: "0 0 0.25rem 0",
-                      }}
-                    >
-                      {video.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "var(--muted)",
-                        margin: "0 0 0.5rem 0",
-                      }}
-                    >
-                      {video.summary}
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "12px",
-                        color: "var(--muted)",
-                        margin: 0,
-                      }}
-                    >
-                      Status: <strong>{video.status}</strong>
-                      {video.published_at && ` • Published: ${new Date(video.published_at).toLocaleDateString()}`}
-                    </p>
-                  </div>
-                  <p style={{ fontSize: "12px", color: "var(--muted)", margin: 0 }}>
-                    Manage in Supabase
-                  </p>
-                </div>
-              ))}
-            </div>
-          )
+          <VideoStoriesForm />
         ) : (
           // VOICES TAB
           <div>
@@ -627,7 +491,7 @@ export function StoriesDashboard() {
             textDecoration: "none",
           }}
         >
-          ← Back to Dashboard
+          ← Back to Admin
         </Link>
       </div>
     </div>

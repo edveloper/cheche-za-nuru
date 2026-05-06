@@ -19,7 +19,8 @@ type ReadTableName =
   | "impact_metrics"
   | "impact_context_stats"
   | "contact_submissions"
-  | "involvement_leads";
+  | "involvement_leads"
+  | "team_members";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -107,4 +108,30 @@ export async function readFromSupabase<T>(
   }
 
   return response.json() as Promise<T>;
+}
+
+export async function deleteFromSupabase(
+  table: string,
+  filter: string,
+) {
+  if (!hasSupabaseConfig()) {
+    throw new Error("Supabase environment variables are missing.");
+  }
+
+  const response = await fetch(`${supabaseUrl}/rest/v1/${table}?${filter}`, {
+    method: "DELETE",
+    headers: {
+      apikey: serviceKey!,
+      Authorization: `Bearer ${serviceKey!}`,
+      Prefer: "return=representation",
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(detail || `Supabase delete failed for ${table}.`);
+  }
+
+  return response.json();
 }

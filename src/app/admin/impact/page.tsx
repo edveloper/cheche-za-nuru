@@ -2,7 +2,23 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { ImpactMetric } from "@/lib/impact-content";
+import { ImpactForm } from "@/components/impact-form";
+
+interface ImpactMetric {
+  id: string;
+  slug: string;
+  label: string;
+  value_text: string;
+  numeric_value: number | null;
+  unit: string;
+  category: "education" | "healthcare" | "sports" | "cross_cutting";
+  metric_year: number | null;
+  summary: string;
+  is_featured: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
 
 export default function AdminImpactPage() {
   const [metrics, setMetrics] = useState<ImpactMetric[]>([]);
@@ -12,7 +28,7 @@ export default function AdminImpactPage() {
   useEffect(() => {
     async function loadMetrics() {
       try {
-        const response = await fetch("/api/impact-metrics", { cache: "no-store" });
+        const response = await fetch("/api/admin/impact-metrics", { cache: "no-store" });
         if (!response.ok) throw new Error("Failed to load metrics");
         const data = (await response.json()) as { metrics?: ImpactMetric[] };
         setMetrics(data.metrics || []);
@@ -25,21 +41,6 @@ export default function AdminImpactPage() {
 
     loadMetrics();
   }, []);
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "education":
-        return "var(--orange)";
-      case "healthcare":
-        return "var(--green)";
-      case "sports":
-        return "var(--yellow)";
-      case "cross_cutting":
-        return "var(--navy)";
-      default:
-        return "var(--muted)";
-    }
-  };
 
   return (
     <div
@@ -56,28 +57,23 @@ export default function AdminImpactPage() {
         {/* Header */}
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
             marginBottom: "2rem",
           }}
         >
-          <div>
-            <h1
-              style={{
-                fontSize: "28px",
-                fontWeight: 700,
-                color: "var(--ink)",
-                margin: "0 0 0.5rem 0",
-                fontFamily: "var(--font-display), serif",
-              }}
-            >
-              📊 Impact Metrics
-            </h1>
-            <p style={{ color: "var(--muted)", margin: 0, fontSize: "14px" }}>
-              Manage impact statistics and metrics
-            </p>
-          </div>
+          <h1
+            style={{
+              fontSize: "28px",
+              fontWeight: 700,
+              color: "var(--ink)",
+              margin: "0 0 0.5rem 0",
+              fontFamily: "var(--font-display), serif",
+            }}
+          >
+            📊 Impact Metrics
+          </h1>
+          <p style={{ color: "var(--muted)", margin: 0, fontSize: "14px" }}>
+            Manage impact statistics and metrics
+          </p>
         </div>
 
         {error && (
@@ -106,118 +102,8 @@ export default function AdminImpactPage() {
           >
             Loading metrics...
           </div>
-        ) : metrics.length === 0 ? (
-          <div
-            style={{
-              backgroundColor: "var(--surface)",
-              border: "1px solid var(--line)",
-              borderRadius: "12px",
-              padding: "2rem",
-              textAlign: "center",
-              color: "var(--muted)",
-            }}
-          >
-            <p style={{ margin: 0 }}>No metrics yet. Manage metrics via Supabase Studio.</p>
-          </div>
         ) : (
-          <div style={{ display: "grid", gap: "1rem" }}>
-            {metrics.map((metric) => (
-              <div
-                key={metric.slug}
-                style={{
-                  backgroundColor: "var(--surface)",
-                  border: "1px solid var(--line)",
-                  borderRadius: "12px",
-                  padding: "1.5rem",
-                  display: "grid",
-                  gridTemplateColumns: "1fr auto",
-                  gap: "1.5rem",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.75rem",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-block",
-                        padding: "0.25rem 0.75rem",
-                        backgroundColor: getCategoryColor(metric.category),
-                        color: "white",
-                        borderRadius: "4px",
-                        fontSize: "11px",
-                        fontWeight: 600,
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {metric.category.replace(/_/g, " ")}
-                    </span>
-                    {!metric.isFeatured && (
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "var(--muted)",
-                        }}
-                      >
-                        (not featured)
-                      </span>
-                    )}
-                  </div>
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      color: "var(--muted)",
-                      margin: "0",
-                    }}
-                  >
-                    {metric.label}
-                  </p>
-                  {metric.summary && (
-                    <p
-                      style={{
-                        fontSize: "12px",
-                        color: "var(--muted)",
-                        margin: "0.5rem 0 0 0",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      {metric.summary}
-                    </p>
-                  )}
-                </div>
-                <div style={{ textAlign: "right", whiteSpace: "nowrap" }}>
-                  <p
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: 700,
-                      color: "var(--ink)",
-                      margin: "0",
-                      fontFamily: "var(--font-display), serif",
-                    }}
-                  >
-                    {metric.value}
-                  </p>
-                  {metric.metricYear && (
-                    <p
-                      style={{
-                        fontSize: "12px",
-                        color: "var(--muted)",
-                        margin: "0.25rem 0 0 0",
-                      }}
-                    >
-                      ({metric.metricYear})
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+          <ImpactForm metrics={metrics} />
         )}
 
         <Link
@@ -232,9 +118,10 @@ export default function AdminImpactPage() {
             textDecoration: "none",
           }}
         >
-          ← Back to Dashboard
+          ← Back to Admin
         </Link>
       </div>
     </div>
   );
 }
+

@@ -11,6 +11,7 @@ type ContactSubmission = {
   phone?: string;
   interest?: string;
   message: string;
+  status?: string;
   submitted_at: string;
 };
 
@@ -22,6 +23,7 @@ type InvolvementLead = {
   phone?: string;
   interest: string;
   message?: string;
+  status?: string;
   submitted_at: string;
 };
 
@@ -31,6 +33,8 @@ export default function AdminSubmissionsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"contact" | "involvement">("contact");
+  const [updating, setUpdating] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadSubmissions() {
@@ -57,6 +61,56 @@ export default function AdminSubmissionsPage() {
 
     loadSubmissions();
   }, []);
+
+  async function handleStatusUpdate(submissionId: string, newStatus: string, type: "contact" | "involvement") {
+    setUpdating(submissionId);
+    try {
+      const response = await fetch(`/api/admin/submissions/${type}/${submissionId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update status");
+
+      if (type === "contact") {
+        setContactSubmissions((prevs) =>
+          prevs.map((s) => (s.id === submissionId ? { ...s, status: newStatus } : s))
+        );
+      } else {
+        setInvolvementLeads((prevs) =>
+          prevs.map((l) => (l.id === submissionId ? { ...l, status: newStatus } : l))
+        );
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to update status");
+    } finally {
+      setUpdating(null);
+    }
+  }
+
+  async function handleDelete(submissionId: string, type: "contact" | "involvement") {
+    if (!window.confirm("Are you sure you want to delete this submission?")) return;
+
+    setDeleting(submissionId);
+    try {
+      const response = await fetch(`/api/admin/submissions/${type}/${submissionId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) throw new Error("Failed to delete submission");
+
+      if (type === "contact") {
+        setContactSubmissions((prevs) => prevs.filter((s) => s.id !== submissionId));
+      } else {
+        setInvolvementLeads((prevs) => prevs.filter((l) => l.id !== submissionId));
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to delete submission");
+    } finally {
+      setDeleting(null);
+    }
+  }
 
   const formatDate = (dateStr: string) => {
     try {
@@ -228,16 +282,44 @@ export default function AdminSubmissionsPage() {
                         {submission.email}
                       </p>
                     </div>
-                    <p
+                    <div
                       style={{
-                        fontSize: "12px",
-                        color: "var(--muted)",
-                        margin: 0,
-                        textAlign: "right",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-end",
+                        gap: "0.5rem",
                       }}
                     >
-                      {formatDate(submission.submitted_at)}
-                    </p>
+                      <p
+                        style={{
+                          fontSize: "12px",
+                          color: "var(--muted)",
+                          margin: 0,
+                          textAlign: "right",
+                        }}
+                      >
+                        {formatDate(submission.submitted_at)}
+                      </p>
+                      <select
+                        value={submission.status || "new"}
+                        onChange={(e) => handleStatusUpdate(submission.id, e.target.value, "contact")}
+                        disabled={updating === submission.id}
+                        style={{
+                          padding: "0.5rem",
+                          fontSize: "12px",
+                          borderRadius: "4px",
+                          border: "1px solid var(--line)",
+                          backgroundColor: "white",
+                          cursor: updating === submission.id ? "not-allowed" : "pointer",
+                          opacity: updating === submission.id ? 0.6 : 1,
+                        }}
+                      >
+                        <option value="new">New</option>
+                        <option value="reviewed">Reviewed</option>
+                        <option value="responded">Responded</option>
+                        <option value="archived">Archived</option>
+                      </select>
+                    </div>
                   </div>
 
                   {submission.phone && (
@@ -273,10 +355,28 @@ export default function AdminSubmissionsPage() {
                       fontSize: "13px",
                       color: "var(--ink)",
                       lineHeight: 1.6,
+                      marginBottom: "1rem",
                     }}
                   >
                     {submission.message}
                   </div>
+
+                  <button
+                    onClick={() => handleDelete(submission.id, "contact")}
+                    disabled={deleting === submission.id}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      fontSize: "12px",
+                      backgroundColor: "rgba(220, 38, 38, 0.1)",
+                      color: "var(--ink)",
+                      border: "1px solid rgba(220, 38, 38, 0.3)",
+                      borderRadius: "4px",
+                      cursor: deleting === submission.id ? "not-allowed" : "pointer",
+                      opacity: deleting === submission.id ? 0.6 : 1,
+                    }}
+                  >
+                    {deleting === submission.id ? "Deleting..." : "🗑️ Delete"}
+                  </button>
                 </div>
               ))}
             </div>
@@ -335,16 +435,45 @@ export default function AdminSubmissionsPage() {
                       {lead.email}
                     </p>
                   </div>
-                  <p
+                  <div
                     style={{
-                      fontSize: "12px",
-                      color: "var(--muted)",
-                      margin: 0,
-                      textAlign: "right",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-end",
+                      gap: "0.5rem",
                     }}
                   >
-                    {formatDate(lead.submitted_at)}
-                  </p>
+                    <p
+                      style={{
+                        fontSize: "12px",
+                        color: "var(--muted)",
+                        margin: 0,
+                        textAlign: "right",
+                      }}
+                    >
+                      {formatDate(lead.submitted_at)}
+                    </p>
+                    <select
+                      value={lead.status || "new"}
+                      onChange={(e) => handleStatusUpdate(lead.id, e.target.value, "involvement")}
+                      disabled={updating === lead.id}
+                      style={{
+                        padding: "0.5rem",
+                        fontSize: "12px",
+                        borderRadius: "4px",
+                        border: "1px solid var(--line)",
+                        backgroundColor: "white",
+                        cursor: updating === lead.id ? "not-allowed" : "pointer",
+                        opacity: updating === lead.id ? 0.6 : 1,
+                      }}
+                    >
+                      <option value="new">New</option>
+                      <option value="contacted">Contacted</option>
+                      <option value="qualified">Qualified</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="closed">Closed</option>
+                    </select>
+                  </div>
                 </div>
 
                 {lead.phone && (
@@ -394,11 +523,29 @@ export default function AdminSubmissionsPage() {
                       fontSize: "13px",
                       color: "var(--ink)",
                       lineHeight: 1.6,
+                      marginBottom: "1rem",
                     }}
                   >
                     {lead.message}
                   </div>
                 )}
+
+                <button
+                  onClick={() => handleDelete(lead.id, "involvement")}
+                  disabled={deleting === lead.id}
+                  style={{
+                    padding: "0.5rem 1rem",
+                    fontSize: "12px",
+                    backgroundColor: "rgba(220, 38, 38, 0.1)",
+                    color: "var(--ink)",
+                    border: "1px solid rgba(220, 38, 38, 0.3)",
+                    borderRadius: "4px",
+                    cursor: deleting === lead.id ? "not-allowed" : "pointer",
+                    opacity: deleting === lead.id ? 0.6 : 1,
+                  }}
+                >
+                  {deleting === lead.id ? "Deleting..." : "🗑️ Delete"}
+                </button>
               </div>
             ))}
           </div>
@@ -416,7 +563,7 @@ export default function AdminSubmissionsPage() {
             textDecoration: "none",
           }}
         >
-          ← Back to Dashboard
+          ← Back to Admin
         </Link>
       </div>
     </div>

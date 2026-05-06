@@ -2,28 +2,66 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { DonationFundOption } from "@/lib/donation-funds";
+import { DonationsForm } from "@/components/donations-form";
+
+type DonationFund = {
+  id: string;
+  slug: string;
+  name: string;
+  short_description: string;
+  impact_summary: string;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+type DonationIntent = {
+  id: string;
+  reference_code: string;
+  donor_name: string;
+  donor_email: string;
+  donor_phone: string;
+  amount: string;
+  currency: string;
+  purpose: string;
+  fund_id: string | null;
+  status: string;
+  created_at: string;
+  updated_at: string;
+};
 
 export default function AdminDonationsPage() {
-  const [funds, setFunds] = useState<DonationFundOption[]>([]);
+  const [funds, setFunds] = useState<DonationFund[]>([]);
+  const [intents, setIntents] = useState<DonationIntent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"funds" | "intents">("funds");
 
   useEffect(() => {
-    async function loadFunds() {
+    async function loadData() {
       try {
-        const response = await fetch("/api/donation-funds", { cache: "no-store" });
-        if (!response.ok) throw new Error("Failed to load funds");
-        const data = (await response.json()) as { funds?: DonationFundOption[] };
-        setFunds(data.funds || []);
+        const [fundsRes, intentsRes] = await Promise.all([
+          fetch("/api/admin/donation-funds", { cache: "no-store" }),
+          fetch("/api/admin/donations", { cache: "no-store" }),
+        ]);
+
+        if (!fundsRes.ok) throw new Error("Failed to load funds");
+        if (!intentsRes.ok) throw new Error("Failed to load intents");
+
+        const fundsData = (await fundsRes.json()) as { funds?: DonationFund[] };
+        const intentsData = (await intentsRes.json()) as { intents?: DonationIntent[] };
+
+        setFunds(fundsData.funds || []);
+        setIntents(intentsData.intents || []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load funds");
+        setError(err instanceof Error ? err.message : "Failed to load data");
       } finally {
         setLoading(false);
       }
     }
 
-    loadFunds();
+    loadData();
   }, []);
 
   return (
@@ -41,28 +79,23 @@ export default function AdminDonationsPage() {
         {/* Header */}
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
             marginBottom: "2rem",
           }}
         >
-          <div>
-            <h1
-              style={{
-                fontSize: "28px",
-                fontWeight: 700,
-                color: "var(--ink)",
-                margin: "0 0 0.5rem 0",
-                fontFamily: "var(--font-display), serif",
-              }}
-            >
-              💚 Donation Funds
-            </h1>
-            <p style={{ color: "var(--muted)", margin: 0, fontSize: "14px" }}>
-              View and manage donation fund categories
-            </p>
-          </div>
+          <h1
+            style={{
+              fontSize: "28px",
+              fontWeight: 700,
+              color: "var(--ink)",
+              margin: "0 0 0.5rem 0",
+              fontFamily: "var(--font-display), serif",
+            }}
+          >
+            💚 Donations
+          </h1>
+          <p style={{ color: "var(--muted)", margin: 0, fontSize: "14px" }}>
+            Manage donation funds and track donor intents
+          </p>
         </div>
 
         {error && (
@@ -81,6 +114,47 @@ export default function AdminDonationsPage() {
           </div>
         )}
 
+        {/* Tabs */}
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            borderBottom: "1px solid var(--line)",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <button
+            onClick={() => setActiveTab("funds")}
+            style={{
+              padding: "0.75rem 0",
+              borderBottom: activeTab === "funds" ? "2px solid var(--orange)" : "none",
+              backgroundColor: "transparent",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: activeTab === "funds" ? 600 : 400,
+              color: activeTab === "funds" ? "var(--orange)" : "var(--muted)",
+            }}
+          >
+            Donation Funds ({funds.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("intents")}
+            style={{
+              padding: "0.75rem 0",
+              borderBottom: activeTab === "intents" ? "2px solid var(--orange)" : "none",
+              backgroundColor: "transparent",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: activeTab === "intents" ? 600 : 400,
+              color: activeTab === "intents" ? "var(--orange)" : "var(--muted)",
+            }}
+          >
+            Donor Intents ({intents.length})
+          </button>
+        </div>
+
         {loading ? (
           <div
             style={{
@@ -89,79 +163,144 @@ export default function AdminDonationsPage() {
               color: "var(--muted)",
             }}
           >
-            Loading funds...
+            Loading data...
           </div>
-        ) : funds.length === 0 ? (
-          <div
-            style={{
-              backgroundColor: "var(--surface)",
-              border: "1px solid var(--line)",
-              borderRadius: "12px",
-              padding: "2rem",
-              textAlign: "center",
-              color: "var(--muted)",
-            }}
-          >
-            <p style={{ margin: 0 }}>No funds configured. Manage funds via Supabase Studio.</p>
-          </div>
+        ) : activeTab === "funds" ? (
+          <DonationsForm funds={funds} />
         ) : (
-          <div style={{ display: "grid", gap: "1rem" }}>
-            {funds.map((fund) => (
+          // Donor Intents Tab
+          <div>
+            <h2
+              style={{
+                fontSize: "20px",
+                fontWeight: 600,
+                color: "var(--ink)",
+                margin: "0 0 1rem 0",
+                fontFamily: "var(--font-display), serif",
+              }}
+            >
+              Donor Intents ({intents.length})
+            </h2>
+
+            {intents.length === 0 ? (
               <div
-                key={fund.slug}
                 style={{
                   backgroundColor: "var(--surface)",
                   border: "1px solid var(--line)",
                   borderRadius: "12px",
-                  padding: "1.5rem",
+                  padding: "2rem",
+                  textAlign: "center",
+                  color: "var(--muted)",
                 }}
               >
-                <h3
-                  style={{
-                    fontSize: "18px",
-                    fontWeight: 600,
-                    color: "var(--ink)",
-                    margin: "0 0 0.5rem 0",
-                    fontFamily: "var(--font-display), serif",
-                  }}
-                >
-                  {fund.name}
-                </h3>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    color: "var(--muted)",
-                    margin: "0 0 0.75rem 0",
-                  }}
-                >
-                  {fund.shortDescription}
-                </p>
-                <div
-                  style={{
-                    backgroundColor: "rgba(132, 184, 63, 0.08)",
-                    border: "1px solid rgba(132, 184, 63, 0.2)",
-                    borderRadius: "6px",
-                    padding: "1rem",
-                    fontSize: "13px",
-                    color: "var(--ink)",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  <strong>Impact summary:</strong> {fund.impactSummary}
-                </div>
-                {fund.id && (
-                  <p
+                <p style={{ margin: 0 }}>No donation intents yet.</p>
+              </div>
+            ) : (
+              <div style={{ display: "grid", gap: "1rem" }}>
+                {intents.map((intent) => (
+                  <div
+                    key={intent.id}
                     style={{
-                      fontSize: "12px",
-                      color: "var(--muted)",
-                      margin: "0.75rem 0 0 0",
+                      backgroundColor: "var(--surface)",
+                      border: "1px solid var(--line)",
+                      borderRadius: "12px",
+                      padding: "1.5rem",
                     }}
                   >
-                    ID: <code style={{ fontFamily: "monospace" }}>{fund.id}</code>
-                  </p>
-                )}
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr auto",
+                        gap: "1rem",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      <div>
+                        <h3
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: 600,
+                            color: "var(--ink)",
+                            margin: "0 0 0.25rem 0",
+                          }}
+                        >
+                          {intent.donor_name}
+                        </h3>
+                        <p
+                          style={{
+                            fontSize: "13px",
+                            color: "var(--muted)",
+                            margin: 0,
+                          }}
+                        >
+                          {intent.donor_email}
+                        </p>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <p
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: 600,
+                            color: "var(--ink)",
+                            margin: "0 0 0.25rem 0",
+                          }}
+                        >
+                          {intent.currency} {parseFloat(intent.amount as any).toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                        </p>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            padding: "0.25rem 0.75rem",
+                            backgroundColor: intent.status === "paid" ? "rgba(34,197,94,0.1)" : intent.status === "pledged" ? "rgba(245,193,26,0.1)" : "rgba(107,114,128,0.1)",
+                            color: intent.status === "paid" ? "var(--green)" : intent.status === "pledged" ? "var(--orange)" : "var(--muted)",
+                            borderRadius: "4px",
+                            fontSize: "11px",
+                            fontWeight: 600,
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          {intent.status}
+                        </span>
+                      </div>
+                    </div>
+
+                    {intent.donor_phone && (
+                      <p
+                        style={{
+                          fontSize: "13px",
+                          color: "var(--muted)",
+                          margin: "0 0 0.5rem 0",
+                        }}
+                      >
+                        📞 {intent.donor_phone}
+                      </p>
+                    )}
+
+                    <p
+                      style={{
+                        fontSize: "13px",
+                        color: "var(--muted)",
+                        margin: "0 0 0.75rem 0",
+                      }}
+                    >
+                      <strong>Purpose:</strong> {intent.purpose}
+                    </p>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontSize: "12px",
+                        color: "var(--muted)",
+                      }}
+                    >
+                      <span>Ref: {intent.reference_code}</span>
+                      <span>{new Date(intent.created_at).toLocaleDateString("en-US")}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         )}
 
@@ -177,7 +316,7 @@ export default function AdminDonationsPage() {
             textDecoration: "none",
           }}
         >
-          ← Back to Dashboard
+          ← Back to Admin
         </Link>
       </div>
     </div>

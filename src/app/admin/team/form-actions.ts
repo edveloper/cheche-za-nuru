@@ -19,6 +19,7 @@ export async function saveTeamMemberAction(
     const name = formData.get("name") as string;
     const role = formData.get("role") as string;
     const bio = formData.get("bio") as string;
+    const profilePhotoPath = formData.get("profilePhotoPath") as string;
     const sort_order = parseInt(formData.get("sort_order") as string) || 0;
 
     console.log("[Team Save] Processing:", { id, name, role });
@@ -43,6 +44,7 @@ export async function saveTeamMemberAction(
         name,
         role,
         bio,
+        profile_photo_path: profilePhotoPath,
         sort_order,
       }),
     });

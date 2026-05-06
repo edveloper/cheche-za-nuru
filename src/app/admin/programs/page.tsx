@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { ProgramEvent } from "@/lib/program-content";
+import { ProgramsForm } from "@/components/programs-form";
 
 export default function AdminProgramsPage() {
   const [events, setEvents] = useState<ProgramEvent[]>([]);
@@ -12,7 +13,7 @@ export default function AdminProgramsPage() {
   useEffect(() => {
     async function loadEvents() {
       try {
-        const response = await fetch("/api/program-events", { cache: "no-store" });
+        const response = await fetch("/api/admin/program-events", { cache: "no-store" });
         if (!response.ok) throw new Error("Failed to load events");
         const data = (await response.json()) as { events?: ProgramEvent[] };
         setEvents(data.events || []);
@@ -116,128 +117,9 @@ export default function AdminProgramsPage() {
           >
             Loading events...
           </div>
-        ) : events.length === 0 ? (
-          <div
-            style={{
-              backgroundColor: "var(--surface)",
-              border: "1px solid var(--line)",
-              borderRadius: "12px",
-              padding: "2rem",
-              textAlign: "center",
-              color: "var(--muted)",
-            }}
-          >
-            <p style={{ margin: 0 }}>No events yet. Manage events via Supabase Studio.</p>
-          </div>
         ) : (
-          <div style={{ display: "grid", gap: "1rem" }}>
-            {events.map((event) => (
-              <div
-                key={event.slug}
-                style={{
-                  backgroundColor: "var(--surface)",
-                  border: "1px solid var(--line)",
-                  borderRadius: "12px",
-                  padding: "1.5rem",
-                  display: "grid",
-                  gridTemplateColumns: "1fr auto",
-                  gap: "1.5rem",
-                  alignItems: "start",
-                }}
-              >
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.75rem",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-block",
-                        padding: "0.25rem 0.75rem",
-                        backgroundColor: getProgramColor(event.programType),
-                        color: "white",
-                        borderRadius: "4px",
-                        fontSize: "11px",
-                        fontWeight: 600,
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {event.programType}
-                    </span>
-                    {event.status !== "scheduled" && (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          padding: "0.25rem 0.75rem",
-                          backgroundColor: "var(--muted)",
-                          color: "white",
-                          borderRadius: "4px",
-                          fontSize: "11px",
-                          fontWeight: 600,
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {event.status}
-                      </span>
-                    )}
-                  </div>
-                  <h3
-                    style={{
-                      fontSize: "18px",
-                      fontWeight: 600,
-                      color: "var(--ink)",
-                      margin: "0 0 0.5rem 0",
-                      fontFamily: "var(--font-display), serif",
-                    }}
-                  >
-                    {event.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      color: "var(--muted)",
-                      margin: "0 0 0.75rem 0",
-                    }}
-                  >
-                    📍 {event.location}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      color: "var(--ink)",
-                      margin: "0",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    {event.summary}
-                  </p>
-                </div>
-                <div style={{ textAlign: "right", whiteSpace: "nowrap" }}>
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      color: "var(--muted)",
-                      margin: "0 0 0.5rem 0",
-                    }}
-                  >
-                    {formatDate(event.startDate)}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "var(--muted)",
-                      margin: 0,
-                    }}
-                  >
-                    Edit via Supabase
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div>
+            <ProgramsForm events={events} />
           </div>
         )}
 
@@ -253,7 +135,7 @@ export default function AdminProgramsPage() {
             textDecoration: "none",
           }}
         >
-          ← Back to Dashboard
+          ← Back to Admin
         </Link>
       </div>
     </div>

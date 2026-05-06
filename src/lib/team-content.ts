@@ -1,4 +1,4 @@
-import { supabaseClient } from "./supabase-client";
+import { readFromSupabase } from "./supabase-rest";
 
 export interface TeamMember {
   id: string;
@@ -14,39 +14,36 @@ export interface TeamMember {
 
 export async function getTeamMembers(): Promise<TeamMember[]> {
   try {
-    const { data, error } = await supabaseClient
-      .from("team_members")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true });
+    const response = await fetch("/api/admin/team", {
+      cache: "no-store",
+    });
 
-    if (error) {
-      console.error("[Team Content] Error fetching team members:", error);
-      return [];
+    if (!response.ok) {
+      throw new Error(`Failed to fetch team members: ${response.statusText}`);
     }
 
+    const data = (await response.json()) as TeamMember[];
     return data || [];
   } catch (error) {
-    console.error("[Team Content] Unexpected error:", error);
+    console.error("[Team Content] Error fetching team members:", error);
     return [];
   }
 }
 
 export async function getAllTeamMembers(): Promise<TeamMember[]> {
   try {
-    const { data, error } = await supabaseClient
-      .from("team_members")
-      .select("*")
-      .order("sort_order", { ascending: true });
+    const response = await fetch("/api/admin/team?includeInactive=true", {
+      cache: "no-store",
+    });
 
-    if (error) {
-      console.error("[Team Content] Error fetching all team members:", error);
-      return [];
+    if (!response.ok) {
+      throw new Error(`Failed to fetch team members: ${response.statusText}`);
     }
 
+    const data = (await response.json()) as TeamMember[];
     return data || [];
   } catch (error) {
-    console.error("[Team Content] Unexpected error:", error);
+    console.error("[Team Content] Error fetching all team members:", error);
     return [];
   }
 }
