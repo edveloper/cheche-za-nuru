@@ -107,7 +107,9 @@ export function TeamForm({ members }: TeamFormProps) {
     setDeleting(id);
     setDeleteError(null);
     try {
-      await deleteTeamMemberAction(id, name);
+      const formData = new FormData();
+      formData.append("id", id);
+      await deleteTeamMemberAction(null, formData);
       setLocalMembers((prev) => prev.filter((m) => m.id !== id));
     } catch (error) {
       setDeleteError(error instanceof Error ? error.message : "Failed to delete member");

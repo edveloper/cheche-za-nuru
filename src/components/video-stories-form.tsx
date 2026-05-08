@@ -20,14 +20,22 @@ interface VideoStory {
 export default function VideoStoriesForm() {
   const [videos, setVideos] = useState<VideoStory[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    slug: string;
+    title: string;
+    summary: string;
+    videoPath: string;
+    thumbnailPath: string;
+    durationSeconds: string;
+    status: "draft" | "published" | "archived";
+  }>({
     slug: "",
     title: "",
     summary: "",
     videoPath: "",
     thumbnailPath: "",
     durationSeconds: "",
-    status: "draft" as const,
+    status: "draft",
   });
   const [errors, setErrors] = useState<string | null>(null);
 
