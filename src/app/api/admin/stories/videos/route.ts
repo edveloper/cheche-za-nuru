@@ -84,8 +84,8 @@ export async function PUT(request: Request) {
       updates.published_at = status === "published" ? new Date().toISOString() : null;
     }
 
-    await updateSupabase("video_stories", { slug }, updates);
-    const updated = await readFromSupabase("video_stories", `slug=eq.${slug}`);
+    await updateSupabase("video_stories", `slug=eq.${slug}`, updates);
+    const updated = await readFromSupabase<any[]>("video_stories", `slug=eq.${slug}`);
     return NextResponse.json(updated?.[0] || null);
   } catch (error) {
     console.error("Failed to update video story:", error);
@@ -102,7 +102,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
 
-    await deleteFromSupabase("video_stories", { slug });
+    await deleteFromSupabase("video_stories", `slug=eq.${slug}`);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Failed to delete video story:", error);

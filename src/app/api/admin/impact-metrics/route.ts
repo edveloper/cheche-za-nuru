@@ -114,10 +114,10 @@ export async function PUT(request: Request) {
     if (isFeatured !== undefined) updates.is_featured = isFeatured;
     if (sortOrder !== undefined) updates.sort_order = parseInt(sortOrder);
 
-    await updateSupabase("impact_metrics", { slug }, updates);
+    await updateSupabase("impact_metrics", `slug=eq.${slug}`, updates);
 
     // Fetch and return updated record
-    const updated = await readFromSupabase("impact_metrics", `slug=eq.${slug}`);
+    const updated = await readFromSupabase<any[]>("impact_metrics", `slug=eq.${slug}`);
     return Response.json(updated?.[0] || null);
   } catch (error) {
     console.error("Failed to update impact metric:", error);

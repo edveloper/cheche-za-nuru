@@ -21,14 +21,22 @@ interface Gallery {
 export default function StoryGalleriesForm() {
   const [galleries, setGalleries] = useState<Gallery[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    slug: string;
+    title: string;
+    excerpt: string;
+    storyDate: string;
+    coverImagePath: string;
+    layoutStyle: "editorial" | "mosaic" | "stacked";
+    status: "draft" | "published" | "archived";
+  }>({
     slug: "",
     title: "",
     excerpt: "",
     storyDate: "",
     coverImagePath: "",
-    layoutStyle: "editorial" as const,
-    status: "draft" as const,
+    layoutStyle: "editorial",
+    status: "draft",
   });
   const [errors, setErrors] = useState<string | null>(null);
 

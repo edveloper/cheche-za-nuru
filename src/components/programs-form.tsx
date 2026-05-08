@@ -4,7 +4,7 @@ import { useActionState, useState } from "react";
 import { generateSlug } from "@/lib/slug-utils";
 import { saveProgramEventAction, deleteProgramEventAction } from "@/app/admin/programs/form-actions";
 
-type ProgramEvent = {
+export type ProgramEvent = {
   id?: string;
   slug: string;
   title: string;

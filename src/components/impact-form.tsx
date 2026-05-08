@@ -33,13 +33,24 @@ const CATEGORIES = [
 
 export function ImpactForm({ metrics }: ImpactFormProps) {
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    slug: string;
+    label: string;
+    valueText: string;
+    numericValue: string;
+    unit: string;
+    category: "education" | "healthcare" | "sports" | "cross_cutting";
+    metricYear: string;
+    summary: string;
+    isFeatured: boolean;
+    sortOrder: number;
+  }>({
     slug: "",
     label: "",
     valueText: "",
     numericValue: "",
     unit: "",
-    category: "education" as const,
+    category: "education",
     metricYear: new Date().getFullYear().toString(),
     summary: "",
     isFeatured: false,

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { ProgramEvent } from "@/lib/program-content";
-import { ProgramsForm } from "@/components/programs-form";
+import type { ProgramEvent as LibraryProgramEvent } from "@/lib/program-content";
+import { ProgramsForm, type ProgramEvent } from "@/components/programs-form";
 
 export default function AdminProgramsPage() {
   const [events, setEvents] = useState<ProgramEvent[]>([]);

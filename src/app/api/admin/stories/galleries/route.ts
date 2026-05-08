@@ -89,8 +89,8 @@ export async function PUT(request: Request) {
       updates.published_at = status === "published" ? new Date().toISOString() : null;
     }
 
-    await updateSupabase("story_galleries", { slug }, updates);
-    const updated = await readFromSupabase("story_galleries", `slug=eq.${slug}`);
+    await updateSupabase("story_galleries", `slug=eq.${slug}`, updates);
+    const updated = await readFromSupabase<any[]>("story_galleries", `slug=eq.${slug}`);
     return NextResponse.json(updated?.[0] || null);
   } catch (error) {
     console.error("Failed to update photo gallery:", error);
@@ -107,7 +107,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
 
-    await deleteFromSupabase("story_galleries", { slug });
+    await deleteFromSupabase("story_galleries", `slug=eq.${slug}`);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Failed to delete photo gallery:", error);

@@ -1,8 +1,11 @@
 type InsertTableName =
   | "contact_submissions"
   | "donation_intents"
+  | "donation_funds"
+  | "impact_metrics"
   | "involvement_leads"
   | "blog_posts"
+  | "program_events"
   | "story_galleries"
   | "story_gallery_items"
   | "video_stories"
@@ -10,6 +13,7 @@ type InsertTableName =
 
 type ReadTableName =
   | "donation_funds"
+  | "donation_intents"
   | "blog_posts"
   | "voice_submissions"
   | "story_galleries"
