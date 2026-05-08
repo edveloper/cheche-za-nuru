@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { generateSlug } from "@/lib/slug-utils";
 import type { StoryPost } from "@/lib/story-content";
 import { saveStoryAction } from "@/app/admin/stories/form-actions";
 
@@ -14,6 +15,7 @@ type StoryFormProps = {
 export function StoryForm({ initialStory, isEditing = false }: StoryFormProps) {
   const [formData, setFormData] = useState({
     title: initialStory?.title || "",
+    slug: initialStory?.slug || "",
     excerpt: initialStory?.excerpt || "",
     body: initialStory?.body || "",
     authorName: initialStory?.authorName || "Cheche Za Nuru",
@@ -42,7 +44,17 @@ export function StoryForm({ initialStory, isEditing = false }: StoryFormProps) {
   ) => {
     const { name, value } = e.target;
     console.log("[StoryForm] Field changed:", { name, valueLength: value.length });
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    if (name === "title" && !isEditing) {
+      // Auto-generate slug from title when creating new
+      setFormData((prev) => ({
+        ...prev,
+        title: value,
+        slug: generateSlug(value),
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -56,7 +68,7 @@ export function StoryForm({ initialStory, isEditing = false }: StoryFormProps) {
       style={{ display: "flex", flexDirection: "column", gap: "2rem", width: "100%", overflow: "hidden" }}
     >
       <input type="hidden" name="isEditing" value={isEditing ? "true" : "false"} />
-      <input type="hidden" name="slug" value={initialStory?.slug || ""} />
+      <input type="hidden" name="slug" value={formData.slug} />
 
       {state?.error && (
         <div
@@ -118,6 +130,47 @@ export function StoryForm({ initialStory, isEditing = false }: StoryFormProps) {
             color: "var(--ink)",
           }}
         />
+      </div>
+
+      {/* Slug */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+        <label
+          htmlFor="slug"
+          style={{
+            fontSize: "14px",
+            fontWeight: 600,
+            color: "var(--ink)",
+          }}
+        >
+          Slug * (Auto-generated from title)
+        </label>
+        <input
+          id="slug"
+          name="slug"
+          type="text"
+          value={formData.slug}
+          onChange={(e) => {
+            if (isEditing) {
+              setFormData((prev) => ({ ...prev, slug: e.target.value }));
+            }
+          }}
+          disabled={!isEditing || isPending}
+          required
+          placeholder="auto-generated-slug"
+          style={{
+            padding: "0.75rem 1rem",
+            fontSize: "14px",
+            border: "1px solid var(--line)",
+            borderRadius: "6px",
+            backgroundColor: "var(--background)",
+            color: "var(--ink)",
+            opacity: isEditing ? 1 : 0.7,
+            cursor: isEditing ? "text" : "default",
+          }}
+        />
+        <p style={{ fontSize: "12px", color: "var(--muted)", margin: "0.25rem 0 0 0" }}>
+          {isEditing ? "You can manually edit when editing" : "Updates automatically as you type the title"}
+        </p>
       </div>
 
       {/* Excerpt */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { generateSlug } from "@/lib/slug-utils";
 import { saveDonationFundAction, deleteDonationFundAction } from "@/app/admin/donations/form-actions";
 
 interface DonationFund {
@@ -110,15 +111,19 @@ export function DonationsForm({ funds }: DonationsFormProps) {
                 marginBottom: "0.5rem",
               }}
             >
-              Slug * (URL-friendly, no spaces)
+              Slug * (Auto-generated from fund name)
             </label>
             <input
               type="text"
               name="slug"
               value={formData.slug}
-              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+              onChange={(e) => {
+                if (editingSlug) {
+                  setFormData({ ...formData, slug: e.target.value });
+                }
+              }}
               placeholder="e.g., education-support"
-              disabled={isSaving || editingSlug !== null}
+              disabled={isSaving || !editingSlug}
               required
               style={{
                 width: "100%",
@@ -127,8 +132,8 @@ export function DonationsForm({ funds }: DonationsFormProps) {
                 border: "1px solid var(--line)",
                 borderRadius: "6px",
                 boxSizing: "border-box",
-                opacity: editingSlug !== null ? 0.6 : 1,
-                cursor: editingSlug !== null ? "not-allowed" : "auto",
+                opacity: editingSlug !== null ? 1 : 0.6,
+                cursor: editingSlug !== null ? "text" : "default",
               }}
             />
             <p
@@ -138,7 +143,7 @@ export function DonationsForm({ funds }: DonationsFormProps) {
                 margin: "0.25rem 0 0 0",
               }}
             >
-              Cannot be changed after creation
+              {editingSlug ? "You can edit when modifying" : "Updates automatically as you type the fund name"}
             </p>
           </div>
 
@@ -158,7 +163,15 @@ export function DonationsForm({ funds }: DonationsFormProps) {
               type="text"
               name="name"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) => {
+                const newName = e.target.value;
+                setFormData((prev) => ({
+                  ...prev,
+                  name: newName,
+                  // Auto-generate slug only when creating new (not editing)
+                  slug: editingSlug === null ? generateSlug(newName) : prev.slug,
+                }));
+              }}
               placeholder="e.g., Education Support Fund"
               disabled={isSaving}
               required

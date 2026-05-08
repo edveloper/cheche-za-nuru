@@ -2,19 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { DonationsForm } from "@/components/donations-form";
-
-type DonationFund = {
-  id: string;
-  slug: string;
-  name: string;
-  short_description: string;
-  impact_summary: string;
-  is_active: boolean;
-  sort_order: number;
-  created_at: string;
-  updated_at: string;
-};
 
 type DonationIntent = {
   id: string;
@@ -32,27 +19,19 @@ type DonationIntent = {
 };
 
 export default function AdminDonationsPage() {
-  const [funds, setFunds] = useState<DonationFund[]>([]);
   const [intents, setIntents] = useState<DonationIntent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"funds" | "intents">("funds");
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [fundsRes, intentsRes] = await Promise.all([
-          fetch("/api/admin/donation-funds", { cache: "no-store" }),
-          fetch("/api/admin/donations", { cache: "no-store" }),
-        ]);
+        const intentsRes = await fetch("/api/admin/donations", { cache: "no-store" });
 
-        if (!fundsRes.ok) throw new Error("Failed to load funds");
         if (!intentsRes.ok) throw new Error("Failed to load intents");
 
-        const fundsData = (await fundsRes.json()) as { funds?: DonationFund[] };
         const intentsData = (await intentsRes.json()) as { intents?: DonationIntent[] };
 
-        setFunds(fundsData.funds || []);
         setIntents(intentsData.intents || []);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load data");
@@ -91,10 +70,10 @@ export default function AdminDonationsPage() {
               fontFamily: "var(--font-display), serif",
             }}
           >
-            💚 Donations
+            💚 Donor Intents
           </h1>
           <p style={{ color: "var(--muted)", margin: 0, fontSize: "14px" }}>
-            Manage donation funds and track donor intents
+            Track and manage donor pledges
           </p>
         </div>
 
@@ -114,47 +93,6 @@ export default function AdminDonationsPage() {
           </div>
         )}
 
-        {/* Tabs */}
-        <div
-          style={{
-            display: "flex",
-            gap: "1rem",
-            borderBottom: "1px solid var(--line)",
-            marginBottom: "1.5rem",
-          }}
-        >
-          <button
-            onClick={() => setActiveTab("funds")}
-            style={{
-              padding: "0.75rem 0",
-              borderBottom: activeTab === "funds" ? "2px solid var(--orange)" : "none",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: activeTab === "funds" ? 600 : 400,
-              color: activeTab === "funds" ? "var(--orange)" : "var(--muted)",
-            }}
-          >
-            Donation Funds ({funds.length})
-          </button>
-          <button
-            onClick={() => setActiveTab("intents")}
-            style={{
-              padding: "0.75rem 0",
-              borderBottom: activeTab === "intents" ? "2px solid var(--orange)" : "none",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: activeTab === "intents" ? 600 : 400,
-              color: activeTab === "intents" ? "var(--orange)" : "var(--muted)",
-            }}
-          >
-            Donor Intents ({intents.length})
-          </button>
-        </div>
-
         {loading ? (
           <div
             style={{
@@ -165,10 +103,8 @@ export default function AdminDonationsPage() {
           >
             Loading data...
           </div>
-        ) : activeTab === "funds" ? (
-          <DonationsForm funds={funds} />
         ) : (
-          // Donor Intents Tab
+          // Donor Intents
           <div>
             <h2
               style={{

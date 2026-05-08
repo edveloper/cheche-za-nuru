@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { generateSlug } from "@/lib/slug-utils";
 import { saveProgramEventAction, deleteProgramEventAction } from "@/app/admin/programs/form-actions";
 
 type ProgramEvent = {
@@ -79,13 +80,28 @@ export function ProgramsForm({ events }: { events: ProgramEvent[] }) {
           <input type="hidden" name="isEditing" value={editingSlug ? "true" : "false"} />
 
           <div>
-            <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>Slug *</label>
-            <input name="slug" value={formData.slug} onChange={(e) => setFormData({ ...formData, slug: e.target.value })} required style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid var(--line)" }} disabled={!!editingSlug} />
+            <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>Slug * (Auto-generated from title)</label>
+            <input name="slug" value={formData.slug} onChange={(e) => {
+              if (editingSlug) {
+                setFormData({ ...formData, slug: e.target.value });
+              }
+            }} required style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid var(--line)", opacity: editingSlug ? 1 : 0.7, cursor: editingSlug ? "text" : "default" }} disabled={!editingSlug} />
+            <small style={{ display: "block", fontSize: "12px", color: "var(--muted)", marginTop: "4px" }}>
+              {editingSlug ? "You can edit when modifying" : "Updates automatically as you type the title"}
+            </small>
           </div>
 
           <div>
             <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>Title *</label>
-            <input name="title" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} required style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid var(--line)" }} />
+            <input name="title" value={formData.title} onChange={(e) => {
+              const newTitle = e.target.value;
+              setFormData((prev) => ({
+                ...prev,
+                title: newTitle,
+                // Auto-generate slug only when creating new (not editing)
+                slug: editingSlug === null ? generateSlug(newTitle) : prev.slug,
+              }));
+            }} required style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid var(--line)" }} />
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>

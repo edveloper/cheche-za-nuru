@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState, useEffect } from "react";
+import { generateSlug } from "@/lib/slug-utils";
 import { savePhotoGalleryAction, deletePhotoGalleryAction } from "@/app/admin/stories/galleries/form-actions";
 
 interface Gallery {
@@ -47,10 +48,20 @@ export default function StoryGalleriesForm() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    
+    if (name === "title" && !editingId) {
+      // Auto-generate slug from title when creating new
+      setFormData((prev) => ({
+        ...prev,
+        title: value,
+        slug: generateSlug(value),
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleEdit = (gallery: Gallery) => {
@@ -147,14 +158,14 @@ export default function StoryGalleriesForm() {
 
         <div style={{ marginBottom: "1rem" }}>
           <label style={{ display: "block", marginBottom: "0.5rem", fontSize: "14px" }}>
-            Slug *
+            Slug * (Auto-generated from title)
           </label>
           <input
             type="text"
             name="slug"
             value={formData.slug}
             onChange={handleInputChange}
-            disabled={!!editingId}
+            disabled={!editingId}
             required
             style={{
               width: "100%",
@@ -162,10 +173,13 @@ export default function StoryGalleriesForm() {
               border: "1px solid var(--line)",
               borderRadius: "4px",
               fontSize: "14px",
-              backgroundColor: editingId ? "var(--muted)" : "transparent",
-              opacity: editingId ? 0.6 : 1,
+              backgroundColor: !editingId ? "var(--muted)" : "transparent",
+              opacity: !editingId ? 0.6 : 1,
             }}
           />
+          <p style={{ fontSize: "12px", color: "var(--muted)", margin: "0.25rem 0 0 0" }}>
+            {editingId ? "You can edit when modifying" : "Updates automatically as you type the title"}
+          </p>
         </div>
 
         <div style={{ marginBottom: "1rem" }}>

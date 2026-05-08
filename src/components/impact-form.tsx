@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { generateSlug } from "@/lib/slug-utils";
 import { saveImpactMetricAction, deleteImpactMetricAction } from "@/app/admin/impact/form-actions";
 
 interface ImpactMetric {
@@ -135,15 +136,19 @@ export function ImpactForm({ metrics }: ImpactFormProps) {
                 marginBottom: "0.5rem",
               }}
             >
-              Slug * (URL-friendly, no spaces)
+              Slug * (Auto-generated from label)
             </label>
             <input
               type="text"
               name="slug"
               value={formData.slug}
-              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+              onChange={(e) => {
+                if (editingSlug) {
+                  setFormData({ ...formData, slug: e.target.value });
+                }
+              }}
               placeholder="e.g., students-reached"
-              disabled={isSaving || editingSlug !== null}
+              disabled={!editingSlug}
               required
               style={{
                 width: "100%",
@@ -152,8 +157,8 @@ export function ImpactForm({ metrics }: ImpactFormProps) {
                 border: "1px solid var(--line)",
                 borderRadius: "6px",
                 boxSizing: "border-box",
-                opacity: editingSlug !== null ? 0.6 : 1,
-                cursor: editingSlug !== null ? "not-allowed" : "auto",
+                opacity: editingSlug !== null ? 1 : 0.6,
+                cursor: editingSlug !== null ? "text" : "default",
               }}
             />
             <p
@@ -163,7 +168,7 @@ export function ImpactForm({ metrics }: ImpactFormProps) {
                 margin: "0.25rem 0 0 0",
               }}
             >
-              Cannot be changed after creation
+              {editingSlug ? "You can edit when modifying" : "Updates automatically as you type the label"}
             </p>
           </div>
 
@@ -183,7 +188,15 @@ export function ImpactForm({ metrics }: ImpactFormProps) {
               type="text"
               name="label"
               value={formData.label}
-              onChange={(e) => setFormData({ ...formData, label: e.target.value })}
+              onChange={(e) => {
+                const newLabel = e.target.value;
+                setFormData((prev) => ({
+                  ...prev,
+                  label: newLabel,
+                  // Auto-generate slug only when creating new (not editing)
+                  slug: editingSlug === null ? generateSlug(newLabel) : prev.slug,
+                }));
+              }}
               placeholder="e.g., Children Reached"
               disabled={isSaving}
               required
