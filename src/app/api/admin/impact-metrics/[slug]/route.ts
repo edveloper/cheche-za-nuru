@@ -1,13 +1,14 @@
+import { NextRequest, NextResponse } from "next/server";
 import { updateSupabase, deleteFromSupabase, readFromSupabase } from "@/lib/supabase-rest";
 
 export const dynamic = "force-dynamic";
 
 export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  request: NextRequest,
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { slug } = await params;
+    const { slug } = await context.params;
     const body = await request.json();
     const { label, valueText, numericValue, unit, category, metricYear, summary, isFeatured, sortOrder } = body;
 
@@ -15,7 +16,7 @@ export async function PUT(
     if (category) {
       const validCategories = ["education", "healthcare", "sports", "cross_cutting"];
       if (!validCategories.includes(category)) {
-        return Response.json(
+        return NextResponse.json(
           { error: `Category must be one of: ${validCategories.join(", ")}` },
           { status: 400 }
         );
@@ -37,10 +38,10 @@ export async function PUT(
 
     // Fetch and return updated record
     const updated = await readFromSupabase<any[]>("impact_metrics", `slug=eq.${slug}`);
-    return Response.json(updated?.[0] || null);
+    return NextResponse.json(updated?.[0] || null);
   } catch (error) {
     console.error("Failed to update impact metric:", error);
-    return Response.json(
+    return NextResponse.json(
       { error: "Failed to update impact metric" },
       { status: 500 }
     );
@@ -48,18 +49,18 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  request: NextRequest,
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { slug } = await params;
+    const { slug } = await context.params;
 
     await deleteFromSupabase("impact_metrics", `slug=eq.${slug}`);
 
-    return Response.json({ success: true });
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Failed to delete impact metric:", error);
-    return Response.json(
+    return NextResponse.json(
       { error: "Failed to delete impact metric" },
       { status: 500 }
     );

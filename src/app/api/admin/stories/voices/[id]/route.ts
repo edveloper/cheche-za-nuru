@@ -1,9 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { updateSupabase } from "@/lib/supabase-rest";
 
-export async function PATCH(request: Request, context: any) {
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
-    const { params } = context || {};
+    const { id } = await context.params;
     const body = await request.json();
     const status = body.status as string;
     if (!status || (status !== "approved" && status !== "rejected")) {
@@ -14,7 +17,7 @@ export async function PATCH(request: Request, context: any) {
     if (status === "approved") payload.approved_at = new Date().toISOString();
     if (status === "rejected") payload.approved_at = null;
 
-    const updated = await updateSupabase("voice_submissions", `id=eq.${params.id}`, payload);
+    const updated = await updateSupabase("voice_submissions", `id=eq.${id}`, payload);
 
     return NextResponse.json({ ok: true, updated });
   } catch (error) {

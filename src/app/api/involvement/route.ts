@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 
 import { insertIntoSupabase } from "@/lib/supabase-rest";
+import {
+  sendInvolvementConfirmation,
+  sendInvolvementAdminNotification,
+} from "@/lib/email-service";
 
 const allowedInterestTypes = new Set([
   "donate",
@@ -11,6 +15,16 @@ const allowedInterestTypes = new Set([
   "media",
   "other",
 ]);
+
+const interestLabels: Record<string, string> = {
+  donate: "Donation",
+  volunteer: "Volunteering",
+  partner: "Partnership",
+  sponsor: "Sponsorship",
+  in_kind: "In-kind Support",
+  media: "Media Support",
+  other: "Other",
+};
 
 export async function POST(request: Request) {
   const body = (await request.json()) as {
@@ -55,6 +69,24 @@ export async function POST(request: Request) {
       message: body.message ?? "",
       submitted_at: new Date().toISOString(),
     });
+
+    // Send confirmation email to submitter
+    const interestLabel =
+      interestLabels[body.interestType] || body.interestType;
+    await sendInvolvementConfirmation(
+      body.contactName,
+      body.email,
+      interestLabel
+    );
+
+    // Send admin notification
+    await sendInvolvementAdminNotification(
+      body.contactName,
+      body.email,
+      body.phone || null,
+      interestLabel,
+      body.message || null
+    );
 
     return NextResponse.json({ ok: true });
   } catch (error) {

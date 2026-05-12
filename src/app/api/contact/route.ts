@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 
 import { insertIntoSupabase } from "@/lib/supabase-rest";
+import {
+  sendContactConfirmation,
+  sendContactAdminNotification,
+} from "@/lib/email-service";
 
 export async function POST(request: Request) {
   const body = (await request.json()) as {
@@ -34,6 +38,19 @@ export async function POST(request: Request) {
       message: body.message,
       submitted_at: new Date().toISOString(),
     });
+
+    // Send confirmation email to submitter
+    const fullName = `${body.firstName}${body.lastName ? " " + body.lastName : ""}`;
+    await sendContactConfirmation(fullName, body.email, body.message);
+
+    // Send admin notification
+    await sendContactAdminNotification(
+      fullName,
+      body.email,
+      body.phone || null,
+      body.interest || null,
+      body.message
+    );
 
     return NextResponse.json({ ok: true });
   } catch (error) {
