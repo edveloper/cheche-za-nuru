@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const insertResult = await insertIntoSupabase("donation_intents", {
+    await insertIntoSupabase("donation_intents", {
       amount: body.amount,
       purpose: body.purpose ?? "Support where it is needed most",
       fund_id: body.fundId ?? null,
@@ -50,9 +50,10 @@ export async function POST(request: Request) {
     let fundName: string | null = null;
     if (body.fundId) {
       try {
-        const funds = (await readFromSupabase("donation_funds", {
-          filter: `id=eq.${body.fundId}`,
-        })) as Array<{ name: string }>;
+        const funds = (await readFromSupabase(
+          "donation_funds",
+          `id=eq.${body.fundId}`
+        )) as Array<{ name: string }>;
         fundName = funds.length > 0 ? funds[0].name : null;
       } catch (e) {
         console.error("[Donations] Failed to fetch fund name:", e);
@@ -60,11 +61,13 @@ export async function POST(request: Request) {
     }
 
     // Send confirmation email to donor
+    const currency = process.env.DONATION_CURRENCY || "USD";
+
     await sendDonationConfirmation(
       body.donorName,
       body.donorEmail,
       body.amount.toString(),
-      "USD", // Adjust if you support multiple currencies
+      currency,
       fundName
     );
 
@@ -74,7 +77,7 @@ export async function POST(request: Request) {
       body.donorEmail,
       body.donorPhone || null,
       body.amount.toString(),
-      "USD", // Adjust if you support multiple currencies
+      currency,
       fundName
     );
 
