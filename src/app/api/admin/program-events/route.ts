@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import { readFromSupabase, insertIntoSupabase, updateSupabase, deleteFromSupabase } from "@/lib/supabase-rest";
 
+export const dynamic = "force-dynamic";
+
 type ProgramEvent = {
   id: string;
   slug: string;

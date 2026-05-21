@@ -48,16 +48,27 @@ export async function POST(request: Request) {
       method: "POST",
       headers: {
         Authorization: `Bearer ${serviceKey}`,
-        "x-upsert": "false",
+        "Content-Type": file.type,
       },
       body: buffer,
     });
 
     if (!uploadResponse.ok) {
-      const error = await uploadResponse.json();
-      console.error("Upload error:", error);
+      const responseText = await uploadResponse.text();
+      console.error("Upload error status:", uploadResponse.status);
+      console.error("Upload error response:", responseText);
+      
+      // Try to parse as JSON if possible
+      let errorMessage = "Failed to upload image";
+      try {
+        const jsonError = JSON.parse(responseText);
+        errorMessage = jsonError.message || jsonError.error || errorMessage;
+      } catch {
+        errorMessage = responseText || errorMessage;
+      }
+      
       return Response.json(
-        { error: "Failed to upload image" },
+        { error: errorMessage },
         { status: 500 }
       );
     }

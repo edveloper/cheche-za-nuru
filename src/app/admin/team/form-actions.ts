@@ -29,12 +29,10 @@ export async function saveTeamMemberAction(
       return { error: "Name and role are required" };
     }
 
-    const url = new URL(
-      id ? `/api/admin/team?id=${id}` : "/api/admin/team",
-      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001"
-    );
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const apiUrl = id ? `${baseUrl}/api/admin/team?id=${id}` : `${baseUrl}/api/admin/team`;
 
-    const response = await fetch(url, {
+    const response = await fetch(apiUrl, {
       method: id ? "PUT" : "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,12 +77,10 @@ export async function deleteTeamMemberAction(
 
     console.log("[Team Delete] Processing:", { id });
 
-    const url = new URL(
-      `/api/admin/team?id=${id}`,
-      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001"
-    );
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const apiUrl = `${baseUrl}/api/admin/team?id=${id}`;
 
-    const response = await fetch(url, {
+    const response = await fetch(apiUrl, {
       method: "DELETE",
     });
 

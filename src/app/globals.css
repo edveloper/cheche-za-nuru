@@ -925,27 +925,44 @@ textarea {
 
 .calendar-dot {
   display: inline-flex;
-  width: 0.7rem;
-  height: 0.7rem;
+  width: 0.55rem;
+  height: 0.55rem;
   border-radius: 999px;
+  flex-shrink: 0;
 }
 
-.calendar-dot-education,
+.calendar-dots {
+  display: flex;
+  gap: 0.18rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Dots use solid vibrant colors for visibility */
+.calendar-dot-education { background: #d4a000; }
+.calendar-dot-healthcare { background: #0093b4; }
+.calendar-dot-sports { background: #f95f2b; }
+.calendar-dot-community { background: #2ea855; }
+
+/* Pills keep semi-transparent tinted backgrounds */
 .calendar-pill-education {
   background: rgba(255, 207, 47, 0.22);
   color: #846100;
 }
 
-.calendar-dot-healthcare,
 .calendar-pill-healthcare {
   background: rgba(77, 209, 244, 0.18);
   color: #006785;
 }
 
-.calendar-dot-sports,
 .calendar-pill-sports {
   background: rgba(249, 95, 43, 0.14);
   color: #b6461f;
+}
+
+.calendar-pill-community {
+  background: rgba(46, 168, 85, 0.14);
+  color: #1a7a3c;
 }
 
 .calendar-agenda {
@@ -2197,4 +2214,82 @@ textarea {
   .amount-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+/* ── Team member cards ───────────────────────────────── */
+
+.team-member-card {
+  border-radius: 1.4rem;
+  border: 1px solid rgba(37, 36, 95, 0.08);
+  background: var(--surface);
+  padding: 2rem 1.5rem 1.75rem;
+  text-align: center;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.team-member-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(37, 36, 95, 0.11);
+}
+
+.team-member-photo-wrap {
+  width: 11.25rem;
+  height: 11.25rem;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 0 auto 2.25rem;
+  border: 3px solid rgba(37, 36, 95, 0.07);
+  flex-shrink: 0;
+}
+
+/* ContentImage fills the wrapper */
+.team-member-photo-wrap .content-image-frame {
+  height: 100%;
+}
+
+.team-member-avatar {
+  width: 11.25rem;
+  height: 11.25rem;
+  border-radius: 999px;
+  margin: 0 auto 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: linear-gradient(145deg, #25245f 0%, rgba(249, 95, 43, 0.8) 100%);
+  color: white;
+  font-size: 2.25rem;
+  font-family: var(--font-display), serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+.team-member-info {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.team-member-info h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-family: var(--font-display), serif;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.team-member-role {
+  margin: 0;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--orange);
+}
+
+.team-member-bio {
+  margin: 0.35rem 0 0;
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.65;
 }

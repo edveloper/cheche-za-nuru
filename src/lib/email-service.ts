@@ -12,6 +12,7 @@ async function getGmailClient() {
     email: GOOGLE_SERVICE_ACCOUNT.client_email,
     key: GOOGLE_SERVICE_ACCOUNT.private_key,
     scopes: ["https://www.googleapis.com/auth/gmail.send"],
+    subject: SEND_FROM_EMAIL, // Impersonate the noreply email
   });
 
   return google.gmail({ version: "v1", auth });

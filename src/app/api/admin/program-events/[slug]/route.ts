@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import { updateSupabase, deleteFromSupabase } from "@/lib/supabase-rest";
 
+export const dynamic = "force-dynamic";
+
 export async function PUT(
   request: NextRequest,
   context: { params: Promise<{ slug: string }> }

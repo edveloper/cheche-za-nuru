@@ -124,9 +124,13 @@ export function ProgramsCalendar({ events }: ProgramsCalendarProps) {
                 onClick={() => setSelectedDate(date)}
               >
                 <span>{date.getDate()}</span>
-                {eventsForDay.length ? (
-                  <small className={`calendar-dot calendar-dot-${eventsForDay[0].program}`} />
-                ) : null}
+                {eventsForDay.length > 0 && (
+                  <div className="calendar-dots">
+                    {[...new Set(eventsForDay.map((e) => e.program))].map((prog) => (
+                      <small key={prog} className={`calendar-dot calendar-dot-${prog}`} />
+                    ))}
+                  </div>
+                )}
               </button>
             );
           })}

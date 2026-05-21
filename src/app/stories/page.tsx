@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ContentImage } from "@/components/content-image";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
+import { VoiceSubmitForm } from "@/components/voice-submit-form";
 import {
   pageVisuals,
   storiesIntro,
@@ -187,6 +188,14 @@ export default async function StoriesPage() {
             </article>
           ))}
         </div>
+      </PageSection>
+
+      <PageSection
+        label="Share your voice"
+        title="If this work has touched your life, we would like to hear from you."
+        body="Your voice may appear in this section after a short review."
+      >
+        <VoiceSubmitForm />
       </PageSection>
 
       <PageSection

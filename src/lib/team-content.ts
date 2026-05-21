@@ -14,7 +14,8 @@ export interface TeamMember {
 
 export async function getTeamMembers(): Promise<TeamMember[]> {
   try {
-    const response = await fetch("/api/admin/team", {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/admin/team`, {
       cache: "no-store",
     });
 
@@ -32,7 +33,8 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
 
 export async function getAllTeamMembers(): Promise<TeamMember[]> {
   try {
-    const response = await fetch("/api/admin/team?includeInactive=true", {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/admin/team?includeInactive=true`, {
       cache: "no-store",
     });
 
