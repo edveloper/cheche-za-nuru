@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 
 import type { DonationFundOption } from "@/lib/donation-funds";
 
@@ -18,7 +18,7 @@ export function DonationForm() {
   const [selectedFund, setSelectedFund] = useState("support-where-needed-most");
   const [status, setStatus] = useState<string | null>(null);
   const [isRecurring, setIsRecurring] = useState(false);
-  const [isSubmitting, startSubmission] = useTransition();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     let isActive = true;
@@ -51,37 +51,41 @@ export function DonationForm() {
 
   async function submitDonation(formData: FormData) {
     setStatus(null);
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/donations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: Number(formData.get("amount")),
+          fundId: selectedFundDetails?.id ?? null,
+          fundSlug: selectedFund,
+          purpose: selectedFundDetails?.name ?? "Support where it is needed most",
+          donorName: formData.get("donorName"),
+          donorEmail: formData.get("donorEmail"),
+          donorPhone: formData.get("donorPhone"),
+          donorMessage: formData.get("donorMessage"),
+          isRecurring,
+          recurrence: isRecurring ? formData.get("recurrence") : "one_time",
+          website: formData.get("website"),
+        }),
+      });
 
-    const response = await fetch("/api/donations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: Number(formData.get("amount")),
-        fundId: selectedFundDetails?.id ?? null,
-        fundSlug: selectedFund,
-        purpose: selectedFundDetails?.name ?? "Support where it is needed most",
-        donorName: formData.get("donorName"),
-        donorEmail: formData.get("donorEmail"),
-        donorPhone: formData.get("donorPhone"),
-        donorMessage: formData.get("donorMessage"),
-        isRecurring,
-        recurrence: isRecurring ? formData.get("recurrence") : "one_time",
-        website: formData.get("website"),
-      }),
-    });
+      const result = (await response.json()) as { error?: string };
 
-    const result = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        setStatus(result.error ?? "Unable to submit donation intent.");
+        return;
+      }
 
-    if (!response.ok) {
-      setStatus(result.error ?? "Unable to submit donation intent.");
-      return;
+      setStatus(
+        "Thank you. Your donation intent has been received and we will follow up with the next step.",
+      );
+    } catch {
+      setStatus("Something went wrong. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setStatus(
-      "Thank you. Your donation intent has been received and we will follow up with the next step.",
-    );
   }
 
   return (
@@ -90,9 +94,7 @@ export function DonationForm() {
       onSubmit={(event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        startSubmission(() => {
-          void submitDonation(formData);
-        });
+        void submitDonation(formData);
       }}
     >
       <p className="section-label">Donation</p>
