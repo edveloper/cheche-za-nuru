@@ -271,7 +271,7 @@ textarea {
 
 .home-hero {
   grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
-  align-items: center;
+  align-items: start;
   gap: 3rem;
   padding: 1.5rem 0 0.5rem;
   overflow: clip;
@@ -351,6 +351,7 @@ textarea {
   min-height: 36rem;
   perspective: 1200px;
   overflow: clip;
+  align-self: start;
 }
 
 .hero-image-frame,
@@ -2292,4 +2293,11 @@ textarea {
   font-size: 0.86rem;
   color: var(--muted);
   line-height: 1.65;
+}
+
+/* Admin form editor — side-by-side form+preview collapses to single column on narrow screens */
+@media (max-width: 760px) {
+  .admin-editor-grid {
+    grid-template-columns: 1fr !important;
+  }
 }

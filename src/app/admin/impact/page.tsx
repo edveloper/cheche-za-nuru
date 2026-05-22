@@ -50,7 +50,6 @@ export default function AdminImpactPage() {
                      radial-gradient(circle at bottom left, rgba(132, 184, 63, 0.08), transparent 20rem),
                      linear-gradient(180deg, #fffdf8 0%, #fff6e7 100%)`,
         padding: "1rem",
-        overflow: "hidden",
       }}
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>

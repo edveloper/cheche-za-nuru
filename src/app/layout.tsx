@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Work_Sans } from "next/font/google";
 
 import { AuthErrorHandler } from "@/components/auth-error-handler";
+import { ConditionalSiteChrome } from "@/components/conditional-site-chrome";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -34,21 +35,9 @@ export default function RootLayout({
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
         <AuthErrorHandler />
-        <div className="site-shell">
-          <div className="header-band">
-            <div className="page-shell">
-              <SiteHeader />
-            </div>
-          </div>
-          <div className="page-shell">
-            <main className="site-main">{children}</main>
-          </div>
-          <div className="footer-band">
-            <div className="page-shell footer-inner">
-              <SiteFooter />
-            </div>
-          </div>
-        </div>
+        <ConditionalSiteChrome header={<SiteHeader />} footer={<SiteFooter />}>
+          {children}
+        </ConditionalSiteChrome>
       </body>
     </html>
   );

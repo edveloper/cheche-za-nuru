@@ -419,6 +419,7 @@ export default function StoryGalleriesForm() {
 
       {/* ── Editor + Preview ── */}
       <div
+        className="admin-editor-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 340px",

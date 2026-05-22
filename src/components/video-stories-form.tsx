@@ -368,6 +368,7 @@ export default function VideoStoriesForm() {
 
       {/* ── Editor + Preview ── */}
       <div
+        className="admin-editor-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 300px",

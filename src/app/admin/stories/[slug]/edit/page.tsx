@@ -112,7 +112,6 @@ export default function EditStoryPage({ params }: EditStoryPageProps) {
                      radial-gradient(circle at bottom left, rgba(132, 184, 63, 0.08), transparent 20rem),
                      linear-gradient(180deg, #fffdf8 0%, #fff6e7 100%)`,
         padding: "1rem",
-        overflow: "hidden",
       }}
     >
       <div style={{ maxWidth: "800px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
@@ -139,7 +138,6 @@ export default function EditStoryPage({ params }: EditStoryPageProps) {
             border: "1px solid var(--line)",
             borderRadius: "12px",
             padding: "1.5rem",
-            overflow: "hidden",
           }}
         >
           <StoryForm initialStory={story} isEditing={true} />
