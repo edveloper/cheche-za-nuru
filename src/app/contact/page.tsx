@@ -42,12 +42,6 @@ export default function ContactPage() {
             <span className="contact-detail-label">Email</span>
             <strong>{contactDetails.email}</strong>
           </a>
-          {contactDetails.phones.map((phone) => (
-            <a key={phone} className="contact-detail-card" href={`tel:${phone.replaceAll(" ", "")}`}>
-              <span className="contact-detail-label">Phone</span>
-              <strong>{phone}</strong>
-            </a>
-          ))}
           <a
             className="contact-detail-card"
             href={contactDetails.locationMapUrl}
