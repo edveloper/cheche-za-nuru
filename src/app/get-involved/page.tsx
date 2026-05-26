@@ -6,6 +6,7 @@ import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { involvementDetails, involvementOptions, pageVisuals } from "@/data/site";
 
+
 export default function GetInvolvedPage() {
   return (
     <>
@@ -79,6 +80,17 @@ export default function GetInvolvedPage() {
               <h3>{detail.title}</h3>
               <p>{detail.body}</p>
             </article>
+          ))}
+        </div>
+        <div className="photo-strip">
+          {pageVisuals.involvedSpotlight.map((image) => (
+            <div key={image.src} className="photo-strip-card">
+              <ContentImage
+                src={image.src}
+                alt={image.alt}
+                sizes="(max-width: 900px) 100vw, 46vw"
+              />
+            </div>
           ))}
         </div>
       </PageSection>

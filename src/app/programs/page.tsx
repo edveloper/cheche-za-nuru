@@ -1,4 +1,5 @@
 import { ContentImage } from "@/components/content-image";
+import { CtaBand } from "@/components/cta-band";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { ProgramsCalendar } from "@/components/programs-calendar";
@@ -6,9 +7,11 @@ import {
   pageVisuals,
   pillars,
   programApproach,
+  programImages,
   programNarrative,
   programs,
 } from "@/data/site";
+
 import { getProgramEvents } from "@/lib/program-content";
 
 export default async function ProgramsPage() {
@@ -62,6 +65,18 @@ export default async function ProgramsPage() {
             </article>
           ))}
         </div>
+
+        <div className="photo-strip">
+          {pageVisuals.programsSpotlight.map((image) => (
+            <div key={image.src} className="photo-strip-card">
+              <ContentImage
+                src={image.src}
+                alt={image.alt}
+                sizes="(max-width: 900px) 100vw, 30vw"
+              />
+            </div>
+          ))}
+        </div>
       </PageSection>
 
       <PageSection
@@ -79,9 +94,16 @@ export default async function ProgramsPage() {
         body="The details below show how each program area turns the broader mission into direct support, structured opportunity, and practical care."
       >
         <div className="stacked-grid">
-          {programs.map((program) => (
+          {programs.map((program, index) => (
             <article key={program.title} className="feature-row">
               <div>
+                <div className="feature-row-image">
+                  <ContentImage
+                    src={programImages[index]!.src}
+                    alt={programImages[index]!.alt}
+                    sizes="(max-width: 1100px) 100vw, 28vw"
+                  />
+                </div>
                 <p className="card-label">{program.eyebrow}</p>
                 <h3>{program.title}</h3>
               </div>
@@ -110,6 +132,13 @@ export default async function ProgramsPage() {
           ))}
         </div>
       </PageSection>
+
+      <CtaBand
+        label="Fund the Work"
+        heading="Help us keep these programs running and growing."
+        body="Each program depends on sustained support to reach more children. Your contribution helps expand access to learning, care, and structured opportunity."
+        secondaryText="Other ways to support"
+      />
     </>
   );
 }

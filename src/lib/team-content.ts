@@ -1,4 +1,4 @@
-import { readFromSupabase } from "./supabase-rest";
+import { hasSupabaseConfig, readFromSupabase } from "./supabase-rest";
 
 export interface TeamMember {
   id: string;
@@ -13,18 +13,22 @@ export interface TeamMember {
 }
 
 export async function getTeamMembers(): Promise<TeamMember[]> {
+  if (!hasSupabaseConfig()) {
+    console.warn("[Team Content] Supabase not configured, returning empty team list.");
+    return [];
+  }
+
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/admin/team`, {
-      cache: "no-store",
-    });
+    const members = await readFromSupabase<TeamMember[]>(
+      "team_members",
+      [
+        "select=*",
+        "is_active=eq.true",
+        "order=sort_order.asc",
+      ].join("&"),
+    );
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch team members: ${response.statusText}`);
-    }
-
-    const data = (await response.json()) as TeamMember[];
-    return data || [];
+    return members || [];
   } catch (error) {
     console.error("[Team Content] Error fetching team members:", error);
     return [];
@@ -32,18 +36,21 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
 }
 
 export async function getAllTeamMembers(): Promise<TeamMember[]> {
+  if (!hasSupabaseConfig()) {
+    console.warn("[Team Content] Supabase not configured, returning empty team list.");
+    return [];
+  }
+
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/admin/team?includeInactive=true`, {
-      cache: "no-store",
-    });
+    const members = await readFromSupabase<TeamMember[]>(
+      "team_members",
+      [
+        "select=*",
+        "order=sort_order.asc",
+      ].join("&"),
+    );
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch team members: ${response.statusText}`);
-    }
-
-    const data = (await response.json()) as TeamMember[];
-    return data || [];
+    return members || [];
   } catch (error) {
     console.error("[Team Content] Error fetching all team members:", error);
     return [];

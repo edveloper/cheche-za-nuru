@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 import { ContentImage } from "@/components/content-image";
+import { CtaBand } from "@/components/cta-band";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { VoiceSubmitForm } from "@/components/voice-submit-form";
 import {
   pageVisuals,
   storiesIntro,
-  storyThemes,
 } from "@/data/site";
 import {
   getStoryGalleries,
@@ -56,6 +56,17 @@ export default async function StoriesPage() {
             </article>
           ))}
         </div>
+        <div className="photo-strip">
+          {pageVisuals.storiesSpotlight.map((image) => (
+            <div key={image.src} className="photo-strip-card">
+              <ContentImage
+                src={image.src}
+                alt={image.alt}
+                sizes="(max-width: 900px) 100vw, 46vw"
+              />
+            </div>
+          ))}
+        </div>
       </PageSection>
 
       <PageSection
@@ -88,6 +99,15 @@ export default async function StoriesPage() {
         <div className="blog-grid">
           {recentStories.map((story) => (
             <article key={story.slug} className="story-post-card">
+              {story.coverImagePath ? (
+                <div className="story-post-cover">
+                  <ContentImage
+                    src={story.coverImagePath}
+                    alt={story.title}
+                    sizes="(max-width: 780px) 100vw, 30vw"
+                  />
+                </div>
+              ) : null}
               <p className="card-label">{story.category}</p>
               <small className="meta-line">{story.publishedAt}</small>
               <h3>{story.title}</h3>
@@ -198,18 +218,13 @@ export default async function StoriesPage() {
         <VoiceSubmitForm />
       </PageSection>
 
-      <PageSection
-        title="Updates, voices, galleries, and video together create a fuller picture of community life."
-      >
-        <div className="three-column-grid">
-          {storyThemes.map((theme) => (
-            <article key={theme.title} className="content-card">
-              <h3>{theme.title}</h3>
-              <p>{theme.body}</p>
-            </article>
-          ))}
-        </div>
-      </PageSection>
+      <CtaBand
+        label="Make It Possible"
+        heading="The stories here are made possible by people like you."
+        body="Every donation helps create more moments worth sharing — more children supported, more progress made, more futures opened."
+        primaryText="Give to the Work"
+        secondaryText="Get involved another way"
+      />
     </>
   );
 }

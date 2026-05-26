@@ -16,8 +16,8 @@ export default function DonatePage() {
 
       <section className="section-image-banner">
         <ContentImage
-          src={pageVisuals.contact.src}
-          alt={pageVisuals.contact.alt}
+          src={pageVisuals.donate.src}
+          alt={pageVisuals.donate.alt}
           sizes="100vw"
           className="section-image-banner-card"
         />

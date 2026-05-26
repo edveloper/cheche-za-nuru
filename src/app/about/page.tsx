@@ -1,4 +1,5 @@
 import { ContentImage } from "@/components/content-image";
+import { CtaBand } from "@/components/cta-band";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { TeamGrid } from "@/components/team-grid";
@@ -94,15 +95,12 @@ export default async function AboutPage() {
       <PageSection label="Our Values" title="Our work is shaped by the values we carry into every community.">
         <div className="value-grid">
           {values.map((value) => (
-            <article key={value} className="value-card">
-              <h3>{value}</h3>
+            <article key={value.title} className="value-card">
+              <h3>{value.title}</h3>
+              <p>{value.body}</p>
             </article>
           ))}
         </div>
-      </PageSection>
-
-      <PageSection label="Our Team" title="The people leading this work.">
-        <TeamGrid members={teamMembers} />
       </PageSection>
 
       <PageSection
@@ -118,6 +116,17 @@ export default async function AboutPage() {
           ))}
         </div>
       </PageSection>
+
+      <PageSection label="Our Team" title="The people leading this work.">
+        <TeamGrid members={teamMembers} />
+      </PageSection>
+
+      <CtaBand
+        label="Support the Mission"
+        heading="Be part of the change you just read about."
+        body="The work described here depends on people who believe in it. A contribution of any size helps us keep showing up for children and communities."
+        secondaryText="See how to get involved"
+      />
     </>
   );
 }

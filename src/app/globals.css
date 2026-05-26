@@ -533,6 +533,60 @@ textarea {
   color: white;
 }
 
+/* ── Donation CTA Band (orange variant of page-section-dark) ── */
+
+.page-section-orange {
+  padding: 4rem 2.75rem;
+  border: none;
+  border-radius: 2rem;
+  background: linear-gradient(135deg, #f5821f 0%, #d94716 100%);
+  color: white;
+  text-align: center;
+}
+
+.page-section-orange .section-label,
+.page-section-orange .section-body {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.page-section-orange .section-heading h2 {
+  color: white;
+}
+
+.cta-heading-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-band-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.cta-donate-button {
+  background: white;
+  color: #f5821f;
+}
+
+.cta-donate-button:hover {
+  background: rgba(255, 255, 255, 0.92);
+  color: #d94716;
+  transform: translateY(-1px);
+}
+
+.cta-secondary-link {
+  color: white !important;
+}
+
+.cta-secondary-link:hover {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* ─────────────────────────────────────────────────────────── */
+
 .section-heading {
   display: grid;
   gap: 0.85rem;
@@ -785,12 +839,17 @@ textarea {
 
 .value-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1.15rem;
 }
 
 .value-card {
   min-height: 8rem;
+}
+
+.value-card h3 {
+  font-size: 1.35rem;
+  margin-bottom: 0.5rem;
 }
 
 .stacked-grid {
@@ -823,10 +882,11 @@ textarea {
 
 .impact-visual-bar-fill {
   display: block;
-  width: 78%;
+  width: 0;
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, var(--orange), var(--yellow));
+  transition: width 0.6s ease;
 }
 
 .calendar-layout {
@@ -1430,8 +1490,10 @@ textarea {
 }
 
 .photo-strip {
+  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+  margin-top: 2.25rem;
 }
 
 .photo-strip-card {
@@ -1684,7 +1746,7 @@ textarea {
 
 .social-chip-row {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.65rem;
   margin-top: 0.9rem;
   align-items: center;
@@ -1887,10 +1949,41 @@ textarea {
   margin-top: 1.15rem;
 }
 
+/* Footer-specific: each icon in its own orange rounded container */
+.footer-social-row {
+  gap: 0.75rem;
+  margin-top: 0;
+}
+
+.footer-social-row .social-link-icon {
+  width: 2.7rem;
+  height: 2.7rem;
+  background: #f5821f;
+  border-radius: 0.5rem;
+  color: white;
+  justify-content: center;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.footer-social-row .social-link-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.footer-social-row .social-link:hover .social-link-icon {
+  background: #d94716;
+  transform: translateY(-2px);
+}
+
 .footer-grid li a:hover,
 .footer-base a:hover {
   color: var(--orange);
   border-bottom-color: rgba(249, 95, 43, 0.35);
+}
+
+/* Don't let the generic link hover recolour the white icon inside the orange pill */
+.footer-social-row .social-link:hover {
+  color: white;
 }
 
 .footer-base {
@@ -2300,4 +2393,28 @@ textarea {
   .admin-editor-grid {
     grid-template-columns: 1fr !important;
   }
+}
+
+/* ── Story post card cover image ─────────────────────── */
+
+.story-post-cover {
+  position: relative;
+  min-height: 11rem;
+  margin: -1.55rem -1.55rem 0.75rem;
+  border-radius: 1.3rem 1.3rem 0 0;
+  overflow: hidden;
+  background: var(--surface-soft);
+  flex-shrink: 0;
+}
+
+/* ── Program feature row image ───────────────────────── */
+
+.feature-row-image {
+  position: relative;
+  height: 10rem;
+  margin-bottom: 0.95rem;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  background: var(--surface-soft);
+  flex-shrink: 0;
 }

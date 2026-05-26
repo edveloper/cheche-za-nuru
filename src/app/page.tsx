@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ContentImage } from "@/components/content-image";
+import { CtaBand } from "@/components/cta-band";
 import { HeroImage } from "@/components/hero-image";
 import { PageSection } from "@/components/page-section";
 import {
@@ -154,6 +155,12 @@ export default function Home() {
           </div>
         </div>
       </PageSection>
+
+      <CtaBand
+        label="Give Now"
+        heading="Your support changes what is possible for a child."
+        body="Every gift, in any amount, helps keep a child in school, connected to care, and moving toward a brighter future. Choose how you want to help."
+      />
 
       <PageSection
         label="Stories and Community"

@@ -91,6 +91,67 @@ const imageLibrary = {
     src: "/images/green-uniform-children.jpg",
     alt: "Children in green and yellow uniforms.",
   },
+  // New image additions
+  selfieKids: {
+    src: "/images/close-up-kids-taking-selfie-together.jpg",
+    alt: "Children taking a joyful selfie together.",
+  },
+  africanChildrenEnjoying: {
+    src: "/images/african-children-enjoying-life.jpg",
+    alt: "African children enjoying life and celebrating together.",
+  },
+  footballKids: {
+    src: "/images/african-children-with-football-ball-sitting.jpg",
+    alt: "Children sitting together with a football, ready to play.",
+  },
+  justinLagatKids: {
+    src: "/images/justin-lagat-7e16OcueiNs-unsplash.jpg",
+    alt: "Children gathered in a Kenyan community setting.",
+  },
+  emmanuelCommunity: {
+    src: "/images/emmanuel-ikwuegbu-VC6MGt9ZoBA-unsplash.jpg",
+    alt: "Children in an African community, full of life and energy.",
+  },
+  emmanuelLearning: {
+    src: "/images/emmanuel-ikwuegbu-OP3DdAHRbCs-unsplash.jpg",
+    alt: "Children learning and growing in their community.",
+  },
+  billWegenerSports: {
+    src: "/images/bill-wegener-P0OJbBJ1ZTM-unsplash.jpg",
+    alt: "Young people engaged in active sports.",
+  },
+  valdhyMbemba: {
+    src: "/images/valdhy-mbemba-4mrCB4rStMo-unsplash.jpg",
+    alt: "A child in a moment of quiet focus and determination.",
+  },
+  rohanReddyKids: {
+    src: "/images/rohan-reddy-MhQxeXhE-GI-unsplash.jpg",
+    alt: "Children facing the camera with hopeful expressions.",
+  },
+  philippaRoseTite: {
+    src: "/images/philippa-rose-tite-3T6HYgrFGYc-unsplash.jpg",
+    alt: "Community members gathered and engaged together.",
+  },
+  sowetoGraphics: {
+    src: "/images/soweto-graphics-dgqFs3LSOSc-unsplash.jpg",
+    alt: "Children active and vibrant in their community environment.",
+  },
+  michaelAliKids: {
+    src: "/images/michael-ali-pK_2AYiFCTc-unsplash.jpg",
+    alt: "Children sharing a warm moment together.",
+  },
+  annieSpratt: {
+    src: "/images/annie-spratt-cVEOh_JJmEE-unsplash.jpg",
+    alt: "Children engaged in a learning activity.",
+  },
+  romanNguyen: {
+    src: "/images/roman-nguyen-lPPkJ4NfQtQ-unsplash.jpg",
+    alt: "A portrait of community life and shared connection.",
+  },
+  yannatyKouyate: {
+    src: "/images/yannaty-kouyate-nTIkwCmUmNU-unsplash.jpg",
+    alt: "Community members coming together with warmth and purpose.",
+  },
 } as const;
 
 export const heroStats = [
@@ -100,40 +161,108 @@ export const heroStats = [
 ];
 
 export const homepageVisuals = {
-  hero: imageLibrary.homeHero,
+  hero: imageLibrary.selfieKids,
   spotlight: [
     imageLibrary.classroomBoy,
-    imageLibrary.healthFeature,
-    imageLibrary.greenUniformChildren,
+    imageLibrary.footballKids,
+    imageLibrary.emmanuelCommunity,
   ],
   gallery: [
-    imageLibrary.childrenWindow,
+    imageLibrary.africanChildrenEnjoying,
     imageLibrary.runningChildren,
+    imageLibrary.michaelAliKids,
     imageLibrary.smilingGirl,
-    imageLibrary.rainbowKids,
   ],
 };
 
+/** Images paired to each program (same order as the `programs` array). */
+export const programImages = [
+  imageLibrary.classroomBoy,    // Nuru Scholars — Education
+  imageLibrary.healthFeature,   // Afya Kwa Wote — Healthcare
+  imageLibrary.footballKids,    // Rising Stars League — Sports
+] as const;
+
 export const pageVisuals = {
-  aboutHero: imageLibrary.aboutBanner,
+  // ── About ────────────────────────────────────────────
+  // romanNguyen: 6000×4000 landscape, 3.7 MB — replaces 312 KB original
+  aboutHero: imageLibrary.romanNguyen,
+  // Portrait images sit perfectly inside the tall spotlight-card-large (30 rem)
+  // and regular spotlight-cards on the About "Who We Are" section.
   aboutJourney: [
-    imageLibrary.childrenWindow,
-    imageLibrary.healthFeature,
-    imageLibrary.greenUniformChildren,
+    imageLibrary.rohanReddyKids,    // portrait, 3648×5472 — large card
+    imageLibrary.billWegenerSports, // portrait, 2592×3480 — small card
+    imageLibrary.yannatyKouyate,    // portrait, 4480×6720 — small card
   ],
-  programs: imageLibrary.programsBanner,
-  impact: imageLibrary.impactBanner,
-  stories: imageLibrary.storiesBanner,
-  involved: imageLibrary.getInvolvedBanner,
+
+  // ── Programs ─────────────────────────────────────────
+  // emmanuelLearning: 6000×4005 landscape — replaces 326 KB original
+  programs: imageLibrary.emmanuelLearning,
+  // Both landscape — safe for photo-strip-card (landscape container)
+  programsSpotlight: [
+    imageLibrary.justinLagatKids,    // landscape, 4552×2612
+    imageLibrary.greenUniformChildren, // landscape, 4928×3264
+  ],
+
+  // ── Impact ───────────────────────────────────────────
+  // childrenWindow: 6048×4032 landscape, 5.7 MB — replaces 235 KB portrait original
+  impact: imageLibrary.childrenWindow,
+  // Both landscape — safe for photo-strip-card
+  impactGallery: [
+    imageLibrary.emmanuelCommunity, // landscape, 6000×4005
+    imageLibrary.annieSpratt,       // landscape, 4000×3177
+  ],
+  // Mini-gallery alongside metrics in the dark CZN Response section
+  impactDarkGallery: [
+    imageLibrary.girlsBlue,   // landscape, 5184×3456
+    imageLibrary.schoolBoys,  // landscape, 3023×2160
+  ],
+
+  // ── Stories ──────────────────────────────────────────
+  // sowetoGraphics: 5184×3456 landscape — replaces portrait original
+  stories: imageLibrary.sowetoGraphics,
+  storiesSpotlight: [
+    imageLibrary.michaelAliKids, // landscape, 6000×4000
+    imageLibrary.smilingGirl,    // landscape, 3840×2160
+  ],
+
+  // ── Get Involved ─────────────────────────────────────
+  // philippaRoseTite: 6000×4000 landscape — replaces 235 KB portrait original
+  involved: imageLibrary.philippaRoseTite,
+  // Both landscape — safe for photo-strip-card
+  involvedSpotlight: [
+    imageLibrary.africanChildrenEnjoying, // landscape, 5376×3584
+    imageLibrary.valdhyMbemba,            // landscape, 6000×4000
+  ],
+
+  // ── Contact ──────────────────────────────────────────
   contact: imageLibrary.contactBanner,
+
+  // ── Donate ───────────────────────────────────────────
+  // Replaces the incorrectly shared contactBanner used on the donate page
+  donate: imageLibrary.africanChildrenEnjoying, // landscape, 5376×3584
 };
 
 export const values = [
-  "Hope",
-  "Empowerment",
-  "Leadership",
-  "Community",
-  "Excellence",
+  {
+    title: "Hope",
+    body: "We carry the belief that every child deserves a future worth working toward, and that consistent, close support can genuinely shift the direction of a life.",
+  },
+  {
+    title: "Empowerment",
+    body: "We invest in children and communities with the expectation that they will grow into agents of their own futures, not just recipients of help.",
+  },
+  {
+    title: "Leadership",
+    body: "We build the confidence and character of young people so they can step forward as examples, decision-makers, and voices in their own communities.",
+  },
+  {
+    title: "Community",
+    body: "Our work belongs to the communities it serves. We listen, respond, and stay present because real change is built from within, not from the outside in.",
+  },
+  {
+    title: "Excellence",
+    body: "Whether in a classroom, on a field, or at a health outreach, we hold the standard of quality that every child deserves, regardless of what they can access.",
+  },
 ];
 
 export const foundationOverview = [
@@ -405,24 +534,28 @@ export const impactMilestones = [
     title: "A mission built around joined-up support",
     body:
       "We work from the understanding that education, health, and youth development must reinforce one another in practice.",
+    progress: 28,
   },
   {
     year: "Scholarships",
     title: "Learning support reaches children who need continuity",
     body:
       "Scholarship and education support help reduce the risk of interrupted learning and create stronger pathways toward school retention.",
+    progress: 52,
   },
   {
     year: "Outreach",
     title: "Health services move closer to communities",
     body:
       "Outreach activity brings practical care, consultation, and family-centered support closer to children whose needs are often shaped by location and affordability.",
+    progress: 74,
   },
   {
     year: "Youth growth",
     title: "Structured sport becomes a development pathway",
     body:
       "By building leagues and organized activity, CZN turns sport into a place for teamwork, confidence, and disciplined growth rather than informal participation alone.",
+    progress: 92,
   },
 ];
 
@@ -781,6 +914,14 @@ export const contactDetails = {
     {
       label: "TikTok",
       href: "https://tiktok.com/@chechezanurufoundation",
+    },
+    {
+      label: "LinkedIn",
+      href: "#",
+    },
+    {
+      label: "YouTube",
+      href: "#",
     },
   ] as const,
 };

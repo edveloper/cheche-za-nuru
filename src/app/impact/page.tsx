@@ -1,4 +1,5 @@
 import { ContentImage } from "@/components/content-image";
+import { CtaBand } from "@/components/cta-band";
 import { ImpactVisualizations } from "@/components/impact-visualizations";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
@@ -10,6 +11,8 @@ import {
   impactResponseComparisons,
   pageVisuals,
 } from "@/data/site";
+
+
 import { getImpactMetrics } from "@/lib/impact-content";
 
 export default async function ImpactPage() {
@@ -52,13 +55,26 @@ export default async function ImpactPage() {
         body="These figures do not claim to solve the wider national challenge on their own. They show the scale of support we have already been able to place around children, caregivers, and communities."
         tone="dark"
       >
-        <div className="metric-grid">
-          {liveMetrics.map((metric) => (
-            <article key={metric.slug} className="metric-panel">
-              <strong>{metric.value}</strong>
-              <span>{metric.label}</span>
-            </article>
-          ))}
+        <div className="impact-storyband">
+          <div className="metric-grid">
+            {liveMetrics.map((metric) => (
+              <article key={metric.slug} className="metric-panel">
+                <strong>{metric.value}</strong>
+                <span>{metric.label}</span>
+              </article>
+            ))}
+          </div>
+          <div className="mini-gallery">
+            {pageVisuals.impactDarkGallery.map((image) => (
+              <div key={image.src} className="mini-gallery-card">
+                <ContentImage
+                  src={image.src}
+                  alt={image.alt}
+                  sizes="(max-width: 900px) 100vw, 44vw"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </PageSection>
 
@@ -73,6 +89,18 @@ export default async function ImpactPage() {
               <h3>{frame.title}</h3>
               <p>{frame.body}</p>
             </article>
+          ))}
+        </div>
+
+        <div className="photo-strip">
+          {pageVisuals.impactGallery.map((image) => (
+            <div key={image.src} className="photo-strip-card">
+              <ContentImage
+                src={image.src}
+                alt={image.alt}
+                sizes="(max-width: 900px) 100vw, 30vw"
+              />
+            </div>
           ))}
         </div>
       </PageSection>
@@ -91,12 +119,23 @@ export default async function ImpactPage() {
               </div>
               <p>{item.body}</p>
               <div className="impact-visual-bar">
-                <span className="impact-visual-bar-fill" />
+                <span
+                  className="impact-visual-bar-fill"
+                  style={{ width: `${item.progress}%` }}
+                />
               </div>
             </article>
           ))}
         </div>
       </PageSection>
+
+      <CtaBand
+        label="Add to the Impact"
+        heading="Every contribution adds to the numbers you just saw."
+        body="Behind every metric is a child whose life moved in a better direction. Your support helps us reach more of them."
+        primaryText="Donate Today"
+        secondaryText="Other ways to help"
+      />
     </>
   );
 }

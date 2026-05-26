@@ -67,16 +67,6 @@ export function SiteFooter() {
                 <span>{contactDetails.email}</span>
               </a>
             </li>
-            {contactDetails.phones.map((phone) => (
-              <li key={phone}>
-                <a className="footer-contact-link" href={`tel:${phone.replaceAll(" ", "")}`}>
-                  <span className="footer-contact-icon" aria-hidden="true">
-                    <SocialIcon platform="Phone" />
-                  </span>
-                  <span>{phone}</span>
-                </a>
-              </li>
-            ))}
             <li>
               <a
                 className="footer-contact-link"
@@ -91,39 +81,38 @@ export function SiteFooter() {
                 <span>{contactDetails.location}</span>
               </a>
             </li>
+            <li aria-label="Social links">
+              <div className="social-link-row footer-social-row">
+                {contactDetails.socials.map((social) => (
+                  <a
+                    key={social.label}
+                    className="social-link"
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={social.label}
+                    title={social.label}
+                  >
+                    <span className="social-link-icon" aria-hidden="true">
+                      <SocialIcon platform={social.label} />
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </li>
           </ul>
-          <div className="social-link-row" aria-label="Social links">
-            {contactDetails.socials.map((social) => (
-              <a
-                key={social.label}
-                className="social-link"
-                href={social.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={social.label}
-                title={social.label}
-              >
-                <span className="social-link-icon" aria-hidden="true">
-                  <SocialIcon platform={social.label} />
-                </span>
-              </a>
-            ))}
-          </div>
         </div>
       </div>
 
       <div className="footer-base">
         <span>&copy; 2026 Cheche Za Nuru Foundation</span>
-        <span>
-          Built by{" "}
-          <a
-            href="https://www.eddie-ezekiel.com"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Eddie Ezekiel Ochieng
-          </a>
-        </span>
+        <a
+          href="https://www.eddie-ezekiel.com"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Developer
+        </a>
       </div>
     </footer>
   );

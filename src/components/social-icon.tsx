@@ -2,6 +2,8 @@ type IconName =
   | "Facebook"
   | "Instagram"
   | "TikTok"
+  | "LinkedIn"
+  | "YouTube"
   | "Email"
   | "Phone"
   | "Location";
@@ -101,6 +103,46 @@ export function SocialIcon({ platform, className }: SocialIconProps) {
     );
   }
 
+  if (platform === "LinkedIn") {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        className={className}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="3.5" y="3.5" width="17" height="17" rx="3" />
+        <path d="M8 11v5" />
+        <path d="M8 8v.5" />
+        <path d="M12 16v-5" />
+        <path d="M12 11a3 3 0 0 1 3 3v2" />
+      </svg>
+    );
+  }
+
+  if (platform === "YouTube") {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        className={className}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
+        <path d="m10 9 5 3-5 3V9Z" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
+
+  /* TikTok (default) */
   return (
     <svg
       viewBox="0 0 24 24"
