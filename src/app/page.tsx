@@ -6,14 +6,15 @@ import { HeroImage } from "@/components/hero-image";
 import { PageSection } from "@/components/page-section";
 import {
   foundationOverview,
-  heroStats,
   homepageVisuals,
-  impactMetrics,
   pillars,
   storyThemes,
 } from "@/data/site";
+import { getImpactMetrics } from "@/lib/impact-content";
 
-export default function Home() {
+export default async function Home() {
+  const liveMetrics = await getImpactMetrics();
+
   return (
     <>
       <section className="home-hero home-hero-warm">
@@ -59,10 +60,10 @@ export default function Home() {
       </section>
 
       <section className="stats-ribbon">
-        {heroStats.map((stat) => (
-          <article key={stat.label} className="stats-ribbon-card">
-            <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
+        {liveMetrics.slice(0, 3).map((metric) => (
+          <article key={metric.slug} className="stats-ribbon-card">
+            <strong>{metric.value}</strong>
+            <span>{metric.label}</span>
           </article>
         ))}
       </section>
@@ -134,8 +135,8 @@ export default function Home() {
       >
         <div className="impact-storyband">
           <div className="metric-grid">
-            {impactMetrics.map((metric) => (
-              <article key={metric.label} className="metric-panel">
+            {liveMetrics.map((metric) => (
+              <article key={metric.slug} className="metric-panel">
                 <strong>{metric.value}</strong>
                 <span>{metric.label}</span>
               </article>

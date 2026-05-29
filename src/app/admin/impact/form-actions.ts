@@ -1,65 +1,70 @@
 "use server";
 
-export async function saveImpactMetricAction(prevState: any, formData: FormData) {
+import {
+  hasSupabaseConfig,
+  insertIntoSupabase,
+  updateSupabase,
+  deleteFromSupabase,
+} from "@/lib/supabase-rest";
+
+export async function saveImpactMetricAction(_prevState: any, formData: FormData) {
   try {
+    if (!hasSupabaseConfig()) {
+      return { error: "Database not configured" };
+    }
+
     const isEditing = formData.get("isEditing") === "true";
     const slug = formData.get("slug") as string;
     const label = formData.get("label") as string;
     const valueText = formData.get("valueText") as string;
-    const numericValue = formData.get("numericValue") as string;
+    const numericValueRaw = formData.get("numericValue") as string;
     const unit = formData.get("unit") as string;
     const category = formData.get("category") as string;
-    const metricYear = formData.get("metricYear") as string;
+    const metricYearRaw = formData.get("metricYear") as string;
     const summary = formData.get("summary") as string;
     const isFeatured = formData.get("isFeatured") === "on";
-    const sortOrder = formData.get("sortOrder") as string;
+    const sortOrderRaw = formData.get("sortOrder") as string;
 
-    const method = isEditing ? "PUT" : "POST";
-    const url = isEditing
-      ? `/api/admin/impact-metrics/${slug}`
-      : "/api/admin/impact-metrics";
+    if (!slug || !label || !valueText || !category) {
+      return { error: "Label, display value, and category are required." };
+    }
 
-    const response = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        slug,
-        label,
-        valueText,
-        numericValue: numericValue ? parseFloat(numericValue) : null,
-        unit,
-        category,
-        metricYear: metricYear ? parseInt(metricYear) : null,
-        summary,
-        isFeatured,
-        sortOrder: sortOrder ? parseInt(sortOrder) : 0,
-      }),
-    });
+    const validCategories = ["education", "healthcare", "sports", "cross_cutting"];
+    if (!validCategories.includes(category)) {
+      return { error: "Invalid category selected." };
+    }
 
-    if (!response.ok) {
-      const error = await response.json();
-      return { error: error.error || "Failed to save metric" };
+    const record = {
+      slug,
+      label,
+      value_text: valueText,
+      numeric_value: numericValueRaw ? parseFloat(numericValueRaw) : null,
+      unit: unit || "",
+      category,
+      metric_year: metricYearRaw ? parseInt(metricYearRaw) : null,
+      summary: summary || "",
+      is_featured: isFeatured,
+      sort_order: sortOrderRaw ? parseInt(sortOrderRaw) : 0,
+    };
+
+    if (isEditing) {
+      const { slug: _slug, ...updates } = record;
+      await updateSupabase("impact_metrics", `slug=eq.${slug}`, updates);
+    } else {
+      await insertIntoSupabase("impact_metrics", record);
     }
 
     return { success: true };
-  } catch (error) {
-    return { error: error instanceof Error ? error.message : "Failed to save metric" };
+  } catch (error: any) {
+    if (error?.message?.includes("duplicate") || error?.message?.includes("unique")) {
+      return { error: "A metric with this label already exists. Try a different label." };
+    }
+    return { error: error instanceof Error ? error.message : "Failed to save metric." };
   }
 }
 
 export async function deleteImpactMetricAction(slug: string) {
-  try {
-    const response = await fetch(`/api/admin/impact-metrics/${slug}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || "Failed to delete metric");
-    }
-
-    return { success: true };
-  } catch (error) {
-    throw error;
-  }
+  if (!hasSupabaseConfig()) throw new Error("Database not configured");
+  await deleteFromSupabase("impact_metrics", `slug=eq.${slug}`);
+  return { success: true };
 }
