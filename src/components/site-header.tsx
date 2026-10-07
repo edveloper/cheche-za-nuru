@@ -20,6 +20,21 @@ export function SiteHeader() {
     setIsMenuOpen(false);
   }
 
+  // Tighten the header once the page has scrolled (styles key off html[data-scrolled]).
+  useEffect(() => {
+    const root = document.documentElement;
+    const onScroll = () => {
+      if (window.scrollY > 24) {
+        root.dataset.scrolled = "";
+      } else {
+        delete root.dataset.scrolled;
+      }
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     if (!isMenuOpen) {
       return;

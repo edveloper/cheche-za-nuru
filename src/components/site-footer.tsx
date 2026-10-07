@@ -7,33 +7,45 @@ import { brandAssets, contactDetails, navigation, programs } from "@/data/site";
 export function SiteFooter() {
   return (
     <footer className="site-footer">
-      <div className="footer-grid">
-        <div className="footer-brand">
-          <div className="footer-brand-lockup">
-            <Link href="/" aria-label="Go to the Cheche Za Nuru homepage">
-              <Image
-                src={brandAssets.logo.src}
-                alt={brandAssets.logo.alt}
-                width={brandAssets.logo.width}
-                height={brandAssets.logo.height}
-                className="footer-logo"
-                sizes="64px"
-              />
-            </Link>
-            <div>
-              <span className="footer-kicker">{brandAssets.wordmark.title}</span>
-              <strong className="footer-brand-subtitle">
-                {brandAssets.wordmark.subtitle}
-              </strong>
-            </div>
-          </div>
-          <p>
-            <em>Cheche za nuru</em>{" "}is Swahili for &ldquo;sparks of light&rdquo;. We work in
-            Kibera, Nairobi, keeping children in school, healthy and playing sport.
-          </p>
-          <Link className="footer-donate" href="/donate">
+      <div className="footer-signoff">
+        <p className="footer-signoff-line">
+          <em>Cheche za nuru</em> means sparks of light.{" "}
+          <span>Be one for a child in Kibera.</span>
+        </p>
+        <div className="footer-signoff-actions">
+          <Link className="primary-button" href="/donate">
             Donate
           </Link>
+          <a
+            className="footer-whatsapp"
+            href={contactDetails.whatsapp.href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="action-bar-icon" aria-hidden="true">
+              <SocialIcon platform="WhatsApp" />
+            </span>
+            WhatsApp Us
+          </a>
+        </div>
+      </div>
+
+      <div className="footer-grid">
+        <div className="footer-brand">
+          <Link href="/" className="footer-logo-link" aria-label="Cheche Za Nuru Foundation home">
+            <Image
+              src={brandAssets.logo.src}
+              alt=""
+              width={brandAssets.logo.width}
+              height={brandAssets.logo.height}
+              className="footer-logo"
+              sizes="96px"
+            />
+          </Link>
+          <p>
+            Scholarships, clinic care, meals and a football club for children in Kibera,
+            Nairobi.
+          </p>
         </div>
 
         <div>
@@ -55,11 +67,14 @@ export function SiteFooter() {
                 <Link href={`/programs#${program.slug}`}>{program.title}</Link>
               </li>
             ))}
+            <li>
+              <Link href="/get-involved">Volunteer or Partner</Link>
+            </li>
           </ul>
         </div>
 
         <div>
-          <h3>Contact Us</h3>
+          <h3>Get in Touch</h3>
           <ul className="footer-contact-list">
             <li>
               <a className="footer-contact-link" href={`mailto:${contactDetails.email}`}>
@@ -75,7 +90,6 @@ export function SiteFooter() {
                 href={contactDetails.locationMapUrl}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={`Open directions to ${contactDetails.location}`}
               >
                 <span className="footer-contact-icon" aria-hidden="true">
                   <SocialIcon platform="Location" />
@@ -83,26 +97,24 @@ export function SiteFooter() {
                 <span>{contactDetails.location}</span>
               </a>
             </li>
-            <li aria-label="Social links">
-              <div className="social-link-row footer-social-row">
-                {contactDetails.socials.map((social) => (
-                  <a
-                    key={social.label}
-                    className="social-link"
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={social.label}
-                    title={social.label}
-                  >
-                    <span className="social-link-icon" aria-hidden="true">
-                      <SocialIcon platform={social.label} />
-                    </span>
-                  </a>
-                ))}
-              </div>
-            </li>
           </ul>
+          <div className="footer-social-row" aria-label="Social media">
+            {contactDetails.socials.map((social) => (
+              <a
+                key={social.label}
+                className="social-link"
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={social.label}
+                title={social.label}
+              >
+                <span className="social-link-icon" aria-hidden="true">
+                  <SocialIcon platform={social.label} />
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 

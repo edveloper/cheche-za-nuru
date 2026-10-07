@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Brand kit: generated locally with `npm run brand-kit`, kept off the repo
+/brand-kit/

@@ -72,7 +72,7 @@ export default async function Home() {
 
       <section className="hero">
         <div className="hero-copy">
-          <p className="section-label">Cheche Za Nuru Foundation · Kibera, Nairobi</p>
+          <p className="section-label">Cheche Za Nuru Foundation</p>
           <h1>School, a Check-Up and a Game of Football</h1>
           <p className="hero-lede">
             Three things every child should be able to count on. In Kibera, too many
