@@ -16,7 +16,6 @@ export function SiteFooter() {
                 alt={brandAssets.logo.alt}
                 width={brandAssets.logo.width}
                 height={brandAssets.logo.height}
-                quality={100}
                 className="footer-logo"
                 sizes="64px"
               />
@@ -29,9 +28,12 @@ export function SiteFooter() {
             </div>
           </div>
           <p>
-            A mission-led foundation focused on education, healthcare, sports,
-            and community empowerment for children and young people.
+            <em>Cheche za nuru</em>{" "}is Swahili for &ldquo;sparks of light&rdquo;. We work in
+            Kibera, Nairobi, keeping children in school, healthy and playing sport.
           </p>
+          <Link className="footer-donate" href="/donate">
+            Donate
+          </Link>
         </div>
 
         <div>
@@ -46,11 +48,11 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3>Programs</h3>
+          <h3>Programmes</h3>
           <ul>
             {programs.map((program) => (
-              <li key={program.title}>
-                <Link href="/programs">{program.title}</Link>
+              <li key={program.slug}>
+                <Link href={`/programs#${program.slug}`}>{program.title}</Link>
               </li>
             ))}
           </ul>
@@ -105,13 +107,9 @@ export function SiteFooter() {
       </div>
 
       <div className="footer-base">
-        <span>&copy; 2026 Cheche Za Nuru Foundation</span>
-        <a
-          href="https://www.eddie-ezekiel.com"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Developer
+        <span>&copy; {new Date().getFullYear()} Cheche Za Nuru Foundation</span>
+        <a href="https://www.eddie-ezekiel.com" target="_blank" rel="noreferrer">
+          Site by Eddie Ezekiel
         </a>
       </div>
     </footer>

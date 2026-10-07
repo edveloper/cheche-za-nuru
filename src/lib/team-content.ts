@@ -26,6 +26,7 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
         "is_active=eq.true",
         "order=sort_order.asc",
       ].join("&"),
+      { cache: "public" },
     );
 
     return members || [];

@@ -1,11 +1,8 @@
-import {
-  featuredStory,
-  stories as fallbackStories,
-  storyGalleries as fallbackStoryGalleries,
-  videoHighlights as fallbackVideoHighlights,
-  voiceSnippets as fallbackVoiceSnippets,
-} from "@/data/site";
 import { hasSupabaseConfig, readFromSupabase } from "@/lib/supabase-rest";
+
+// Public pages only ever show content published through the admin. There is
+// deliberately no hardcoded fallback: an empty section is better than an
+// invented story.
 
 export type StoryPost = {
   slug: string;
@@ -16,6 +13,7 @@ export type StoryPost = {
   authorName: string;
   category: string;
   publishedAt: string;
+  publishedAtIso: string | null;
 };
 
 export type VoiceSnippet = {
@@ -95,28 +93,6 @@ type VideoStoryRecord = {
   duration_seconds: number | null;
 };
 
-const fallbackStoryBodies = new Map<string, string>([
-  [
-    "50 new scholarships awarded in Kibera and Mathare",
-    "This scholarship intake reflects the kind of support that changes the rhythm of daily life for learners and caregivers.\n\nWhen fees, supplies, and encouragement come together, children can remain present in school with greater stability and less uncertainty.\n\nThe deeper impact is not only academic. It is the return of confidence, routine, and the feeling that progress is still possible.",
-  ],
-  [
-    "Mobile clinic reaches 800 families in Turkana County",
-    "The outreach mission brought consultations, immunisation support, and practical care closer to families who often have to travel too far for dependable services.\n\nMoments like these matter because they shorten the distance between need and response.\n\nThey also create room for trust, follow-up, and stronger relationships between communities and the people working alongside them.",
-  ],
-  [
-    "Rising Stars League opens its biggest season yet",
-    "The opening of a larger season means more children and young people are stepping into structured sport, shared discipline, and a stronger sense of belonging.\n\nSport is part of the foundation's wider work because teamwork, rhythm, and encouragement often become part of how confidence grows.\n\nA strong season is therefore not only about competition. It is about identity, routine, and possibility taking shape together.",
-  ],
-]);
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
 function resolveMediaPath(path: string, fallbackPath = "") {
   if (!path) {
     return fallbackPath;
@@ -152,63 +128,9 @@ function formatDuration(durationSeconds: number | null) {
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
-function getFallbackStoryPosts(): StoryPost[] {
-  return fallbackStories.map((story, index) => ({
-    slug: slugify(story.title),
-    title: story.title,
-    excerpt: story.summary,
-    body:
-      fallbackStoryBodies.get(story.title) ??
-      `${story.summary}\n\n${featuredStory.detail}`,
-    coverImagePath:
-      fallbackStoryGalleries[index]?.images[0]?.src ?? fallbackStoryGalleries[0]!.images[0]!.src,
-    authorName: "Cheche Za Nuru",
-    category: story.category,
-    publishedAt: story.date,
-  }));
-}
-
-function getFallbackVoices(): VoiceSnippet[] {
-  return fallbackVoiceSnippets.map((voice) => ({
-    displayName: voice.name,
-    roleLabel: voice.role,
-    location: "",
-    quote: voice.quote,
-  }));
-}
-
-function getFallbackGalleries(): StoryGallery[] {
-  return fallbackStoryGalleries.map((gallery, index) => ({
-    slug: `photo-story-${index + 1}-${slugify(gallery.title)}`,
-    title: gallery.title,
-    excerpt: gallery.intro,
-    storyDate: gallery.date,
-    coverImagePath: gallery.images[0]!.src,
-    layoutStyle: index % 2 === 0 ? "editorial" : "stacked",
-    images: gallery.images.map((image) => ({
-      src: image.src,
-      alt: image.alt,
-      caption: image.caption,
-    })),
-  }));
-}
-
-function getFallbackVideos(): VideoStory[] {
-  return fallbackVideoHighlights.map((video, index) => ({
-    slug: `${slugify(video.title)}-${index + 1}`,
-    title: video.title,
-    summary: video.summary,
-    videoPath: "",
-    thumbnailPath:
-      fallbackStoryGalleries[index]?.images[0]?.src ?? fallbackStoryGalleries[0]!.images[0]!.src,
-    durationLabel: video.duration,
-  }));
-}
-
-export async function getStoryPosts() {
-  const fallback = getFallbackStoryPosts();
+export async function getStoryPosts(): Promise<StoryPost[]> {
   if (!hasSupabaseConfig()) {
-    return fallback;
+    return [];
   }
 
   try {
@@ -219,39 +141,33 @@ export async function getStoryPosts() {
         "status=eq.published",
         "order=published_at.desc.nullslast",
       ].join("&"),
+      { cache: "public" },
     );
 
-    if (!posts.length) {
-      return fallback;
-    }
-
-    return posts.map((post, index) => ({
+    return posts.map((post) => ({
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt,
-      body: post.body_md || post.excerpt || fallback[index]?.body || featuredStory.detail,
-      coverImagePath: resolveMediaPath(
-        post.cover_image_path,
-        fallback[index]?.coverImagePath ?? fallback[0]!.coverImagePath,
-      ),
+      body: post.body_md || post.excerpt || "",
+      coverImagePath: resolveMediaPath(post.cover_image_path),
       authorName: post.author_name || "Cheche Za Nuru",
       category: "Story",
-      publishedAt:
-        formatDate(post.published_at, {
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        }) || fallback[index]?.publishedAt || "",
+      publishedAt: formatDate(post.published_at, {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }),
+      publishedAtIso: post.published_at,
     }));
-  } catch {
-    return fallback;
+  } catch (error) {
+    console.error("[Story Content] Error fetching story posts:", error);
+    return [];
   }
 }
 
-export async function getVoiceSnippets() {
-  const fallback = getFallbackVoices();
+export async function getVoiceSnippets(): Promise<VoiceSnippet[]> {
   if (!hasSupabaseConfig()) {
-    return fallback;
+    return [];
   }
 
   try {
@@ -262,11 +178,8 @@ export async function getVoiceSnippets() {
         "status=eq.approved",
         "order=approved_at.desc.nullslast",
       ].join("&"),
+      { cache: "public" },
     );
-
-    if (!voices.length) {
-      return fallback;
-    }
 
     return voices.map((voice) => ({
       displayName: voice.display_name,
@@ -274,15 +187,15 @@ export async function getVoiceSnippets() {
       location: voice.location,
       quote: voice.quote,
     }));
-  } catch {
-    return fallback;
+  } catch (error) {
+    console.error("[Story Content] Error fetching voices:", error);
+    return [];
   }
 }
 
-export async function getStoryGalleries() {
-  const fallback = getFallbackGalleries();
+export async function getStoryGalleries(): Promise<StoryGallery[]> {
   if (!hasSupabaseConfig()) {
-    return fallback;
+    return [];
   }
 
   try {
@@ -293,64 +206,57 @@ export async function getStoryGalleries() {
         "status=eq.published",
         "order=published_at.desc.nullslast",
       ].join("&"),
+      { cache: "public" },
     );
 
     if (!galleries.length) {
-      return fallback;
+      return [];
     }
 
     const galleryIds = galleries.map((gallery) => gallery.id).join(",");
-    const items = galleryIds
-      ? await readFromSupabase<StoryGalleryItemRecord[]>(
-          "story_gallery_items",
-          [
-            "select=gallery_id,image_path,caption,alt_text,sort_order",
-            `gallery_id=in.(${galleryIds})`,
-            "order=sort_order.asc",
-          ].join("&"),
-        )
-      : [];
+    const items = await readFromSupabase<StoryGalleryItemRecord[]>(
+      "story_gallery_items",
+      [
+        "select=gallery_id,image_path,caption,alt_text,sort_order",
+        `gallery_id=in.(${galleryIds})`,
+        "order=sort_order.asc",
+      ].join("&"),
+      { cache: "public" },
+    );
 
-    return galleries.map((gallery, index) => {
-      const galleryItems = items
-        .filter((item) => item.gallery_id === gallery.id)
-        .map((item) => ({
-          src: resolveMediaPath(
-            item.image_path,
-            fallback[index]?.images[0]?.src ?? fallback[0]!.images[0]!.src,
-          ),
-          alt: item.alt_text || gallery.title,
-          caption: item.caption,
-        }));
+    return galleries
+      .map((gallery) => {
+        const images = items
+          .filter((item) => item.gallery_id === gallery.id && item.image_path)
+          .map((item) => ({
+            src: resolveMediaPath(item.image_path),
+            alt: item.alt_text || gallery.title,
+            caption: item.caption,
+          }));
 
-      const fallbackImages = fallback[index]?.images ?? fallback[0]!.images;
-
-      return {
-        slug: gallery.slug,
-        title: gallery.title,
-        excerpt: gallery.excerpt,
-        storyDate:
-          formatDate(gallery.story_date, {
+        return {
+          slug: gallery.slug,
+          title: gallery.title,
+          excerpt: gallery.excerpt,
+          storyDate: formatDate(gallery.story_date, {
             month: "long",
             year: "numeric",
-          }) || fallback[index]?.storyDate || "",
-        coverImagePath: resolveMediaPath(
-          gallery.cover_image_path,
-          fallback[index]?.coverImagePath ?? fallback[0]!.coverImagePath,
-        ),
-        layoutStyle: gallery.layout_style,
-        images: galleryItems.length ? galleryItems : fallbackImages,
-      } satisfies StoryGallery;
-    });
-  } catch {
-    return fallback;
+          }),
+          coverImagePath: resolveMediaPath(gallery.cover_image_path, images[0]?.src ?? ""),
+          layoutStyle: gallery.layout_style,
+          images,
+        } satisfies StoryGallery;
+      })
+      .filter((gallery) => gallery.images.length > 0);
+  } catch (error) {
+    console.error("[Story Content] Error fetching galleries:", error);
+    return [];
   }
 }
 
-export async function getVideoStories() {
-  const fallback = getFallbackVideos();
+export async function getVideoStories(): Promise<VideoStory[]> {
   if (!hasSupabaseConfig()) {
-    return fallback;
+    return [];
   }
 
   try {
@@ -361,25 +267,22 @@ export async function getVideoStories() {
         "status=eq.published",
         "order=published_at.desc.nullslast",
       ].join("&"),
+      { cache: "public" },
     );
 
-    if (!videos.length) {
-      return fallback;
-    }
-
-    return videos.map((video, index) => ({
-      slug: video.slug,
-      title: video.title,
-      summary: video.summary,
-      videoPath: resolveMediaPath(video.video_path),
-      thumbnailPath: resolveMediaPath(
-        video.thumbnail_path,
-        fallback[index]?.thumbnailPath ?? fallback[0]!.thumbnailPath,
-      ),
-      durationLabel: formatDuration(video.duration_seconds),
-    }));
-  } catch {
-    return fallback;
+    return videos
+      .filter((video) => video.video_path)
+      .map((video) => ({
+        slug: video.slug,
+        title: video.title,
+        summary: video.summary,
+        videoPath: resolveMediaPath(video.video_path),
+        thumbnailPath: resolveMediaPath(video.thumbnail_path),
+        durationLabel: formatDuration(video.duration_seconds),
+      }));
+  } catch (error) {
+    console.error("[Story Content] Error fetching videos:", error);
+    return [];
   }
 }
 

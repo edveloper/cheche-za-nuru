@@ -1,6 +1,3 @@
-import {
-  programEvents as fallbackProgramEvents,
-} from "@/data/site";
 import { hasSupabaseConfig, readFromSupabase } from "@/lib/supabase-rest";
 
 export type ProgramEvent = {
@@ -48,24 +45,6 @@ function mapSupabaseEvent(record: SupabaseProgramEvent): ProgramEvent {
 }
 
 /**
- * Convert fallback hardcoded events to the standard format
- */
-function mapFallbackEvent(event: (typeof fallbackProgramEvents)[0]): ProgramEvent {
-  return {
-    slug: event.title.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, ""),
-    title: event.title,
-    programType: event.program as "education" | "healthcare" | "sports" | "community",
-    summary: event.summary,
-    description: event.summary,
-    location: event.location,
-    startDate: event.date,
-    endDate: null,
-    isFeatured: false,
-    status: "scheduled",
-  };
-}
-
-/**
  * Fetch program events from Supabase, filtered by status
  * Falls back to hardcoded events if Supabase is unavailable
  *
@@ -84,16 +63,16 @@ export async function getProgramEvents(options?: {
 
   try {
     if (!hasSupabaseConfig()) {
-      return getFallbackProgramEvents({ limit, includePast });
+      return getFallbackProgramEvents();
     }
 
     // Build query string for Supabase
     let query = `status=eq.${status}&order=start_date.asc`;
 
     if (!includePast) {
-      // Filter for future events only
-      const now = new Date().toISOString();
-      query += `&start_date=gte.${now}`;
+      // Filter for future events only. Date-only so the cached query key is stable for a day.
+      const today = new Date().toISOString().slice(0, 10);
+      query += `&start_date=gte.${today}`;
     }
 
     if (limit) {
@@ -103,18 +82,19 @@ export async function getProgramEvents(options?: {
     const records = await readFromSupabase<SupabaseProgramEvent[]>(
       "program_events",
       query,
+      { cache: "public" },
     );
 
     // If no records found in Supabase, return fallback
     if (!records || records.length === 0) {
-      return getFallbackProgramEvents({ limit, includePast });
+      return getFallbackProgramEvents();
     }
 
     return records.map(mapSupabaseEvent);
   } catch (error) {
     console.error("Error fetching program events from Supabase:", error);
     // Fall back to hardcoded events on any error
-    return getFallbackProgramEvents({ limit, includePast });
+    return getFallbackProgramEvents();
   }
 }
 
@@ -128,7 +108,7 @@ export async function getFeaturedProgramEvents(options?: {
 }): Promise<ProgramEvent[]> {
   try {
     if (!hasSupabaseConfig()) {
-      return getFallbackProgramEvents(options);
+      return getFallbackProgramEvents();
     }
 
     let query = `is_featured=eq.true&status=eq.scheduled&order=start_date.asc`;
@@ -140,16 +120,17 @@ export async function getFeaturedProgramEvents(options?: {
     const records = await readFromSupabase<SupabaseProgramEvent[]>(
       "program_events",
       query,
+      { cache: "public" },
     );
 
     if (!records || records.length === 0) {
-      return getFallbackProgramEvents(options);
+      return getFallbackProgramEvents();
     }
 
     return records.map(mapSupabaseEvent);
   } catch (error) {
     console.error("Error fetching featured program events:", error);
-    return getFallbackProgramEvents(options);
+    return getFallbackProgramEvents();
   }
 }
 
@@ -167,7 +148,7 @@ export async function getProgramEventsByType(
 ): Promise<ProgramEvent[]> {
   try {
     if (!hasSupabaseConfig()) {
-      return getFallbackProgramEvents(options);
+      return getFallbackProgramEvents();
     }
 
     let query = `program_type=eq.${programType}&status=eq.scheduled&order=start_date.asc`;
@@ -179,43 +160,23 @@ export async function getProgramEventsByType(
     const records = await readFromSupabase<SupabaseProgramEvent[]>(
       "program_events",
       query,
+      { cache: "public" },
     );
 
     if (!records || records.length === 0) {
-      return getFallbackProgramEvents(options);
+      return getFallbackProgramEvents();
     }
 
     return records.map(mapSupabaseEvent);
   } catch (error) {
     console.error(`Error fetching ${programType} program events:`, error);
-    return getFallbackProgramEvents(options);
+    return getFallbackProgramEvents();
   }
 }
 
 /**
- * Get fallback hardcoded program events
+ * No hardcoded events: if the CMS has none, the calendar shows its empty state.
  */
-function getFallbackProgramEvents(options?: {
-  limit?: number;
-  includePast?: boolean;
-}): ProgramEvent[] {
-  let events = fallbackProgramEvents.map(mapFallbackEvent);
-
-  // Filter for future events if requested
-  if (!options?.includePast) {
-    const now = new Date();
-    events = events.filter(
-      (event) => new Date(event.startDate) >= now,
-    );
-  }
-
-  // Sort by start date
-  events.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-
-  // Apply limit if specified
-  if (options?.limit) {
-    events = events.slice(0, options.limit);
-  }
-
-  return events;
+function getFallbackProgramEvents(): ProgramEvent[] {
+  return [];
 }

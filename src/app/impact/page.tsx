@@ -1,140 +1,46 @@
-import { ContentImage } from "@/components/content-image";
+import type { Metadata } from "next";
+
 import { CtaBand } from "@/components/cta-band";
+import { ImpactMetrics } from "@/components/impact-metrics";
 import { ImpactVisualizations } from "@/components/impact-visualizations";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
-import {
-  impactFrames,
-  impactCountyPressure,
-  impactDomainViews,
-  impactMilestones,
-  impactResponseComparisons,
-  pageVisuals,
-} from "@/data/site";
-
-
+import { impactCountyPressure, impactDomainViews, pageVisuals } from "@/data/site";
 import { getImpactMetrics } from "@/lib/impact-content";
+import { pageMetadata } from "@/lib/site-config";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Our Impact",
+  description:
+    "Children reached by Cheche Za Nuru's education, health and sport programmes, set against UNICEF figures on child poverty, schooling and nutrition in Kenya.",
+  path: "/impact",
+});
 
 export default async function ImpactPage() {
-  // Fetch impact metrics from Supabase, falls back to hardcoded data
-  const liveMetrics = await getImpactMetrics();
+  const metrics = await getImpactMetrics();
 
   return (
     <>
       <PageIntro
         label="Impact"
-        title="Every number points back to a life, a family, and a future."
-        body="We work in a country where too many children are still pushed back by poverty, interrupted learning, nutrition pressures, and fragile pathways into opportunity."
-        aside="What matters most is whether support reaches children where strain is highest, stays present long enough to matter, and opens room for a different future."
+        title="The Numbers, Honestly"
+        body="Kenya's problems are big. Our work is still small. Both are true, and you'll find both on this page."
+        photo={pageVisuals.impact}
       />
 
-      <section className="section-image-banner">
-        <ContentImage
-          src={pageVisuals.impact.src}
-          alt={pageVisuals.impact.alt}
-          sizes="100vw"
-          className="section-image-banner-card"
-        />
-      </section>
+      <ImpactMetrics metrics={metrics} heading="Our Work So Far" />
 
       <PageSection
-        label="National Picture"
-        title="Across Kenya, the pressures shaping childhood are visible and measurable."
-        body="Education, health, and youth development are deeply connected. When one area is strained, the others feel it too."
+        label="The National Picture"
+        title="What Children in Kenya Are Up Against"
+        body="Figures from UNICEF Kenya and Generation Unlimited. Each one links to its source."
       >
-        <ImpactVisualizations
-          domains={impactDomainViews}
-          countyPressure={impactCountyPressure}
-          comparisons={impactResponseComparisons}
-        />
-      </PageSection>
-
-      <PageSection
-        label="CZN Response"
-        title="Our response is still growing, but it is already reaching real children and families."
-        body="These figures do not claim to solve the wider national challenge on their own. They show the scale of support we have already been able to place around children, caregivers, and communities."
-        tone="dark"
-      >
-        <div className="impact-storyband">
-          <div className="metric-grid">
-            {liveMetrics.map((metric) => (
-              <article key={metric.slug} className="metric-panel">
-                <strong>{metric.value}</strong>
-                <span>{metric.label}</span>
-              </article>
-            ))}
-          </div>
-          <div className="mini-gallery">
-            {pageVisuals.impactDarkGallery.map((image) => (
-              <div key={image.src} className="mini-gallery-card">
-                <ContentImage
-                  src={image.src}
-                  alt={image.alt}
-                  sizes="(max-width: 900px) 100vw, 44vw"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </PageSection>
-
-      <PageSection
-        label="What Response Looks Like"
-        title="Education, health, and sports answer different parts of the same challenge."
-        body="We are strongest when these areas move together and reinforce one another in a child's life."
-      >
-        <div className="three-column-grid">
-          {impactFrames.map((frame) => (
-            <article key={frame.title} className="content-card">
-              <h3>{frame.title}</h3>
-              <p>{frame.body}</p>
-            </article>
-          ))}
-        </div>
-
-        <div className="photo-strip">
-          {pageVisuals.impactGallery.map((image) => (
-            <div key={image.src} className="photo-strip-card">
-              <ContentImage
-                src={image.src}
-                alt={image.alt}
-                sizes="(max-width: 900px) 100vw, 30vw"
-              />
-            </div>
-          ))}
-        </div>
-      </PageSection>
-
-      <PageSection
-        label="Progress Over Time"
-        title="Progress is built through steady support, not isolated moments."
-        body="Beyond headline numbers, what matters is the way support keeps showing up around children over time."
-      >
-        <div className="stacked-grid">
-          {impactMilestones.map((item) => (
-            <article key={item.title} className="feature-row">
-              <div>
-                <p className="card-label">{item.year}</p>
-                <h3>{item.title}</h3>
-              </div>
-              <p>{item.body}</p>
-              <div className="impact-visual-bar">
-                <span
-                  className="impact-visual-bar-fill"
-                  style={{ width: `${item.progress}%` }}
-                />
-              </div>
-            </article>
-          ))}
-        </div>
+        <ImpactVisualizations domains={impactDomainViews} countyPressure={impactCountyPressure} />
       </PageSection>
 
       <CtaBand
-        label="Add to the Impact"
-        heading="Every contribution adds to the numbers you just saw."
-        body="Behind every metric is a child whose life moved in a better direction. Your support helps us reach more of them."
-        primaryText="Donate Today"
-        secondaryText="Other ways to help"
+        heading="Help Us Move Our Numbers"
+        body="Every scholarship, clinic day and season of football starts with someone choosing to give."
       />
     </>
   );

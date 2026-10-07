@@ -1,4 +1,5 @@
 type PageSectionProps = {
+  id?: string;
   label?: string;
   title: string;
   body?: string;
@@ -7,6 +8,7 @@ type PageSectionProps = {
 };
 
 export function PageSection({
+  id,
   label,
   title,
   body,
@@ -21,7 +23,7 @@ export function PageSection({
         : "page-section";
 
   return (
-    <section className={className}>
+    <section id={id} className={className}>
       <div className="section-heading">
         {label ? <p className="section-label">{label}</p> : null}
         <h2>{title}</h2>

@@ -1,131 +1,108 @@
+import type { Metadata } from "next";
+
 import { ContentImage } from "@/components/content-image";
 import { CtaBand } from "@/components/cta-band";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { TeamGrid } from "@/components/team-grid";
 import {
-  aboutJourney,
-  foundationOverview,
+  founderProfile,
+  founderStory,
+  foundingStory,
   missionVision,
-  operatingPrinciples,
   pageVisuals,
   values,
 } from "@/data/site";
+import { pageMetadata } from "@/lib/site-config";
 import { getTeamMembers } from "@/lib/team-content";
+
+export const metadata: Metadata = pageMetadata({
+  title: "About Us",
+  description:
+    "Cheche za nuru is Swahili for 'sparks of light'. Founded by Rene Roby, the foundation grew out of Spark of Opportunity's work with families in Kibera, Nairobi.",
+  path: "/about",
+});
 
 export default async function AboutPage() {
   const teamMembers = await getTeamMembers();
+  // The founder has her own section above, so the grid shows the rest of the team.
+  const team = teamMembers.filter((member) => member.name !== founderProfile.name);
+
   return (
     <>
       <PageIntro
         label="About Us"
-        title="A journey of hope, support, and possibility."
-        body="Cheche Za Nuru Foundation works to inspire hope and transform lives by expanding access to education, healthcare, and sports development for children and young people."
-        aside="We believe that when children are supported in the classroom, in their health, and in their personal growth, they are better placed to build brighter futures for themselves and their communities."
+        title="Sparks of Light"
+        body="That's what cheche za nuru means in Swahili. It suits the small things that change a child's direction: a paid fee, a plate of food, the right medicine on the right day, a coach who expects you at training."
+        photo={pageVisuals.about}
       />
 
-      <section className="page-photo-hero">
-        <ContentImage
-          src={pageVisuals.aboutHero.src}
-          alt={pageVisuals.aboutHero.alt}
-          sizes="100vw"
-          className="page-photo-hero-image"
-        />
-      </section>
-
-      <PageSection
-        label="Our Story"
-        title="Cheche Za Nuru exists to walk with children on the journey toward a better future."
-      >
-        <div className="journey-grid journey-grid-featured">
-          {aboutJourney.map((step) => (
-            <article key={step.title} className="journey-card">
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-            </article>
+      <section className="why why-plain">
+        <div className="why-copy">
+          <p className="section-label">Our Story</p>
+          <h2>{foundingStory.heading}</h2>
+          {foundingStory.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
-      </PageSection>
+      </section>
 
-      <PageSection
-        label="Who We Are"
-        title="Our work is grounded in dignity, access, and long-term growth."
-      >
-        <div className="overview-and-images">
-          <div className="reading-stack reading-panel">
-            {foundationOverview.map((item) => (
-              <div key={item.title} className="reading-item">
-                <p className="card-label">{item.title}</p>
-                <p>{item.body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="spotlight-grid">
-            {pageVisuals.aboutJourney.map((image, index) => (
-              <div
-                key={image.src}
-                className={index === 0 ? "spotlight-card spotlight-card-large" : "spotlight-card"}
-              >
-                <ContentImage
-                  src={image.src}
-                  alt={image.alt}
-                  sizes="(max-width: 900px) 100vw, 24vw"
-                />
-              </div>
-            ))}
-          </div>
+      <section className="founder" aria-labelledby="founder-heading">
+        <ContentImage
+          src={founderProfile.photo.src}
+          alt={founderProfile.photo.alt}
+          sizes="(max-width: 1000px) 100vw, 40vw"
+          className="founder-photo"
+        />
+        <div className="founder-copy">
+          <p className="section-label">Our Founder</p>
+          <h2 id="founder-heading">{founderProfile.name}</h2>
+          <p className="founder-role">{founderProfile.role}</p>
+          {founderProfile.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+          <figure className="founder-quote">
+            <p className="founder-quote-context">{founderStory.context}</p>
+            <blockquote>&ldquo;{founderStory.quote}&rdquo;</blockquote>
+            <figcaption>{founderStory.attribution}</figcaption>
+          </figure>
         </div>
-      </PageSection>
+      </section>
 
-      <PageSection label="Mission and Vision" title="Our mission guides the work we do every day.">
+      <PageSection label="Mission and Vision" title="What We're Here to Do">
         <div className="two-column-grid">
           <article className="content-card">
             <p className="card-label">Mission</p>
-            <h3>What we are called to do</h3>
-            <p>{missionVision.mission}</p>
+            <p className="statement">{missionVision.mission}</p>
           </article>
           <article className="content-card">
             <p className="card-label">Vision</p>
-            <h3>The future we are working toward</h3>
-            <p>{missionVision.vision}</p>
+            <p className="statement">{missionVision.vision}</p>
           </article>
         </div>
       </PageSection>
 
-      <PageSection label="Our Values" title="Our work is shaped by the values we carry into every community.">
-        <div className="value-grid">
+      <PageSection label="Our Values" title="What We Hold Ourselves To">
+        <dl className="value-list">
           {values.map((value) => (
-            <article key={value.title} className="value-card">
-              <h3>{value.title}</h3>
-              <p>{value.body}</p>
-            </article>
+            <div key={value.title} className="value-row">
+              <dt>{value.title}</dt>
+              <dd>{value.body}</dd>
+            </div>
           ))}
-        </div>
+        </dl>
       </PageSection>
 
-      <PageSection
-        label="How We Work"
-        title="We bring education, healthcare, and sports together because children need whole support."
-      >
-        <div className="three-column-grid">
-          {operatingPrinciples.map((principle) => (
-            <article key={principle.title} className="content-card">
-              <h3>{principle.title}</h3>
-              <p>{principle.body}</p>
-            </article>
-          ))}
-        </div>
-      </PageSection>
-
-      <PageSection label="Our Team" title="The people leading this work.">
-        <TeamGrid members={teamMembers} />
-      </PageSection>
+      {team.length ? (
+        <PageSection label="Our Team" title="The People Doing the Work">
+          <TeamGrid members={team} />
+        </PageSection>
+      ) : null}
 
       <CtaBand
-        label="Support the Mission"
-        heading="Be part of the change you just read about."
-        body="The work described here depends on people who believe in it. A contribution of any size helps us keep showing up for children and communities."
-        secondaryText="See how to get involved"
+        heading="Be One of the Sparks"
+        body="Every gift, of any size, keeps a programme running for another term."
+        secondaryText="See How to Get Involved"
       />
     </>
   );

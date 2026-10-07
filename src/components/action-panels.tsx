@@ -41,37 +41,27 @@ export function ActionPanels() {
       return;
     }
 
-    setContactStatus("Thank you. Your message has been received and we will get back to you soon.");
+    setContactStatus("Thank you. We've got your message and will reply by email.");
   }
 
   return (
     <div className="action-grid">
-      <article className="form-panel donation-panel">
-        <p className="section-label">Donation</p>
-        <h3>Use the dedicated donation flow</h3>
-        <p className="panel-copy">
-          Donation intent now has its own route so supporters can choose a fund,
-          set an amount, and tell us whether support is one-time or recurring.
+      <aside className="reading-panel side-note">
+        <p className="card-label">Quicker Routes</p>
+        <p>
+          <strong>Want to give?</strong> The donate page takes a minute.
         </p>
-        <div className="support-stack">
-          <p className="field-help">
-            Choose support for education, healthcare, sports, or wherever the
-            need is greatest.
-          </p>
-          <p className="field-help">
-            Leave contact details so the team can follow up with the right next
-            payment or partnership step.
-          </p>
-        </div>
-        <div className="panel-actions">
-          <Link className="primary-button" href="/donate">
-            Go to Donate
-          </Link>
-          <Link className="text-link" href="/get-involved">
-            Explore other ways to help
-          </Link>
-        </div>
-      </article>
+        <Link className="text-link" href="/donate">
+          Donate →
+        </Link>
+        <p>
+          <strong>Want to volunteer or partner?</strong> The get involved form goes straight
+          to the right person.
+        </p>
+        <Link className="text-link" href="/get-involved#involvement-form">
+          Get Involved →
+        </Link>
+      </aside>
 
       <form
         className="form-panel"
@@ -83,12 +73,8 @@ export function ActionPanels() {
           });
         }}
       >
-        <p className="section-label">Contact</p>
-        <h3>Start a conversation</h3>
-        <p className="panel-copy">
-          Reach out about volunteering, partnerships, donations, media requests, or
-          any other way you would like to be involved.
-        </p>
+        <p className="section-label">Message</p>
+        <h3>Say Hello</h3>
 
         <label className="field field-honeypot" aria-hidden="true">
           <span>Website</span>
@@ -97,24 +83,24 @@ export function ActionPanels() {
 
         <div className="form-row">
           <label className="field">
-            <span>First name</span>
+            <span>First Name</span>
             <input name="firstName" type="text" placeholder="First name" required />
           </label>
 
           <label className="field">
-            <span>Last name</span>
+            <span>Last Name</span>
             <input name="lastName" type="text" placeholder="Last name" />
           </label>
         </div>
 
         <div className="form-row">
           <label className="field">
-            <span>Email address</span>
+            <span>Email Address</span>
             <input name="email" type="email" placeholder="you@email.com" required />
           </label>
 
           <label className="field">
-            <span>Phone number</span>
+            <span>Phone Number</span>
             <input name="phone" type="tel" placeholder="+254 700 000 000" />
           </label>
         </div>
@@ -134,7 +120,7 @@ export function ActionPanels() {
           <span>Message</span>
           <textarea
             name="message"
-            placeholder="Tell us how you'd like to get involved."
+            placeholder="What can we help with?"
             rows={6}
             required
           />

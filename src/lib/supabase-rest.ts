@@ -1,3 +1,5 @@
+import { CMS_CACHE_TAG, CMS_REVALIDATE_SECONDS, expireCmsCache } from "@/lib/cms-cache";
+
 type InsertTableName =
   | "contact_submissions"
   | "donation_intents"
@@ -58,6 +60,8 @@ export async function insertIntoSupabase(
     throw new Error(detail || `Supabase insert failed for ${table}.`);
   }
 
+  expireCmsCache(table);
+
   return response.json();
 }
 
@@ -87,12 +91,23 @@ export async function updateSupabase(
     throw new Error(detail || `Supabase update failed for ${table}.`);
   }
 
+  expireCmsCache(table);
+
   return response.json();
 }
+
+type ReadOptions = {
+  /**
+   * "public": cache the response for public pages (tagged, expired by admin writes).
+   * "fresh" (default): always hit Supabase — use for admin views and form handling.
+   */
+  cache?: "public" | "fresh";
+};
 
 export async function readFromSupabase<T>(
   table: ReadTableName,
   query: string,
+  options: ReadOptions = {},
 ) {
   if (!hasSupabaseConfig()) {
     throw new Error("Supabase environment variables are missing.");
@@ -103,7 +118,9 @@ export async function readFromSupabase<T>(
       apikey: serviceKey!,
       Authorization: `Bearer ${serviceKey!}`,
     },
-    cache: "no-store",
+    ...(options.cache === "public"
+      ? { next: { revalidate: CMS_REVALIDATE_SECONDS, tags: [CMS_CACHE_TAG] } }
+      : { cache: "no-store" as const }),
   });
 
   if (!response.ok) {
@@ -136,6 +153,8 @@ export async function deleteFromSupabase(
     const detail = await response.text();
     throw new Error(detail || `Supabase delete failed for ${table}.`);
   }
+
+  expireCmsCache(table);
 
   return response.json();
 }

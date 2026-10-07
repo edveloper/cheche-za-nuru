@@ -79,7 +79,7 @@ export function DonationForm() {
       }
 
       setStatus(
-        "Thank you. Your donation intent has been received and we will follow up with the next step.",
+        "Thank you. We've got your pledge and will be in touch to complete it.",
       );
     } catch {
       setStatus("Something went wrong. Please check your connection and try again.");
@@ -97,11 +97,11 @@ export function DonationForm() {
         void submitDonation(formData);
       }}
     >
-      <p className="section-label">Donation</p>
-      <h3>Choose how your contribution will help</h3>
+      <p className="section-label">Pledge a Gift</p>
+      <h3>How Much, Where and How Often</h3>
       <p className="panel-copy">
-        Select a contribution amount, choose the area you want to support, and
-        leave your details so we can guide you through the next step.
+        Online payment isn&apos;t live yet. Pledge here and we&apos;ll get in touch
+        to complete your gift.
       </p>
 
       <label className="field field-honeypot" aria-hidden="true">
@@ -135,7 +135,7 @@ export function DonationForm() {
       </label>
 
       <label className="field">
-        <span>Support area</span>
+        <span>Support Area</span>
         <select
           name="fundSlug"
           value={selectedFund}
@@ -161,7 +161,7 @@ export function DonationForm() {
           checked={isRecurring}
           onChange={(event) => setIsRecurring(event.target.checked)}
         />
-        <span>Make this a recurring commitment</span>
+        <span>Make This a Recurring Gift</span>
       </label>
 
       {isRecurring ? (
@@ -179,18 +179,18 @@ export function DonationForm() {
 
       <div className="form-row">
         <label className="field">
-          <span>Your name</span>
+          <span>Your Name</span>
           <input name="donorName" type="text" placeholder="Full name" required />
         </label>
 
         <label className="field">
-          <span>Email address</span>
+          <span>Email Address</span>
           <input name="donorEmail" type="email" placeholder="you@email.com" required />
         </label>
       </div>
 
       <label className="field">
-        <span>Phone number</span>
+        <span>Phone Number</span>
         <input name="donorPhone" type="tel" placeholder="+254 700 000 000" />
       </label>
 
@@ -199,12 +199,12 @@ export function DonationForm() {
         <textarea
           name="donorMessage"
           rows={5}
-          placeholder="Tell us if this gift is tied to a specific need, person, or moment."
+          placeholder="Anything we should know? In memory of someone, a specific need, a question."
         />
       </label>
 
       <button className="primary-button button-full" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Sending..." : "Share Donation Intent"}
+        {isSubmitting ? "Sending…" : "Pledge My Gift"}
       </button>
 
       {status ? <p className="status-text">{status}</p> : null}

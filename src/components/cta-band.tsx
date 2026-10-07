@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 type CtaBandProps = {
-  label: string;
   heading: string;
   body: string;
   primaryText?: string;
@@ -9,18 +8,16 @@ type CtaBandProps = {
 };
 
 export function CtaBand({
-  label,
   heading,
   body,
-  primaryText = "Make a Donation",
-  secondaryText = "Other ways to help",
+  primaryText = "Donate",
+  secondaryText = "Other Ways to Help",
 }: CtaBandProps) {
   return (
-    <section className="page-section page-section-orange">
-      <div className="section-heading cta-heading-center">
-        <p className="section-label">{label}</p>
+    <section className="cta-band">
+      <div className="cta-band-copy">
         <h2>{heading}</h2>
-        <p className="section-body">{body}</p>
+        <p>{body}</p>
       </div>
       <div className="cta-band-actions">
         <Link className="primary-button cta-donate-button" href="/donate">

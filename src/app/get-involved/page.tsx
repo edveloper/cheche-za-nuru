@@ -1,96 +1,66 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
-import { ContentImage } from "@/components/content-image";
 import { InvolvementForm } from "@/components/involvement-form";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { involvementDetails, involvementOptions, pageVisuals } from "@/data/site";
+import { pageMetadata } from "@/lib/site-config";
 
+export const metadata: Metadata = pageMetadata({
+  title: "Get Involved",
+  description:
+    "Donate, volunteer as a mentor, clinician or coach, or partner with Cheche Za Nuru to support children's education, health and sport in Kenya.",
+  path: "/get-involved",
+});
 
 export default function GetInvolvedPage() {
   return (
     <>
       <PageIntro
         label="Get Involved"
-        title="Stand with children and families in practical ways."
-        body="There are many ways to support the work of Cheche Za Nuru, from giving and volunteering to building partnerships that strengthen programs over time."
-        aside="Every act of support helps create more room for children to learn, stay healthy, and grow into their potential."
+        title="Pitch In"
+        body="Give, volunteer or partner. Pick whichever suits you, or all three."
+        photo={pageVisuals.involved}
       />
 
-      <section className="section-image-banner">
-        <ContentImage
-          src={pageVisuals.involved.src}
-          alt={pageVisuals.involved.alt}
-          sizes="100vw"
-          className="section-image-banner-card"
-        />
+      <section className="help-grid" aria-label="Ways to help">
+        {involvementOptions.map((option) => (
+          <Link key={option.title} href={option.href} className="help-card">
+            <h3>{option.title}</h3>
+            <p>{option.description}</p>
+            <span className="card-arrow" aria-hidden="true">
+              {option.cta} →
+            </span>
+          </Link>
+        ))}
       </section>
 
-      <PageSection
-        label="Ways to Support"
-        title="Give, volunteer, or partner with us."
-      >
-        <div className="three-column-grid">
-          {involvementOptions.map((option) => (
-            <article key={option.title} className="content-card">
-              <h3>{option.title}</h3>
-              <p>{option.description}</p>
-              <Link
-                className="text-link"
-                href={option.title === "Donate" ? "/donate" : "#involvement-form"}
-              >
-                {option.title === "Donate" ? "Go to donate" : "Start the conversation"}
-              </Link>
-            </article>
-          ))}
-        </div>
-      </PageSection>
-
-      <PageSection
-        label="Start Here"
-        title="Share the kind of help you have in mind."
-      >
-        <div id="involvement-form" className="action-grid">
+      <PageSection id="involvement-form" label="Start Here" title="Tell Us What You Have in Mind">
+        <div className="action-grid">
           <InvolvementForm />
 
-          <div className="reading-stack reading-panel">
-            <p className="card-label">How this works</p>
+          <aside className="reading-panel side-note">
+            <p className="card-label">Good to Know</p>
             <p>
-              Use this form for volunteering, sponsorship, partnership, in-kind
-              support, or media outreach.
+              Volunteering, sponsorship, partnerships, donated equipment, press: this form
+              covers all of it.
             </p>
-            <p>
-              If your priority is financial giving, the dedicated donation route
-              will give you a cleaner way to choose an amount and support area.
-            </p>
+            <p>If it&apos;s money you&apos;d like to give, the donate page is quicker.</p>
             <Link className="text-link" href="/donate">
-              Open the donation flow
+              Go to Donate →
             </Link>
-          </div>
+          </aside>
         </div>
       </PageSection>
 
-      <PageSection
-        label="Who Can Be Part of This"
-        title="Support can come from individuals, institutions, and advocates."
-      >
+      <PageSection label="Who Helps" title="Anyone Can">
         <div className="three-column-grid">
           {involvementDetails.map((detail) => (
             <article key={detail.title} className="content-card">
               <h3>{detail.title}</h3>
               <p>{detail.body}</p>
             </article>
-          ))}
-        </div>
-        <div className="photo-strip">
-          {pageVisuals.involvedSpotlight.map((image) => (
-            <div key={image.src} className="photo-strip-card">
-              <ContentImage
-                src={image.src}
-                alt={image.alt}
-                sizes="(max-width: 900px) 100vw, 46vw"
-              />
-            </div>
           ))}
         </div>
       </PageSection>

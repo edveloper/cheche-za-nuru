@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+import { expireCmsCache } from "@/lib/cms-cache";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -64,6 +65,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
+    expireCmsCache();
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error("[Team API] Unexpected error:", error);
@@ -106,6 +108,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
+    expireCmsCache();
     return NextResponse.json(data);
   } catch (error) {
     console.error("[Team API] Unexpected error:", error);
@@ -138,6 +141,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
+    expireCmsCache();
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[Team API] Unexpected error:", error);

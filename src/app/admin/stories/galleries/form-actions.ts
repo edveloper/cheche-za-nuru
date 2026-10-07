@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@supabase/supabase-js";
+import { expireCmsCache } from "@/lib/cms-cache";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -43,6 +44,7 @@ export async function savePhotoGalleryAction(
         return { error: `Failed to update gallery: ${error.message}` };
       }
 
+      expireCmsCache();
       return { success: true };
     } else {
       // Create new gallery
@@ -65,6 +67,7 @@ export async function savePhotoGalleryAction(
         return { error: `Failed to create gallery: ${error.message}` };
       }
 
+      expireCmsCache();
       return { success: true };
     }
   } catch (error) {
@@ -84,6 +87,8 @@ export async function deletePhotoGalleryAction(slug: string): Promise<void> {
       console.error("[Gallery Delete Error]", error);
       throw new Error(`Failed to delete gallery: ${error.message}`);
     }
+
+    expireCmsCache();
   } catch (error) {
     console.error("[Gallery Delete Error]", error);
     throw error;

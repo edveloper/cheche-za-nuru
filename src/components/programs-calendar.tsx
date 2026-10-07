@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { toTitleCase } from "@/lib/title-case";
 
 type ProgramEvent = {
   title: string;
@@ -138,14 +139,14 @@ export function ProgramsCalendar({ events }: ProgramsCalendarProps) {
       </div>
 
       <aside className="calendar-agenda">
-        <p className="card-label">Selected date</p>
+        <p className="card-label">Selected Date</p>
         <h3>{dayFormatter.format(selectedDate)}</h3>
         {selectedEvents.length ? (
           <div className="calendar-events">
             {selectedEvents.map((event) => (
               <article key={`${event.title}-${event.date}`} className="calendar-event-card">
                 <p className={`calendar-pill calendar-pill-${event.program}`}>{event.program}</p>
-                <h4>{event.title}</h4>
+                <h4>{toTitleCase(event.title)}</h4>
                 <p>{event.summary}</p>
                 <span className="meta-line">{event.location}</span>
               </article>
@@ -154,8 +155,7 @@ export function ProgramsCalendar({ events }: ProgramsCalendarProps) {
         ) : (
           <div className="calendar-empty">
             <p>
-              No public event is currently listed for this date. Select another day to explore
-              upcoming foundation activities.
+              Nothing on this day. Pick another date.
             </p>
           </div>
         )}

@@ -1,28 +1,28 @@
+import type { Metadata } from "next";
+
 import { ContentImage } from "@/components/content-image";
 import { CtaBand } from "@/components/cta-band";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
 import { ProgramsCalendar } from "@/components/programs-calendar";
-import {
-  pageVisuals,
-  pillars,
-  programApproach,
-  programImages,
-  programNarrative,
-  programs,
-} from "@/data/site";
-
+import { contactDetails, pageVisuals, programApproach, programs } from "@/data/site";
 import { getProgramEvents } from "@/lib/program-content";
+import { pageMetadata } from "@/lib/site-config";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Our Programmes",
+  description:
+    "Nuru Scholars school scholarships, Afya Kwa Wote community health outreach and the Rising Stars youth sports league: how Cheche Za Nuru supports children in Kenya.",
+  path: "/programs",
+});
 
 export default async function ProgramsPage() {
-  // Fetch program events from Supabase, falls back to hardcoded data
   const liveEvents = await getProgramEvents({ includePast: false });
 
-  // Convert to format expected by ProgramsCalendar component
   const calendarEvents = liveEvents.map((event) => ({
     title: event.title,
     program: event.programType as "education" | "healthcare" | "sports",
-    date: event.startDate.split("T")[0], // Extract YYYY-MM-DD from ISO date
+    date: event.startDate.split("T")[0],
     location: event.location,
     summary: event.summary,
   }));
@@ -30,99 +30,65 @@ export default async function ProgramsPage() {
   return (
     <>
       <PageIntro
-        label="Programs"
-        title="Programs that support learning, health, and growth."
-        body="Our work is organized around three connected pillars that respond to the real needs children face in their daily lives."
-        aside="Through education, healthcare, and sports development, Cheche Za Nuru seeks to create stronger pathways toward confidence, opportunity, and community transformation."
+        label="Programmes"
+        title="Classroom, Clinic and Pitch"
+        body="Our work runs through three programmes. Each one covers a gap that free schooling and public services leave open."
+        photo={pageVisuals.programs}
       />
 
-      <section className="section-image-banner">
-        <ContentImage
-          src={pageVisuals.programs.src}
-          alt={pageVisuals.programs.alt}
-          sizes="100vw"
-          className="section-image-banner-card"
-        />
-      </section>
-
-      <PageSection
-        label="Our Program Areas"
-        title="Three pillars shape how the foundation supports children."
-        body="The work is organized so that learning, wellbeing, and personal development reinforce one another instead of being treated as separate tracks."
-      >
-        <div className="reading-stack reading-panel programs-intro-panel">
-          {programNarrative.map((item) => (
-            <p key={item}>{item}</p>
-          ))}
-        </div>
-        <div className="service-grid">
-          {pillars.map((pillar, index) => (
-            <article key={pillar.title} className="service-card">
-              <div className={`service-icon service-icon-${index + 1}`} aria-hidden="true" />
-              <p className="card-label">{pillar.eyebrow}</p>
-              <h3>{pillar.title}</h3>
-              <p>{pillar.description}</p>
-            </article>
-          ))}
-        </div>
-
-        <div className="photo-strip">
-          {pageVisuals.programsSpotlight.map((image) => (
-            <div key={image.src} className="photo-strip-card">
-              <ContentImage
-                src={image.src}
-                alt={image.alt}
-                sizes="(max-width: 900px) 100vw, 30vw"
-              />
-            </div>
-          ))}
-        </div>
-      </PageSection>
-
-      <PageSection
-        label="Calendar"
-        title="Upcoming dates make the work feel tangible and close."
-        body="These dates highlight moments when the foundation gathers around learning, outreach, and youth development. They help visitors see how the work unfolds across the year."
-        tone="tint"
-      >
-        <ProgramsCalendar events={calendarEvents} />
-      </PageSection>
-
-      <PageSection
-        label="Program Details"
-        title="Each initiative responds to a different part of a child's journey."
-        body="The details below show how each program area turns the broader mission into direct support, structured opportunity, and practical care."
-      >
-        <div className="stacked-grid">
-          {programs.map((program, index) => (
-            <article key={program.title} className="feature-row">
-              <div>
-                <div className="feature-row-image">
-                  <ContentImage
-                    src={programImages[index]!.src}
-                    alt={programImages[index]!.alt}
-                    sizes="(max-width: 1100px) 100vw, 28vw"
-                  />
-                </div>
-                <p className="card-label">{program.eyebrow}</p>
-                <h3>{program.title}</h3>
-              </div>
-              <p>{program.description}</p>
-              <ul>
-                {program.bullets.map((bullet) => (
+      <section className="programme-rows" aria-label="Our programmes">
+        {programs.map((programme, index) => (
+          <article
+            key={programme.slug}
+            id={programme.slug}
+            className={index % 2 ? "programme-row programme-row-reverse" : "programme-row"}
+          >
+            <ContentImage
+              src={programme.photo.src}
+              alt={programme.photo.alt}
+              sizes="(max-width: 900px) 100vw, 45vw"
+              className="programme-row-photo"
+            />
+            <div className="programme-row-copy">
+              <p className="card-label">{programme.eyebrow}</p>
+              <h2>
+                {programme.title}
+                {programme.translation ? (
+                  <span className="programme-translation"> ({programme.translation})</span>
+                ) : null}
+              </h2>
+              <p>{programme.description}</p>
+              <ul className="tick-list">
+                {programme.bullets.map((bullet) => (
                   <li key={bullet}>{bullet}</li>
                 ))}
               </ul>
-            </article>
-          ))}
-        </div>
-      </PageSection>
+            </div>
+          </article>
+        ))}
+      </section>
 
       <PageSection
-        label="Our Approach"
-        title="The work is designed to open doors, stay present, and nurture potential."
-        body="Across all three pillars, the foundation is trying to build continuity around children rather than isolated moments of support."
+        id="calendar"
+        label="What's On"
+        title="Dates for the Diary"
+        body="Outreach days, mentorship forums and match days."
+        tone="tint"
       >
+        {calendarEvents.length ? (
+          <ProgramsCalendar events={calendarEvents} />
+        ) : (
+          <p className="empty-note">
+            Nothing public on the calendar right now. New dates go up here and on our{" "}
+            <a href={contactDetails.socials[1].href} target="_blank" rel="noreferrer">
+              Instagram
+            </a>
+            .
+          </p>
+        )}
+      </PageSection>
+
+      <PageSection label="How We Work" title="Three Rules We Keep">
         <div className="three-column-grid">
           {programApproach.map((item) => (
             <article key={item.title} className="content-card">
@@ -134,10 +100,9 @@ export default async function ProgramsPage() {
       </PageSection>
 
       <CtaBand
-        label="Fund the Work"
-        heading="Help us keep these programs running and growing."
-        body="Each program depends on sustained support to reach more children. Your contribution helps expand access to learning, care, and structured opportunity."
-        secondaryText="Other ways to support"
+        heading="Fund a Programme"
+        body="Choose education, healthcare or sport when you give, or let us put it where it's needed most."
+        secondaryText="Other Ways to Support"
       />
     </>
   );

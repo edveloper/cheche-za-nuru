@@ -15,7 +15,7 @@ export function ContentImage({
   sizes,
   className,
   preload = false,
-  quality = 100,
+  quality = 75,
 }: ContentImageProps) {
   // Disable optimization only for Supabase images to avoid private IP resolution issues
   const isSupabaseImage = src.includes("efzetksxzvpvbobrxtgj.supabase.co");

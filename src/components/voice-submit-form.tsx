@@ -56,186 +56,86 @@ export function VoiceSubmitForm() {
 
   if (status === "success") {
     return (
-      <div className="reading-panel" style={{ textAlign: "center", padding: "2.5rem 2rem" }}>
-        <p style={{ fontSize: "2rem", marginBottom: "1rem" }}>Thank you.</p>
-        <p style={{ color: "var(--muted)", lineHeight: 1.8 }}>
-          Your voice has been submitted and will appear here after a short review.
-          We read every submission.
+      <div className="form-panel voice-form">
+        <h3>Thank You</h3>
+        <p className="panel-copy">
+          We&apos;ve got your story. Once it&apos;s been reviewed, it may appear on this page.
         </p>
-        <button
-          onClick={() => setStatus("idle")}
-          style={{
-            marginTop: "1.5rem",
-            padding: "0.6rem 1.4rem",
-            backgroundColor: "transparent",
-            border: "1px solid var(--line)",
-            borderRadius: "6px",
-            fontSize: "14px",
-            color: "var(--muted)",
-            cursor: "pointer",
-          }}
-        >
-          Submit another
+        <button className="secondary-link" type="button" onClick={() => setStatus("idle")}>
+          Share Another
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: "640px" }}>
+    <form onSubmit={handleSubmit} className="form-panel voice-form">
       {/* Honeypot — hidden from real users */}
-      <input
-        name="website"
-        value={form.website}
-        onChange={handleChange}
-        style={{ display: "none" }}
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden="true"
-      />
+      <label className="field field-honeypot" aria-hidden="true">
+        <span>Website</span>
+        <input
+          name="website"
+          value={form.website}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </label>
 
-      <div className="form-row" style={{ marginBottom: "1rem" }}>
-        <div>
-          <label
-            htmlFor="voice-name"
-            style={{ display: "block", fontSize: "13px", fontWeight: 600, marginBottom: "0.35rem" }}
-          >
-            Your name *
-          </label>
+      <div className="form-row">
+        <label className="field">
+          <span>Your Name *</span>
           <input
-            id="voice-name"
             name="display_name"
             value={form.display_name}
             onChange={handleChange}
             required
             placeholder="How you'd like to be named"
-            style={{
-              width: "100%",
-              padding: "0.7rem 0.85rem",
-              border: "1px solid var(--line)",
-              borderRadius: "6px",
-              fontSize: "14px",
-              boxSizing: "border-box",
-            }}
           />
-        </div>
-        <div>
-          <label
-            htmlFor="voice-role"
-            style={{ display: "block", fontSize: "13px", fontWeight: 600, marginBottom: "0.35rem" }}
-          >
-            Role or connection
-          </label>
+        </label>
+        <label className="field">
+          <span>Role or Connection</span>
           <input
-            id="voice-role"
             name="role_label"
             value={form.role_label}
             onChange={handleChange}
-            placeholder="e.g. Scholarship recipient, volunteer"
-            style={{
-              width: "100%",
-              padding: "0.7rem 0.85rem",
-              border: "1px solid var(--line)",
-              borderRadius: "6px",
-              fontSize: "14px",
-              boxSizing: "border-box",
-            }}
+            placeholder="e.g. Scholar, parent, volunteer"
           />
-        </div>
+        </label>
       </div>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <label
-          htmlFor="voice-location"
-          style={{ display: "block", fontSize: "13px", fontWeight: 600, marginBottom: "0.35rem" }}
-        >
-          Where you&apos;re from
-        </label>
+      <label className="field">
+        <span>Where You&apos;re From</span>
         <input
-          id="voice-location"
           name="location"
           value={form.location}
           onChange={handleChange}
-          placeholder="City, county, or region"
-          style={{
-            width: "100%",
-            padding: "0.7rem 0.85rem",
-            border: "1px solid var(--line)",
-            borderRadius: "6px",
-            fontSize: "14px",
-            boxSizing: "border-box",
-          }}
+          placeholder="Town or county"
         />
-      </div>
+      </label>
 
-      <div style={{ marginBottom: "1.25rem" }}>
-        <label
-          htmlFor="voice-quote"
-          style={{ display: "block", fontSize: "13px", fontWeight: 600, marginBottom: "0.35rem" }}
-        >
-          Your voice *{" "}
-          <span style={{ fontWeight: 400, color: "var(--muted)" }}>
-            ({form.quote.length}/600)
-          </span>
-        </label>
+      <label className="field">
+        <span>
+          Your Story * <small className="field-count">({form.quote.length}/600)</small>
+        </span>
         <textarea
-          id="voice-quote"
           name="quote"
           value={form.quote}
           onChange={handleChange}
           required
           maxLength={600}
           rows={4}
-          placeholder="A sentence or two about what this work has meant to you, or what you hope for."
-          style={{
-            width: "100%",
-            padding: "0.7rem 0.85rem",
-            border: "1px solid var(--line)",
-            borderRadius: "6px",
-            fontSize: "14px",
-            lineHeight: 1.7,
-            resize: "vertical",
-            boxSizing: "border-box",
-          }}
+          placeholder="A sentence or two is plenty."
         />
-      </div>
+      </label>
 
-      {status === "error" && (
-        <p
-          style={{
-            fontSize: "13px",
-            color: "#dc2626",
-            marginBottom: "1rem",
-            padding: "0.6rem 0.85rem",
-            backgroundColor: "rgba(220,38,38,0.06)",
-            borderRadius: "6px",
-            border: "1px solid #fca5a5",
-          }}
-        >
-          {errorMsg}
-        </p>
-      )}
+      {status === "error" ? <p className="status-text status-error">{errorMsg}</p> : null}
 
-      <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap" }}>
-        <button
-          type="submit"
-          disabled={status === "submitting"}
-          style={{
-            padding: "0.75rem 1.75rem",
-            backgroundColor: status === "submitting" ? "var(--line)" : "var(--orange)",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            fontSize: "14px",
-            fontWeight: 600,
-            cursor: status === "submitting" ? "not-allowed" : "pointer",
-          }}
-        >
-          {status === "submitting" ? "Submitting…" : "Share your voice"}
+      <div className="form-actions">
+        <button className="primary-button" type="submit" disabled={status === "submitting"}>
+          {status === "submitting" ? "Sending…" : "Share My Story"}
         </button>
-        <p style={{ margin: 0, fontSize: "12px", color: "var(--muted)" }}>
-          All submissions are reviewed before appearing here.
-        </p>
+        <p className="field-help">Every submission is reviewed before it appears here.</p>
       </div>
     </form>
   );

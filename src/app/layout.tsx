@@ -1,29 +1,42 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Work_Sans } from "next/font/google";
+import { Bricolage_Grotesque, Figtree } from "next/font/google";
 
 import { AuthErrorHandler } from "@/components/auth-error-handler";
 import { ConditionalSiteChrome } from "@/components/conditional-site-chrome";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
 
-const display = Cormorant_Garamond({
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["500", "600", "700"],
+  weight: ["600", "700", "800"],
 });
 
-const sans = Work_Sans({
+const sans = Figtree({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Cheche Za Nuru Foundation",
-  description:
-    "A modern foundation website for Cheche Za Nuru focused on education, healthcare, sports, and community empowerment.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} | School, Health and Sport for Children in Kenya`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  openGraph: {
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
@@ -32,7 +45,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html
+      lang="en-KE"
+      data-scroll-behavior="smooth"
+      className={`${display.variable} ${sans.variable}`}
+    >
       <body>
         <AuthErrorHandler />
         <ConditionalSiteChrome header={<SiteHeader />} footer={<SiteFooter />}>

@@ -1,15 +1,42 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ContentImage } from "@/components/content-image";
-import { PageIntro } from "@/components/page-intro";
-import { PageSection } from "@/components/page-section";
+import { siteConfig } from "@/lib/site-config";
 import { getStoryGalleryBySlug } from "@/lib/story-content";
+import { toTitleCase } from "@/lib/title-case";
 
 type StoryGalleryPageProps = {
   params: Promise<{
     slug: string;
   }>;
 };
+
+export async function generateMetadata({ params }: StoryGalleryPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const gallery = await getStoryGalleryBySlug(slug);
+
+  if (!gallery) {
+    return {};
+  }
+
+  const path = `/stories/galleries/${gallery.slug}`;
+
+  return {
+    title: gallery.title,
+    description: gallery.excerpt,
+    alternates: { canonical: path },
+    openGraph: {
+      title: gallery.title,
+      description: gallery.excerpt,
+      url: path,
+      siteName: siteConfig.name,
+      locale: siteConfig.locale,
+      type: "article",
+      ...(gallery.coverImagePath ? { images: [gallery.coverImagePath] } : {}),
+    },
+  };
+}
 
 export default async function StoryGalleryPage({ params }: StoryGalleryPageProps) {
   const { slug } = await params;
@@ -20,43 +47,28 @@ export default async function StoryGalleryPage({ params }: StoryGalleryPageProps
   }
 
   return (
-    <>
-      <PageIntro
-        label="Photo Story"
-        title={gallery.title}
-        body={gallery.excerpt}
-        aside={gallery.storyDate}
-      />
+    <article className="article article-wide">
+      <header className="article-header">
+        <p className="section-label">Photo Story</p>
+        <h1>{toTitleCase(gallery.title)}</h1>
+        {gallery.excerpt ? <p className="article-lede">{gallery.excerpt}</p> : null}
+        {gallery.storyDate ? <p className="meta-line">{gallery.storyDate}</p> : null}
+      </header>
 
-      <section className="section-image-banner">
-        <ContentImage
-          src={gallery.coverImagePath}
-          alt={gallery.title}
-          sizes="100vw"
-          className="section-image-banner-card"
-        />
-      </section>
-
-      <PageSection
-        label="Gallery"
-        title="Images can hold context, emotion, and atmosphere at the same time."
-      >
-        <div className="gallery-collage">
-          {gallery.images.map((image, index) => (
-            <figure
-              key={`${image.src}-${index}`}
-              className={index === 0 ? "gallery-collage-card gallery-collage-card-large" : "gallery-collage-card"}
-            >
-              <ContentImage
-                src={image.src}
-                alt={image.alt}
-                sizes="(max-width: 900px) 100vw, 30vw"
-              />
-              <figcaption>{image.caption}</figcaption>
-            </figure>
-          ))}
-        </div>
-      </PageSection>
-    </>
+      <div className="gallery-grid">
+        {gallery.images.map((image, index) => (
+          <figure key={`${image.src}-${index}`} className="gallery-figure">
+            <ContentImage
+              src={image.src}
+              alt={image.alt}
+              preload={index === 0}
+              sizes="(max-width: 900px) 100vw, 50vw"
+              className="gallery-figure-photo"
+            />
+            {image.caption ? <figcaption>{image.caption}</figcaption> : null}
+          </figure>
+        ))}
+      </div>
+    </article>
   );
 }

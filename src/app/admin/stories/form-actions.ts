@@ -2,6 +2,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
+import { expireCmsCache } from "@/lib/cms-cache";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -127,6 +128,7 @@ export async function saveStoryAction(
       console.log("[Story Save] Story created successfully");
     }
 
+    expireCmsCache();
     console.log("[Story Save] Story saved successfully, redirecting to /admin/stories");
     redirect("/admin/stories");
   } catch (error) {
@@ -150,6 +152,8 @@ export async function deleteStoryAction(slug: string): Promise<void> {
       console.error("Delete error:", error);
       throw new Error("Failed to delete story");
     }
+
+    expireCmsCache();
   } catch (error) {
     console.error("Error deleting story:", error);
     throw error;

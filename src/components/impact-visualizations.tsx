@@ -27,18 +27,9 @@ type CountyPressure = {
   sourceUrl: string;
 };
 
-type ResponseComparison = {
-  title: string;
-  challengeLabel: string;
-  responseLabel: string;
-  challengeValue: number;
-  responseValue: number;
-};
-
 type ImpactVisualizationsProps = {
   domains: readonly DomainView[];
   countyPressure: readonly CountyPressure[];
-  comparisons: readonly ResponseComparison[];
 };
 
 function formatFigure(value: number, suffix: string) {
@@ -56,7 +47,6 @@ function formatFigure(value: number, suffix: string) {
 export function ImpactVisualizations({
   domains,
   countyPressure,
-  comparisons,
 }: ImpactVisualizationsProps) {
   const [activeDomain, setActiveDomain] = useState(domains[0]?.slug ?? "education");
 
@@ -91,7 +81,8 @@ export function ImpactVisualizations({
 
           <div className="impact-bars">
             {selectedDomain.stats.map((stat) => {
-              const normalized = Math.min(stat.value, 100);
+              // Only percentages get a bar; a bar for "2.5M" or "900,000" would mean nothing.
+              const isPercentage = stat.suffix.includes("%");
 
               return (
                 <article key={stat.label} className="impact-bar-card">
@@ -99,9 +90,14 @@ export function ImpactVisualizations({
                     <strong>{formatFigure(stat.value, stat.suffix)}</strong>
                     <span>{stat.label}</span>
                   </div>
-                  <div className="impact-bar-track" aria-hidden="true">
-                    <span className="impact-bar-fill" style={{ width: `${normalized}%` }} />
-                  </div>
+                  {isPercentage ? (
+                    <div className="impact-bar-track" aria-hidden="true">
+                      <span
+                        className="impact-bar-fill"
+                        style={{ width: `${Math.min(stat.value, 100)}%` }}
+                      />
+                    </div>
+                  ) : null}
                   <p>{stat.detail}</p>
                   <a href={stat.sourceUrl} target="_blank" rel="noreferrer" className="text-link">
                     {stat.sourceLabel}
@@ -115,11 +111,10 @@ export function ImpactVisualizations({
 
       <section className="impact-viz-block">
         <div className="section-heading impact-inline-heading">
-          <p className="section-label">Pressure Map</p>
-          <h2>County and regional pressure points show where needs intensify.</h2>
+          <p className="section-label">Where It&apos;s Worst</p>
+          <h2>The National Average Hides the Hardest Places</h2>
           <p className="section-body">
-            Some pressures are not evenly distributed. These areas stand out more sharply when
-            nutrition and poverty indicators are viewed side by side.
+            In Kitui and West Pokot, child stunting reaches 46 per cent. That is nearly one child in two.
           </p>
         </div>
 
@@ -142,42 +137,6 @@ export function ImpactVisualizations({
               <a href={item.sourceUrl} target="_blank" rel="noreferrer" className="text-link">
                 {item.sourceLabel}
               </a>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="impact-viz-block">
-        <div className="section-heading impact-inline-heading">
-          <p className="section-label">Challenge vs Response</p>
-          <h2>Our work sits inside a challenge that is much larger than any one organization.</h2>
-          <p className="section-body">
-            These comparisons are not trying to claim one-for-one equivalence. They show the scale
-            of the challenge beside the scale of the support we are building.
-          </p>
-        </div>
-
-        <div className="impact-response-grid">
-          {comparisons.map((item) => (
-            <article key={item.title} className="impact-response-card">
-              <h3>{item.title}</h3>
-              <div className="impact-response-bars">
-                <div className="impact-response-row">
-                  <span>{item.challengeLabel}</span>
-                  <div className="impact-response-track">
-                    <span className="impact-response-fill impact-response-fill-challenge" />
-                  </div>
-                </div>
-                <div className="impact-response-row">
-                  <span>{item.responseLabel}</span>
-                  <div className="impact-response-track">
-                    <span
-                      className="impact-response-fill impact-response-fill-response"
-                      style={{ width: `${item.responseValue}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
             </article>
           ))}
         </div>

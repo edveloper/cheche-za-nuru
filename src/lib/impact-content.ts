@@ -1,7 +1,4 @@
-import {
-  impactMetrics as fallbackImpactMetrics,
-  impactContextStats as fallbackContextStats,
-} from "@/data/site";
+import { impactContextStats as fallbackContextStats } from "@/data/site";
 import { hasSupabaseConfig, readFromSupabase } from "@/lib/supabase-rest";
 
 export type ImpactMetric = {
@@ -96,24 +93,6 @@ function mapSupabaseContextStat(record: SupabaseContextStat): ContextStat {
 }
 
 /**
- * Convert fallback hardcoded metrics to the standard format
- */
-function mapFallbackMetric(metric: (typeof fallbackImpactMetrics)[0]): ImpactMetric {
-  return {
-    slug: metric.label.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, ""),
-    label: metric.label,
-    value: metric.value,
-    numericValue: null,
-    unit: "",
-    category: "cross_cutting",
-    isFeatured: true,
-    sortOrder: 0,
-    metricYear: null,
-    summary: "",
-  };
-}
-
-/**
  * Fetch featured impact metrics from Supabase
  * Falls back to hardcoded metrics if Supabase is unavailable
  *
@@ -130,7 +109,7 @@ export async function getImpactMetrics(options?: {
 
   try {
     if (!hasSupabaseConfig()) {
-      return getFallbackMetrics({ limit });
+      return getFallbackMetrics();
     }
 
     let query = `is_featured=eq.true&order=sort_order.asc`;
@@ -146,16 +125,17 @@ export async function getImpactMetrics(options?: {
     const records = await readFromSupabase<SupabaseImpactMetric[]>(
       "impact_metrics",
       query,
+      { cache: "public" },
     );
 
     if (!records || records.length === 0) {
-      return getFallbackMetrics({ limit });
+      return getFallbackMetrics();
     }
 
     return records.map(mapSupabaseMetric);
   } catch (error) {
     console.error("Error fetching impact metrics from Supabase:", error);
-    return getFallbackMetrics({ limit });
+    return getFallbackMetrics();
   }
 }
 
@@ -223,6 +203,7 @@ export async function getContextStats(options?: {
     const records = await readFromSupabase<SupabaseContextStat[]>(
       "impact_context_stats",
       query,
+      { cache: "public" },
     );
 
     if (!records || records.length === 0) {
@@ -236,19 +217,9 @@ export async function getContextStats(options?: {
   }
 }
 
-/**
- * Get fallback hardcoded impact metrics
- */
-function getFallbackMetrics(options?: {
-  limit?: number;
-}): ImpactMetric[] {
-  let metrics = fallbackImpactMetrics.map(mapFallbackMetric);
-
-  if (options?.limit) {
-    metrics = metrics.slice(0, options.limit);
-  }
-
-  return metrics;
+function getFallbackMetrics(): ImpactMetric[] {
+  // No invented numbers: if the CMS has no metrics, the impact sections are hidden.
+  return [];
 }
 
 /**

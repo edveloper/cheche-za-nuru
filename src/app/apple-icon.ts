@@ -8,7 +8,7 @@ export const size = {
 };
 
 export default async function AppleIcon() {
-  const iconPath = path.join(process.cwd(), "public", "logo", "czn-logo.png");
+  const iconPath = path.join(process.cwd(), "public", "logo", "czn-logo-512.png");
   const buffer = await readFile(iconPath);
 
   return new Response(buffer, {

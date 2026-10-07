@@ -1,6 +1,6 @@
 export const navigation = [
   { label: "About", href: "/about" },
-  { label: "Programs", href: "/programs" },
+  { label: "Programmes", href: "/programs" },
   { label: "Impact", href: "/impact" },
   { label: "Stories", href: "/stories" },
   { label: "Get Involved", href: "/get-involved" },
@@ -9,16 +9,16 @@ export const navigation = [
 
 export const brandAssets = {
   logo: {
-    src: "/logo/czn-logo.png",
-    alt: "Cheche Za Nuru Foundation logo.",
-    width: 1563,
-    height: 1563,
+    src: "/logo/czn-logo-512.png",
+    alt: "Cheche Za Nuru Foundation",
+    width: 512,
+    height: 512,
   },
   headerLogo: {
-    src: "/logo/czn-header-logo.png",
-    alt: "Cheche Za Nuru Foundation header logo.",
-    width: 1563,
-    height: 1563,
+    src: "/logo/czn-header-logo-trimmed.png",
+    alt: "Cheche Za Nuru Foundation home",
+    width: 800,
+    height: 247,
   },
   wordmark: {
     title: "Cheche Za Nuru",
@@ -26,285 +26,186 @@ export const brandAssets = {
   },
 } as const;
 
-const imageLibrary = {
-  homeHero: {
-    src: "/images/home-hero.jpg",
-    alt: "Children smiling together in the home page hero image.",
-  },
-  aboutBanner: {
-    src: "/images/about-banner.jpg",
-    alt: "Children gathered together for the About page banner.",
-  },
-  programsBanner: {
-    src: "/images/programs-banner.jpg",
-    alt: "Children featured in the Programs page banner.",
-  },
-  impactBanner: {
-    src: "/images/impact-banner.jpg",
-    alt: "Children featured in the Impact page banner.",
-  },
-  storiesBanner: {
-    src: "/images/stories-banner.jpg",
-    alt: "Children featured in the Stories page banner.",
-  },
-  getInvolvedBanner: {
-    src: "/images/get-involved-banner.jpg",
-    alt: "Children featured in the Get Involved page banner.",
-  },
-  contactBanner: {
-    src: "/images/contact-banner.jpg",
-    alt: "Children featured in the Contact page banner.",
-  },
-  healthFeature: {
-    src: "/images/health.jpg",
-    alt: "Healthcare outreach image showing child wellbeing support.",
-  },
-  childrenWindow: {
-    src: "/images/children-window.jpg",
-    alt: "Children smiling through a window frame.",
-  },
-  classroomBoy: {
-    src: "/images/classroom-boy.jpg",
-    alt: "A child in a classroom.",
-  },
-  girlsBlue: {
-    src: "/images/girls-blue.jpg",
-    alt: "Schoolgirls gathered together.",
-  },
-  schoolBoys: {
-    src: "/images/school-boys.jpg",
-    alt: "Schoolchildren posing together.",
-  },
-  rainbowKids: {
-    src: "/images/rainbow-kids.jpg",
-    alt: "Silhouettes of children beneath a rainbow.",
-  },
-  runningChildren: {
-    src: "/images/running-children.jpg",
-    alt: "Children running across a field.",
-  },
-  smilingGirl: {
-    src: "/images/smiling-girl.jpg",
-    alt: "A smiling child leaning against a wall.",
-  },
-  greenUniformChildren: {
-    src: "/images/green-uniform-children.jpg",
-    alt: "Children in green and yellow uniforms.",
-  },
-  // New image additions
-  selfieKids: {
-    src: "/images/close-up-kids-taking-selfie-together.jpg",
-    alt: "Children taking a joyful selfie together.",
-  },
-  africanChildrenEnjoying: {
-    src: "/images/african-children-enjoying-life.jpg",
-    alt: "African children enjoying life and celebrating together.",
-  },
-  footballKids: {
-    src: "/images/african-children-with-football-ball-sitting.jpg",
-    alt: "Children sitting together with a football, ready to play.",
-  },
-  justinLagatKids: {
-    src: "/images/justin-lagat-7e16OcueiNs-unsplash.jpg",
-    alt: "Children gathered in a Kenyan community setting.",
-  },
-  emmanuelCommunity: {
-    src: "/images/emmanuel-ikwuegbu-VC6MGt9ZoBA-unsplash.jpg",
-    alt: "Children in an African community, full of life and energy.",
-  },
-  emmanuelLearning: {
-    src: "/images/emmanuel-ikwuegbu-OP3DdAHRbCs-unsplash.jpg",
-    alt: "Children learning and growing in their community.",
-  },
-  billWegenerSports: {
-    src: "/images/bill-wegener-P0OJbBJ1ZTM-unsplash.jpg",
-    alt: "Young people engaged in active sports.",
-  },
-  valdhyMbemba: {
-    src: "/images/valdhy-mbemba-4mrCB4rStMo-unsplash.jpg",
-    alt: "A child in a moment of quiet focus and determination.",
-  },
-  rohanReddyKids: {
-    src: "/images/rohan-reddy-MhQxeXhE-GI-unsplash.jpg",
-    alt: "Children facing the camera with hopeful expressions.",
-  },
-  philippaRoseTite: {
-    src: "/images/philippa-rose-tite-3T6HYgrFGYc-unsplash.jpg",
-    alt: "Community members gathered and engaged together.",
-  },
-  sowetoGraphics: {
-    src: "/images/soweto-graphics-dgqFs3LSOSc-unsplash.jpg",
-    alt: "Children active and vibrant in their community environment.",
-  },
-  michaelAliKids: {
-    src: "/images/michael-ali-pK_2AYiFCTc-unsplash.jpg",
-    alt: "Children sharing a warm moment together.",
-  },
-  annieSpratt: {
-    src: "/images/annie-spratt-cVEOh_JJmEE-unsplash.jpg",
-    alt: "Children engaged in a learning activity.",
-  },
-  romanNguyen: {
-    src: "/images/roman-nguyen-lPPkJ4NfQtQ-unsplash.jpg",
-    alt: "A portrait of community life and shared connection.",
-  },
-  yannatyKouyate: {
-    src: "/images/yannaty-kouyate-nTIkwCmUmNU-unsplash.jpg",
-    alt: "Community members coming together with warmth and purpose.",
-  },
-} as const;
-
-export const heroStats = [
-  { value: "2,400+", label: "children directly supported" },
-  { value: "580", label: "scholarships awarded" },
-  { value: "12,000+", label: "health consultations delivered" },
-];
-
-export const homepageVisuals = {
-  hero: imageLibrary.selfieKids,
-  spotlight: [
-    imageLibrary.classroomBoy,
-    imageLibrary.footballKids,
-    imageLibrary.emmanuelCommunity,
-  ],
-  gallery: [
-    imageLibrary.africanChildrenEnjoying,
-    imageLibrary.runningChildren,
-    imageLibrary.michaelAliKids,
-    imageLibrary.smilingGirl,
-  ],
+export type Photo = {
+  src: string;
+  alt: string;
 };
 
-/** Images paired to each program (same order as the `programs` array). */
-export const programImages = [
-  imageLibrary.classroomBoy,    // Nuru Scholars — Education
-  imageLibrary.healthFeature,   // Afya Kwa Wote — Healthcare
-  imageLibrary.footballKids,    // Rising Stars League — Sports
-] as const;
+/**
+ * The foundation's own photographs, carried over from sparkofopportunity.org (the site
+ * of Spark of Opportunity International, CZN's US affiliate). Alt text describes only
+ * what is visible; don't caption a photo as a specific programme or event unless the
+ * foundation confirms it.
+ */
+export const photos = {
+  kiberaChildren: {
+    src: "/images/czn/kibera-children-laughing.jpg",
+    alt: "A crowd of children laughing together in a Kibera lane, one holding a football.",
+  },
+  reneWithChildren: {
+    src: "/images/czn/rene-with-children.jpg",
+    alt: "Founder Rene Roby standing with a group of smiling boys.",
+  },
+  reneInKibera: {
+    src: "/images/czn/rene-kibera-children.jpg",
+    alt: "Rene Roby taking a selfie with three grinning children in Kibera.",
+  },
+  doctorChecksToddler: {
+    src: "/images/czn/doctor-checks-toddler.jpg",
+    alt: "A doctor listens to a toddler's chest with a stethoscope.",
+  },
+  partnerClinic: {
+    src: "/images/czn/partner-clinic-team.jpg",
+    alt: "Clinicians in white coats with Rene Roby at a local clinic and pharmacy counter.",
+  },
+  feedingMeal: {
+    src: "/images/czn/feeding-programme-meal.jpg",
+    alt: "Young people holding plates of chapati and beans at a shared meal.",
+  },
+  sparkFc: {
+    src: "/images/czn/spark-generation-fc.jpg",
+    alt: "Spark Generation Football Club players in blue kits posing with Rene Roby on a dirt pitch in Kibera.",
+  },
+  wornBoots: {
+    src: "/images/czn/worn-football-boots.jpg",
+    alt: "A pair of worn-out football boots on rocky ground.",
+  },
+} satisfies Record<string, Photo>;
 
 export const pageVisuals = {
-  // ── About ────────────────────────────────────────────
-  // romanNguyen: 6000×4000 landscape, 3.7 MB — replaces 312 KB original
-  aboutHero: imageLibrary.romanNguyen,
-  // Portrait images sit perfectly inside the tall spotlight-card-large (30 rem)
-  // and regular spotlight-cards on the About "Who We Are" section.
-  aboutJourney: [
-    imageLibrary.rohanReddyKids,    // portrait, 3648×5472 — large card
-    imageLibrary.billWegenerSports, // portrait, 2592×3480 — small card
-    imageLibrary.yannatyKouyate,    // portrait, 4480×6720 — small card
-  ],
-
-  // ── Programs ─────────────────────────────────────────
-  // emmanuelLearning: 6000×4005 landscape — replaces 326 KB original
-  programs: imageLibrary.emmanuelLearning,
-  // Both landscape — safe for photo-strip-card (landscape container)
-  programsSpotlight: [
-    imageLibrary.justinLagatKids,    // landscape, 4552×2612
-    imageLibrary.greenUniformChildren, // landscape, 4928×3264
-  ],
-
-  // ── Impact ───────────────────────────────────────────
-  // childrenWindow: 6048×4032 landscape, 5.7 MB — replaces 235 KB portrait original
-  impact: imageLibrary.childrenWindow,
-  // Both landscape — safe for photo-strip-card
-  impactGallery: [
-    imageLibrary.emmanuelCommunity, // landscape, 6000×4005
-    imageLibrary.annieSpratt,       // landscape, 4000×3177
-  ],
-  // Mini-gallery alongside metrics in the dark CZN Response section
-  impactDarkGallery: [
-    imageLibrary.girlsBlue,   // landscape, 5184×3456
-    imageLibrary.schoolBoys,  // landscape, 3023×2160
-  ],
-
-  // ── Stories ──────────────────────────────────────────
-  // sowetoGraphics: 5184×3456 landscape — replaces portrait original
-  stories: imageLibrary.sowetoGraphics,
-  storiesSpotlight: [
-    imageLibrary.michaelAliKids, // landscape, 6000×4000
-    imageLibrary.smilingGirl,    // landscape, 3840×2160
-  ],
-
-  // ── Get Involved ─────────────────────────────────────
-  // philippaRoseTite: 6000×4000 landscape — replaces 235 KB portrait original
-  involved: imageLibrary.philippaRoseTite,
-  // Both landscape — safe for photo-strip-card
-  involvedSpotlight: [
-    imageLibrary.africanChildrenEnjoying, // landscape, 5376×3584
-    imageLibrary.valdhyMbemba,            // landscape, 6000×4000
-  ],
-
-  // ── Contact ──────────────────────────────────────────
-  contact: imageLibrary.contactBanner,
-
-  // ── Donate ───────────────────────────────────────────
-  // Replaces the incorrectly shared contactBanner used on the donate page
-  donate: imageLibrary.africanChildrenEnjoying, // landscape, 5376×3584
+  home: photos.kiberaChildren,
+  about: photos.reneInKibera,
+  programs: photos.feedingMeal,
+  impact: photos.partnerClinic,
+  stories: photos.kiberaChildren,
+  involved: photos.wornBoots,
+  contact: photos.sparkFc,
+  donate: photos.reneWithChildren,
 };
 
-export const values = [
+export type Programme = {
+  slug: "education" | "healthcare" | "sports";
+  eyebrow: string;
+  title: string;
+  translation?: string;
+  summary: string;
+  description: string;
+  bullets: string[];
+  photo: Photo;
+};
+
+export const programs: Programme[] = [
   {
-    title: "Hope",
-    body: "We carry the belief that every child deserves a future worth working toward, and that consistent, close support can genuinely shift the direction of a life.",
+    slug: "education",
+    eyebrow: "Education",
+    title: "Nuru Scholars",
+    summary:
+      "Fees, books and uniform covered, so children in Kibera stay in class.",
+    description:
+      "School isn't free in Kenya. Nuru Scholars covers tuition, admission fees, assessment books, textbooks and uniform, and we work directly with each family and the school they choose. We call it a scholarship, not a sponsorship, on purpose: scholars attend regularly and share their reports, and we keep showing up. It's a relationship, not a lottery win.",
+    bullets: [
+      "Full and partial scholarships",
+      "Tuition, books, admission fees and uniform",
+      "A progress card every quarter",
+      "Mentors who know the family",
+    ],
+    photo: photos.reneWithChildren,
   },
   {
-    title: "Empowerment",
-    body: "We invest in children and communities with the expectation that they will grow into agents of their own futures, not just recipients of help.",
+    slug: "healthcare",
+    eyebrow: "Healthcare",
+    title: "Afya Kwa Wote",
+    translation: "Health for All",
+    summary:
+      "Clinic visits, medicine and meals for families who'd otherwise go without.",
+    description:
+      "Malaria, typhoid and pneumonia are everyday threats in Kibera, and the medicine often costs more than a family has that week. Working with a local partner clinic, we pay for prescriptions and hospital tests, support people living with HIV, and run a feeding programme, because a child who hasn't eaten in two days can't concentrate in class.",
+    bullets: [
+      "Prescriptions and hospital tests paid for",
+      "A local partner clinic",
+      "Counselling for people living with HIV",
+      "Meals for children and food staples for families",
+    ],
+    photo: photos.doctorChecksToddler,
   },
   {
-    title: "Leadership",
-    body: "We build the confidence and character of young people so they can step forward as examples, decision-makers, and voices in their own communities.",
-  },
-  {
-    title: "Community",
-    body: "Our work belongs to the communities it serves. We listen, respond, and stay present because real change is built from within, not from the outside in.",
-  },
-  {
-    title: "Excellence",
-    body: "Whether in a classroom, on a field, or at a health outreach, we hold the standard of quality that every child deserves, regardless of what they can access.",
+    slug: "sports",
+    eyebrow: "Sport",
+    title: "Rising Stars League",
+    summary:
+      "Coached football and more. Discipline, teammates and a route to scholarships.",
+    description:
+      "Our football started with Spark Generation Football Club in Kibera, on a pitch of hard soil and loose rock where boys played in Crocs and street shoes. Good players get noticed, and that's leverage: we use it to argue for sports scholarships and further education. Boots are kept at the office so they can't be stolen or sold.",
+    bullets: [
+      "Spark Generation Football Club",
+      "Coaching and regular fixtures",
+      "Boots and kit kept safe at the office",
+      "Advocacy for sports scholarships",
+    ],
+    photo: photos.sparkFc,
   },
 ];
 
-export const foundationOverview = [
+/** What a gift buys. Figures from the Spark of Opportunity programme pages. */
+export const givingTiers = [
+  { amount: "$25 a month", buys: "A partial scholarship" },
+  { amount: "$50 a month", buys: "A full scholarship: fees, books and uniform" },
+  { amount: "$600 a year", buys: "A full scholarship, paid once" },
+  { amount: "$32", buys: "A pair of football boots for a Spark Generation player" },
+];
+
+export const founderStory = {
+  quote:
+    "The parents didn't have 725 shillings for the medication as that is a week's salary in a community with 80% unemployment. I asked the doctor to put the $7.25 on my bill for the parents.",
+  context:
+    "Rene was at a Kibera clinic with a sick young person when a six-year-old boy was carried in, limp in his mother's arms. He had malaria.",
+  attribution: "Rene Roby, Founder",
+};
+
+export const programApproach = [
   {
-    title: "Grounded in one promise",
-    body:
-      "Cheche Za Nuru Foundation is centered on one integrated idea: children thrive when education, health, and sport are strengthened together rather than treated as separate needs.",
+    title: "Access",
+    body: "We go to the children most likely to miss out, not the ones easiest to reach.",
   },
   {
-    title: "Built around dignity",
-    body:
-      "The foundation is rooted in a mission of access, dignity, and long-term opportunity for underserved children and young people, with support shaped around what helps them stay present, well, and encouraged.",
+    title: "Relationship",
+    body: "We know the families and the schools by name. Support comes with expectations on both sides.",
   },
   {
-    title: "Focused on everyday progress",
-    body:
-      "That work includes helping children remain in school, widening access to healthcare, and creating structured spaces where confidence, discipline, and teamwork can grow over time.",
-  },
-  {
-    title: "Aimed at lasting possibility",
-    body:
-      "By investing in children in the classroom, in their health, and in their development, Cheche Za Nuru seeks to help communities raise a generation ready to learn, lead, and thrive.",
+    title: "Consistency",
+    body: "A one-off visit doesn't keep a child in school. Scholarships, clinics and the football club run term after term.",
   },
 ];
 
-export const aboutJourney = [
-  {
-    title: "It begins with hope",
-    body:
-      "Cheche Za Nuru was shaped around the belief that every child deserves the chance to learn, grow, and imagine a better future regardless of circumstance.",
+export const whyWeExist = {
+  heading: "Free School Isn't Free",
+  paragraphs: [
+    "Free primary education got millions of Kenyan children through the school gate. It didn't buy the uniform, the books or the exam fee. It never promised a meal, a nurse when a child falls sick, or a pitch to play on after class.",
+    "In Kibera, with no running water, unreliable power and most adults out of work, those gaps decide who stays in school. So that's where we work.",
+  ],
+};
+
+export const foundingStory = {
+  heading: "From Spark to Cheche",
+  paragraphs: [
+    "Cheche Za Nuru began as Spark of Opportunity International, a US charity working in Kibera, the largest informal settlement in East Africa, and in rural Western Kenya. It started with street outreach, trips to the clinic and a football club.",
+    "In 2024 the work put down Kenyan roots as Cheche Za Nuru Foundation. The name is the original idea in Swahili: cheche za nuru, sparks of light.",
+  ],
+};
+
+export const founderProfile = {
+  name: "Rene Roby",
+  role: "Founder and Executive Director",
+  photo: {
+    src: "/images/czn/rene-roby.jpg",
+    alt: "Portrait of Rene Roby, founder of Cheche Za Nuru Foundation.",
   },
-  {
-    title: "It grows through support",
-    body:
-      "The foundation's work brings together education, healthcare, and sports because a child's journey is never one-dimensional. Real support must meet learning, wellbeing, and development together.",
-  },
-  {
-    title: "It leads toward opportunity",
-    body:
-      "By investing in scholarships, outreach, and youth development, the foundation aims to help children move from vulnerability toward confidence, leadership, and possibility.",
-  },
-];
+  paragraphs: [
+    "Rene has spent the past seven years alongside children and families in Kibera and the communities around it, through a ministry rooted in faith. She founded Spark of Opportunity International in the United States, then Cheche Za Nuru Foundation as its Kenyan affiliate in 2024.",
+    "Her gifts are the unglamorous ones: administration, service and encouragement. She moves between Kibera and rural Western Kenya to organise and oversee the work, and she still takes young people and adults to the clinic herself when pneumonia, typhoid or malaria strike.",
+    "For Rene, it isn't about programmes or projects. It's about showing up, day after day, for the families who need it most.",
+  ],
+};
 
 export const missionVision = {
   mission:
@@ -313,592 +214,70 @@ export const missionVision = {
     "A world where every child has access to premium education, quality healthcare, and opportunities through sports to reach their full potential.",
 };
 
-export const operatingPrinciples = [
+export const values = [
   {
-    title: "Integrated support",
-    body:
-      "Cheche Za Nuru brings education, healthcare, and sports together so children receive support that reflects real life rather than isolated interventions.",
+    title: "Hope",
+    body: "Every child deserves a future worth working towards. We start from there.",
   },
   {
-    title: "Community-rooted delivery",
-    body:
-      "The foundation works through outreach, local participation, and close engagement with underserved communities so support remains grounded and relevant.",
+    title: "Empowerment",
+    body: "Children and families shape their own futures. We back them. We don't take over.",
   },
   {
-    title: "Long-term development",
-    body:
-      "The goal is not only immediate assistance, but steady progress into learning, wellness, discipline, confidence, and leadership over time.",
-  },
-];
-
-export const pillars = [
-  {
-    eyebrow: "Education",
-    title: "Nuru Scholars",
-    description:
-      "Scholarships, mentorship, digital literacy, and school resources that keep learners in class and moving toward long-term opportunity.",
+    title: "Leadership",
+    body: "We expect young people to lead, and we give them room to try.",
   },
   {
-    eyebrow: "Healthcare",
-    title: "Afya Kwa Wote",
-    description:
-      "Outreach clinics, nutrition support, maternal health services, and wellness campaigns built around underserved families.",
+    title: "Community",
+    body: "The work belongs to the communities it serves. We listen before we act.",
   },
   {
-    eyebrow: "Sports",
-    title: "Rising Stars League",
-    description:
-      "Structured football, athletics, basketball, and rugby programs that build confidence, discipline, teamwork, and future pathways.",
-  },
-];
-
-export const programs = [
-  {
-    eyebrow: "Education",
-    title: "Nuru Scholars Program",
-    description:
-      "Full and partial scholarships, mentorship pairing, digital skills training, and school supply drives for primary and secondary students in need.",
-    bullets: [
-      "Scholarship support for continued learning",
-      "Mentorship pairing and learner guidance",
-      "Digital skills exposure and school resources",
-    ],
-  },
-  {
-    eyebrow: "Healthcare",
-    title: "Afya Kwa Wote Initiative",
-    description:
-      "Mobile clinics, immunisation drives, maternal health support, nutrition supplementation, and mental wellness programs across underserved areas.",
-    bullets: [
-      "Mobile outreach and consultations",
-      "Maternal and family wellness support",
-      "Nutrition and preventive care campaigns",
-    ],
-  },
-  {
-    eyebrow: "Sports",
-    title: "Rising Stars League",
-    description:
-      "Football, athletics, basketball, and rugby academies that nurture talent, build character, and open pathways to scholarships and sporting institutions.",
-    bullets: [
-      "Structured leagues and academy support",
-      "Discipline, teamwork, and leadership building",
-      "Pathways into wider opportunity through sport",
-    ],
-  },
-];
-
-export const programApproach = [
-  {
-    title: "Access",
-    body:
-      "Each program is designed to widen access for children who might otherwise be left out of school, healthcare, or structured development opportunities.",
-  },
-  {
-    title: "Consistency",
-    body:
-      "Support is sustained through scholarships, outreach, mentoring, clinics, leagues, and recurring community engagement rather than one-off interventions.",
-  },
-  {
-    title: "Potential",
-    body:
-      "Across all three pillars, the aim is to help children build confidence, strengthen their abilities, and move toward longer-term opportunity.",
-  },
-];
-
-export const programNarrative = [
-  "Our programs are built around three connected areas of work: education, healthcare, and sports development.",
-  "Each area responds to a different part of a child's journey, from staying in school and accessing care to developing confidence, discipline, and teamwork.",
-];
-
-export const programEvents: Array<{
-  title: string;
-  program: "education" | "healthcare" | "sports";
-  date: string;
-  location: string;
-  summary: string;
-}> = [
-  {
-    title: "Scholarship Mentorship Forum",
-    program: "education",
-    date: "2026-02-14",
-    location: "Nairobi",
-    summary:
-      "A guidance session for scholarship beneficiaries focused on academic planning, mentorship, and leadership growth.",
-  },
-  {
-    title: "Community Health Outreach Day",
-    program: "healthcare",
-    date: "2026-02-21",
-    location: "Kajiado",
-    summary:
-      "A field day centered on consultations, health education, and practical family wellbeing support.",
-  },
-  {
-    title: "Rising Stars League Opening Weekend",
-    program: "sports",
-    date: "2026-03-07",
-    location: "Nairobi",
-    summary:
-      "The opening weekend for youth sports activities, bringing together teams, coaches, and families around structured development through sport.",
-  },
-  {
-    title: "School Supply Distribution Drive",
-    program: "education",
-    date: "2026-03-18",
-    location: "Machakos",
-    summary:
-      "A focused distribution event supporting learners with practical materials needed for consistent participation in school.",
-  },
-  {
-    title: "Maternal and Child Wellness Clinic",
-    program: "healthcare",
-    date: "2026-04-09",
-    location: "Kibera",
-    summary:
-      "A wellness clinic offering preventive guidance, maternal support, and child-focused health engagement for families.",
-  },
-  {
-    title: "Youth Talent Showcase",
-    program: "sports",
-    date: "2026-04-25",
-    location: "Nairobi",
-    summary:
-      "A showcase event highlighting discipline, teamwork, and emerging youth talent developed through structured sporting activity.",
-  },
-];
-
-export const impactMetrics = [
-  { value: "2,400+", label: "Children directly supported" },
-  { value: "580", label: "Scholarships awarded" },
-  { value: "12,000+", label: "Health consultations given" },
-  { value: "320", label: "Athletes in active leagues" },
-];
-
-export const impactContextStats = [
-  {
-    title: "Children living in poverty",
-    value: "42.4%",
-    body:
-      "UNICEF Kenya reports that 42.4 per cent of children in Kenya were living in poverty in 2022, with rural and ASAL areas facing the sharpest deprivation.",
-    sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
-    sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
-  },
-  {
-    title: "Children out of school",
-    value: "2.5M",
-    body:
-      "The same UNICEF Kenya snapshot highlights 2.5 million out-of-school children, showing how many learners still remain outside stable access to education.",
-    sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
-    sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
-  },
-  {
-    title: "Child stunting",
-    value: "18%",
-    body:
-      "UNICEF Kenya also notes that child stunting remains at 18 per cent, underlining how nutrition and child wellbeing continue to shape long-term development.",
-    sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
-    sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
-  },
-  {
-    title: "Youth outside learning or work",
-    value: "~20%",
-    body:
-      "Generation Unlimited Kenya reports that nearly 20 per cent of youth are not in education, employment, or training, reinforcing the need for stronger transition pathways for young people.",
-    sourceLabel: "Generation Unlimited Kenya, accessed 2026",
-    sourceUrl: "https://www.unicef.org/genunlimited/genu-kenya",
-  },
-];
-
-export const impactFrames = [
-  {
-    title: "Education support in response",
-    body:
-      "We respond to educational barriers through scholarships, learning resources, and mentoring that help children remain present in school and continue progressing.",
-  },
-  {
-    title: "Health outreach in response",
-    body:
-      "Our healthcare work meets wellbeing challenges through consultations, community outreach, nutrition-related support, and maternal and family-focused care.",
-  },
-  {
-    title: "Youth development in response",
-    body:
-      "Our sports programs create structured spaces where children and young people can build discipline, teamwork, confidence, and a stronger sense of future possibility.",
-  },
-];
-
-export const impactMilestones = [
-  {
-    year: "Foundation work",
-    title: "A mission built around joined-up support",
-    body:
-      "We work from the understanding that education, health, and youth development must reinforce one another in practice.",
-    progress: 28,
-  },
-  {
-    year: "Scholarships",
-    title: "Learning support reaches children who need continuity",
-    body:
-      "Scholarship and education support help reduce the risk of interrupted learning and create stronger pathways toward school retention.",
-    progress: 52,
-  },
-  {
-    year: "Outreach",
-    title: "Health services move closer to communities",
-    body:
-      "Outreach activity brings practical care, consultation, and family-centered support closer to children whose needs are often shaped by location and affordability.",
-    progress: 74,
-  },
-  {
-    year: "Youth growth",
-    title: "Structured sport becomes a development pathway",
-    body:
-      "By building leagues and organized activity, CZN turns sport into a place for teamwork, confidence, and disciplined growth rather than informal participation alone.",
-    progress: 92,
-  },
-];
-
-export const impactDomainViews = [
-  {
-    slug: "education",
-    label: "Education",
-    intro:
-      "Educational exclusion remains one of the clearest barriers to long-term opportunity for children in Kenya.",
-    stats: [
-      {
-        label: "Out-of-school children",
-        value: 2.5,
-        suffix: "M",
-        detail:
-          "UNICEF Kenya reports 2.5 million out-of-school children, reflecting the scale of interrupted access to learning.",
-        sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
-        sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
-      },
-      {
-        label: "Children in poverty",
-        value: 42.4,
-        suffix: "%",
-        detail:
-          "Child poverty continues to shape whether learners can stay in school and access the conditions needed to progress.",
-        sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
-        sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
-      },
-    ],
-    response:
-      "We answer this pressure through scholarships, mentoring, school supplies, and stronger continuity in learning.",
-  },
-  {
-    slug: "health",
-    label: "Health",
-    intro:
-      "Health pressures remain deeply tied to nutrition, maternal wellbeing, and the uneven reach of family-centered care.",
-    stats: [
-      {
-        label: "Children stunted",
-        value: 18,
-        suffix: "%",
-        detail:
-          "UNICEF Kenya identifies child stunting at 18 per cent nationally, showing the long-term development effects of undernutrition.",
-        sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
-        sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
-      },
-      {
-        label: "Children under five with stunting",
-        value: 25,
-        suffix: "%+",
-        detail:
-          "UNICEF Kenya's nutrition overview notes that more than a quarter of children under five, roughly two million, have stunted growth.",
-        sourceLabel: "UNICEF Kenya Nutrition",
-        sourceUrl: "https://www.unicef.org/kenya/nutrition",
-      },
-    ],
-    response:
-      "We respond through outreach, consultations, family support, and practical wellbeing services closer to communities.",
-  },
-  {
-    slug: "youth",
-    label: "Youth",
-    intro:
-      "Young people across Kenya face difficult transitions from school into skills, work, and structured opportunity.",
-    stats: [
-      {
-        label: "Youth not in education, employment or training",
-        value: 20,
-        suffix: "%~",
-        detail:
-          "Generation Unlimited Kenya reports that nearly one fifth of youth are not in education, employment, or training.",
-        sourceLabel: "Generation Unlimited Kenya",
-        sourceUrl: "https://www.unicef.org/genunlimited/genu-kenya",
-      },
-      {
-        label: "New jobs needed each year",
-        value: 900000,
-        suffix: "",
-        detail:
-          "GenU Kenya notes that about 900,000 new jobs are needed each year to absorb the growing working-age population.",
-        sourceLabel: "Generation Unlimited Kenya",
-        sourceUrl: "https://www.unicef.org/genunlimited/genu-kenya",
-      },
-    ],
-    response:
-      "We create structured spaces where discipline, teamwork, confidence, and visibility can grow.",
-  },
-] as const;
-
-export const impactCountyPressure = [
-  {
-    area: "Kitui",
-    value: 46,
-    tone: "high",
-    label: "Stunting rate",
-    note:
-      "UNICEF Kenya reports that child stunting is as high as 46 per cent in Kitui.",
-    sourceLabel: "UNICEF Kenya Nutrition",
-    sourceUrl: "https://www.unicef.org/kenya/nutrition",
-  },
-  {
-    area: "West Pokot",
-    value: 46,
-    tone: "high",
-    label: "Stunting rate",
-    note:
-      "West Pokot is also cited by UNICEF Kenya as reaching 46 per cent stunting among children.",
-    sourceLabel: "UNICEF Kenya Nutrition",
-    sourceUrl: "https://www.unicef.org/kenya/nutrition",
-  },
-  {
-    area: "ASAL counties",
-    value: 20,
-    tone: "medium",
-    label: "Wasting can exceed",
-    note:
-      "UNICEF Kenya notes that wasting rises above 20 per cent in many arid and semi-arid counties.",
-    sourceLabel: "UNICEF Kenya Nutrition",
-    sourceUrl: "https://www.unicef.org/kenya/nutrition",
-  },
-  {
-    area: "Rural and ASAL regions",
-    value: 42.4,
-    tone: "medium",
-    label: "National child poverty context",
-    note:
-      "The national child poverty rate is 42.4 per cent, with rural and ASAL regions identified as the most deprived.",
-    sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
-    sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
-  },
-] as const;
-
-export const impactResponseComparisons = [
-  {
-    title: "Education",
-    challengeLabel: "2.5M children out of school nationally",
-    responseLabel: "580 scholarships awarded through our work",
-    challengeValue: 100,
-    responseValue: 23,
-  },
-  {
-    title: "Healthcare",
-    challengeLabel: "18% child stunting nationally",
-    responseLabel: "12,000+ health consultations delivered",
-    challengeValue: 100,
-    responseValue: 67,
-  },
-  {
-    title: "Youth Development",
-    challengeLabel: "Nearly 20% of youth outside learning or work",
-    responseLabel: "320 athletes active in our leagues",
-    challengeValue: 100,
-    responseValue: 31,
-  },
-] as const;
-
-export const storiesIntro = [
-  "Stories bring us closer to the children, families, and communities whose lives give meaning to the work.",
-  "They help us share progress with warmth, honesty, and a clearer sense of what support looks like in everyday life.",
-];
-
-export const featuredStory = {
-  category: "Community Story",
-  title: "Small moments of support often become turning points in a child's life.",
-  summary:
-    "A scholarship, a clinic visit, a training session, or a team gathering may look small from the outside. For a child or family, that moment can change the way tomorrow feels.",
-  detail:
-    "What stays with us are the everyday signs of hope taking root in a classroom, during outreach, on a field, or in the steady encouragement of a family that feels less alone.",
-};
-
-export const stories = [
-  {
-    date: "March 15, 2025",
-    category: "Education",
-    title: "50 new scholarships awarded in Kibera and Mathare",
-    summary:
-      "A new scholarship intake opened the door for more learners to stay in school with greater stability, encouragement, and material support.",
-  },
-  {
-    date: "February 28, 2025",
-    category: "Healthcare",
-    title: "Mobile clinic reaches 800 families in Turkana County",
-    summary:
-      "A two-week outreach mission brought consultations, immunisation support, and practical care closer to families who are often far from reliable services.",
-  },
-  {
-    date: "January 10, 2025",
-    category: "Sports",
-    title: "Rising Stars League opens its biggest season yet",
-    summary:
-      "A record season opened with more young people stepping into structured sport, teamwork, and confidence-building activity.",
-  },
-];
-
-export const storyThemes = [
-  {
-    title: "Program updates",
-    body:
-      "Follow the milestones, field days, and moments of progress that show how support is taking shape across our work.",
-  },
-  {
-    title: "Voices from communities",
-    body:
-      "Listen to children, caregivers, volunteers, and partners whose words reflect what care, encouragement, and opportunity can feel like up close.",
-  },
-  {
-    title: "Partner communication",
-    body:
-      "Stay close to the work through field notes, campaign highlights, and updates worth sharing with those who walk alongside us.",
-  },
-];
-
-export const voiceSnippets = [
-  {
-    name: "Amina",
-    role: "Nuru Scholar",
-    quote:
-      "For the first time, I felt like someone expected me to keep going and believed I could.",
-  },
-  {
-    name: "Mary",
-    role: "Parent",
-    quote:
-      "When support reached our home, school stopped feeling impossible and the future stopped feeling far away.",
-  },
-  {
-    name: "Coach Daniel",
-    role: "Youth Mentor",
-    quote:
-      "Sport gave the young people I work with more than a game. It gave them rhythm, discipline, and a sense of belonging.",
-  },
-  {
-    name: "Nurse Ruth",
-    role: "Outreach Volunteer",
-    quote:
-      "The strongest moments are often the simplest ones, when a family realizes they do not have to carry everything alone.",
-  },
-];
-
-export const storyGalleries = [
-  {
-    title: "A day of learning and attention in the classroom",
-    date: "April 2025",
-    intro:
-      "Some of the clearest signs of hope are visible in classrooms where children are focused, present, and engaged.",
-    images: [
-      {
-        ...imageLibrary.classroomBoy,
-        caption: "Concentration, curiosity, and classroom presence are small but important signs of continuity.",
-      },
-      {
-        ...imageLibrary.girlsBlue,
-        caption: "Shared learning spaces also create community, confidence, and encouragement among peers.",
-      },
-      {
-        ...imageLibrary.schoolBoys,
-        caption: "School life carries social belonging as well as academic possibility.",
-      },
-    ],
-  },
-  {
-    title: "Children in motion, confidence in the making",
-    date: "March 2025",
-    intro:
-      "Growth is not always quiet. It also appears in movement, play, teamwork, and the confidence children carry with one another.",
-    images: [
-      {
-        ...imageLibrary.runningChildren,
-        caption: "Movement and play create room for energy, joy, and healthy development.",
-      },
-      {
-        ...imageLibrary.greenUniformChildren,
-        caption: "Shared moments of confidence often become part of a child's deeper sense of possibility.",
-      },
-      {
-        ...imageLibrary.smilingGirl,
-        caption: "A single expression can say a great deal about safety, connection, and self-belief.",
-      },
-    ],
-  },
-];
-
-export const videoHighlights = [
-  {
-    title: "Scholarship journeys and classroom confidence",
-    duration: "02:18",
-    summary:
-      "A short video story can help show what educational support feels like from the perspective of learners and mentors.",
-  },
-  {
-    title: "Outreach days that bring care closer to families",
-    duration: "01:46",
-    summary:
-      "Video can also document the rhythm of outreach: arrival, consultation, conversation, and practical support.",
+    title: "Excellence",
+    body: "A child in an informal settlement deserves the same standard of teaching, care and coaching as anyone else.",
   },
 ];
 
 export const involvementOptions = [
   {
     title: "Donate",
-    description:
-      "Fund scholarships, health outreach, and access to sports with one-time or recurring support.",
+    description: "Give once or every month, and choose which programme it goes to.",
+    href: "/donate",
+    cta: "Donate",
   },
   {
     title: "Volunteer",
     description:
-      "Offer time and expertise as a teacher, mentor, clinician, coach, or operations volunteer.",
+      "Teachers, clinicians, coaches, mentors, people who can keep a spreadsheet tidy. If you can show up, we can use you.",
+    href: "/get-involved#involvement-form",
+    cta: "Offer Your Time",
   },
   {
     title: "Partner",
     description:
-      "Collaborate as a company, school, NGO, or community institution to scale sustainable impact.",
+      "Schools, companies and NGOs: sponsorship, equipment, outreach support or a longer partnership.",
+    href: "/get-involved#involvement-form",
+    cta: "Start a Conversation",
   },
 ];
 
 export const involvementDetails = [
   {
-    title: "For individual supporters",
-    body:
-      "Individuals can give, mentor, volunteer at events, or lend practical skills that help children stay in school, access care, and grow in confidence.",
+    title: "Individuals",
+    body: "Give, mentor a scholar, help at an outreach day, or lend a skill you already have.",
   },
   {
-    title: "For institutions",
-    body:
-      "Schools, companies, NGOs, and community groups can stand with us through sponsorship, outreach support, equipment, and long-term program collaboration.",
+    title: "Organisations",
+    body: "Sponsor a team, fund a clinic day, donate equipment, or build a programme with us over several years.",
   },
   {
-    title: "For advocates",
-    body:
-      "Advocates can open doors, amplify the work, bring the right people together, and help more families hear about the support available to them.",
+    title: "Advocates",
+    body: "Open a door, make an introduction, share our work. Some of the most useful help costs nothing.",
   },
-];
-
-export const contactIntro = [
-  "Whether you want to support a child's education, partner on outreach, volunteer your time, or simply learn more, this page is designed to make that first conversation easier.",
-  "Every enquiry can become the start of practical support, a partnership, or a longer relationship with the foundation's mission.",
 ];
 
 export const contactDetails = {
   email: "info@chechezanurufoundation.org",
-  phones: ["+254795 969783", "+254723654024"],
-  location: "Mbagathi View, B10",
+  location: "Mbagathi View, B10, Nairobi",
   locationMapUrl:
     "https://www.google.com/maps/dir/?api=1&destination=Mbagathi%20View%20Apartment%2C%20B10",
   socialHandle: "@chechezanurufoundation",
@@ -915,13 +294,178 @@ export const contactDetails = {
       label: "TikTok",
       href: "https://tiktok.com/@chechezanurufoundation",
     },
-    {
-      label: "LinkedIn",
-      href: "#",
-    },
-    {
-      label: "YouTube",
-      href: "#",
-    },
   ] as const,
 };
+
+/** National context, all from published UNICEF / Generation Unlimited sources. */
+export const outOfSchoolStat = {
+  value: "2.5 million",
+  label: "children in Kenya are out of school.",
+  sourceLabel: "UNICEF Kenya, Child Sensitive Snapshot, December 2025",
+  sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
+};
+
+export const impactContextStats = [
+  {
+    title: "Children Living in Poverty",
+    value: "42.4%",
+    body:
+      "UNICEF Kenya reports that 42.4 per cent of children in Kenya were living in poverty in 2022, with rural and ASAL areas facing the sharpest deprivation.",
+    sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
+    sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
+  },
+  {
+    title: "Children Out of School",
+    value: "2.5M",
+    body:
+      "The same UNICEF Kenya snapshot counts 2.5 million out-of-school children.",
+    sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
+    sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
+  },
+  {
+    title: "Child Stunting",
+    value: "18%",
+    body:
+      "UNICEF Kenya puts child stunting at 18 per cent nationally.",
+    sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
+    sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
+  },
+  {
+    title: "Youth Outside Learning or Work",
+    value: "~20%",
+    body:
+      "Generation Unlimited Kenya reports that nearly 20 per cent of young people are not in education, employment or training.",
+    sourceLabel: "Generation Unlimited Kenya, accessed 2026",
+    sourceUrl: "https://www.unicef.org/genunlimited/genu-kenya",
+  },
+];
+
+export const impactDomainViews = [
+  {
+    slug: "education",
+    label: "Education",
+    intro:
+      "Millions of Kenyan children are either out of school or one unpaid bill away from it.",
+    stats: [
+      {
+        label: "Out-of-School Children",
+        value: 2.5,
+        suffix: "M",
+        detail:
+          "UNICEF Kenya counts 2.5 million children out of school.",
+        sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
+        sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
+      },
+      {
+        label: "Children in Poverty",
+        value: 42.4,
+        suffix: "%",
+        detail:
+          "Poverty decides whether a learner can afford to stay in school at all.",
+        sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
+        sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
+      },
+    ],
+    response:
+      "Nuru Scholars pays fees and buys the supplies that keep children in class, and pairs them with mentors.",
+  },
+  {
+    slug: "health",
+    label: "Health",
+    intro:
+      "Hunger and illness quietly undo schooling. Nutrition is the big one.",
+    stats: [
+      {
+        label: "Children Stunted",
+        value: 18,
+        suffix: "%",
+        detail:
+          "UNICEF Kenya puts child stunting at 18 per cent nationally, a lasting effect of undernutrition.",
+        sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
+        sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
+      },
+      {
+        label: "Children Under Five With Stunting",
+        value: 25,
+        suffix: "%+",
+        detail:
+          "More than a quarter of children under five, roughly two million, have stunted growth.",
+        sourceLabel: "UNICEF Kenya Nutrition",
+        sourceUrl: "https://www.unicef.org/kenya/nutrition",
+      },
+    ],
+    response:
+      "Afya Kwa Wote takes consultations, nutrition screening and family health support to the neighbourhood.",
+  },
+  {
+    slug: "youth",
+    label: "Youth",
+    intro:
+      "Finishing school is only half of it. The step from school to work is where many young people stall.",
+    stats: [
+      {
+        label: "Youth Not in Education, Employment or Training",
+        value: 20,
+        suffix: "%",
+        detail:
+          "Generation Unlimited Kenya reports that nearly one in five young people are not in education, employment or training.",
+        sourceLabel: "Generation Unlimited Kenya",
+        sourceUrl: "https://www.unicef.org/genunlimited/genu-kenya",
+      },
+      {
+        label: "New Jobs Needed Each Year",
+        value: 900000,
+        suffix: "",
+        detail:
+          "Kenya needs about 900,000 new jobs a year to absorb its growing working-age population.",
+        sourceLabel: "Generation Unlimited Kenya",
+        sourceUrl: "https://www.unicef.org/genunlimited/genu-kenya",
+      },
+    ],
+    response:
+      "The Rising Stars League builds discipline, teamwork and visibility, and opens routes to sports scholarships.",
+  },
+] as const;
+
+export const impactCountyPressure = [
+  {
+    area: "Kitui",
+    value: 46,
+    tone: "high",
+    label: "Stunting Rate",
+    note:
+      "UNICEF Kenya reports child stunting as high as 46 per cent in Kitui.",
+    sourceLabel: "UNICEF Kenya Nutrition",
+    sourceUrl: "https://www.unicef.org/kenya/nutrition",
+  },
+  {
+    area: "West Pokot",
+    value: 46,
+    tone: "high",
+    label: "Stunting Rate",
+    note:
+      "West Pokot also reaches 46 per cent stunting among children.",
+    sourceLabel: "UNICEF Kenya Nutrition",
+    sourceUrl: "https://www.unicef.org/kenya/nutrition",
+  },
+  {
+    area: "ASAL Counties",
+    value: 20,
+    tone: "medium",
+    label: "Wasting Can Exceed",
+    note:
+      "Wasting rises above 20 per cent in many arid and semi-arid counties.",
+    sourceLabel: "UNICEF Kenya Nutrition",
+    sourceUrl: "https://www.unicef.org/kenya/nutrition",
+  },
+  {
+    area: "Rural and ASAL Regions",
+    value: 42.4,
+    tone: "medium",
+    label: "National Child Poverty Rate",
+    note:
+      "Child poverty sits at 42.4 per cent nationally, with rural and ASAL regions the most deprived.",
+    sourceLabel: "UNICEF Kenya Child Sensitive Snapshot, December 2025",
+    sourceUrl: "https://www.unicef.org/kenya/reports/child-sensitive-snapshot",
+  },
+] as const;
