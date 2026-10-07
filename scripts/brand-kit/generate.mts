@@ -272,7 +272,7 @@ const covers = [
 for (const cover of covers) {
   const assets: CardAssets = { mark, photo: await photoUrl("/images/czn/kibera-children-laughing.jpg", Math.round(cover.width * 0.5), cover.height) };
   const png = await render(
-    coverCard({ line: "Sparks of Light", sub: "School, Health and Sport in Kibera" }, assets, cover),
+    coverCard({ line: "Cheche Za Nuru Foundation", sub: "School, Health and Sport in Kibera" }, assets, cover),
     cover.width,
     cover.height,
   );

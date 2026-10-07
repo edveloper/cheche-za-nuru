@@ -32,8 +32,8 @@ export default async function AboutPage() {
     <>
       <PageIntro
         label="About Us"
-        title="Sparks of Light"
-        body="That's what cheche za nuru means in Swahili. It suits the small things that change a child's direction: a paid fee, a plate of food, the right medicine on the right day, a coach who expects you at training."
+        title="About Cheche Za Nuru"
+        body="Cheche za nuru is Swahili for 'sparks of light'. It suits the small things that change a child's direction: a paid fee, a plate of food, the right medicine on the right day, a coach who expects you at training."
         photo={pageVisuals.about}
       />
 
@@ -100,7 +100,7 @@ export default async function AboutPage() {
       ) : null}
 
       <CtaBand
-        heading="Be One of the Sparks"
+        heading="Keep a Child in School"
         body="Every gift, of any size, keeps a programme running for another term."
         secondaryText="See How to Get Involved"
       />

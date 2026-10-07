@@ -43,7 +43,7 @@ export const shareCardPages: ShareCardPage[] = [
     slug: "about",
     route: "/about",
     eyebrow: "About Us",
-    title: "Sparks of Light",
+    title: "About Cheche Za Nuru",
     photo: "/images/czn/rene-kibera-children.jpg",
   },
   {
