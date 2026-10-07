@@ -5,36 +5,56 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { brandAssets, navigation } from "@/data/site";
+import { SocialIcon } from "@/components/social-icon";
+import { brandAssets, contactDetails, navigation } from "@/data/site";
 
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement | null>(null);
 
+  // Close the menu whenever the page changes.
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
+    setIsMenuOpen(false);
+  }
+
   useEffect(() => {
     if (!isMenuOpen) {
       return;
     }
 
-    function handlePointerDown(event: MouseEvent) {
+    const root = document.documentElement;
+    root.classList.add("menu-open");
+
+    function handlePointerDown(event: PointerEvent) {
       if (!headerRef.current?.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
     }
 
-    function handleEscape(event: KeyboardEvent) {
+    function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setIsMenuOpen(false);
       }
     }
 
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("keydown", handleEscape);
+    function handleResize() {
+      if (window.innerWidth > 1080) {
+        setIsMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("keydown", handleEscape);
+      root.classList.remove("menu-open");
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
     };
   }, [isMenuOpen]);
 
@@ -42,13 +62,14 @@ export function SiteHeader() {
 
   return (
     <header ref={headerRef} className="site-header">
-      <Link className="brand" href="/" onClick={() => setIsMenuOpen(false)}>
+      <Link className="brand" href="/">
         <span className="brand-mark">
           <Image
             src={brandAssets.headerLogo.src}
             alt={brandAssets.headerLogo.alt}
             width={brandAssets.headerLogo.width}
             height={brandAssets.headerLogo.height}
+            preload
             className="brand-logo"
             sizes="(max-width: 1080px) 200px, 240px"
           />
@@ -75,7 +96,8 @@ export function SiteHeader() {
         className={isMenuOpen ? "menu-toggle menu-toggle-open" : "menu-toggle"}
         type="button"
         aria-expanded={isMenuOpen}
-        aria-label="Toggle navigation menu"
+        aria-controls="mobile-menu"
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         onClick={() => setIsMenuOpen((open) => !open)}
       >
         <span />
@@ -83,25 +105,53 @@ export function SiteHeader() {
         <span />
       </button>
 
-      {isMenuOpen ? (
-        <div className="mobile-menu">
-          <nav className="mobile-nav" aria-label="Mobile">
-            {navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={isCurrent(item.href) ? "page" : undefined}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Link className="mobile-menu-cta" href="/donate" onClick={() => setIsMenuOpen(false)}>
-              Donate
+      <div
+        className={isMenuOpen ? "mobile-backdrop mobile-backdrop-open" : "mobile-backdrop"}
+        aria-hidden="true"
+        onPointerDown={() => setIsMenuOpen(false)}
+      />
+
+      <div
+        id="mobile-menu"
+        className={isMenuOpen ? "mobile-menu mobile-menu-open" : "mobile-menu"}
+        hidden={!isMenuOpen}
+      >
+        <nav className="mobile-nav" aria-label="Mobile">
+          {navigation.map((item, index) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+              style={{ "--item-index": index } as React.CSSProperties}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {item.label}
+              <span className="arrow" aria-hidden="true">
+                →
+              </span>
             </Link>
-          </nav>
+          ))}
+        </nav>
+        <div className="mobile-menu-actions">
+          <Link className="primary-button" href="/donate" onClick={() => setIsMenuOpen(false)}>
+            Donate
+          </Link>
+          <a
+            className="mobile-menu-whatsapp"
+            href={contactDetails.whatsapp.href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="action-bar-icon" aria-hidden="true">
+              <SocialIcon platform="WhatsApp" />
+            </span>
+            WhatsApp Us
+          </a>
         </div>
-      ) : null}
+        <p className="mobile-menu-email">
+          <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>
+        </p>
+      </div>
     </header>
   );
 }

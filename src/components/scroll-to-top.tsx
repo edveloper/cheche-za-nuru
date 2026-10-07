@@ -1,7 +1,17 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+
+function jumpToTop() {
+  // Two-argument scrollTo works in every browser; the options form with
+  // behavior: "instant" is ignored or rejected by some mobile Safari versions.
+  const root = document.documentElement;
+  const previous = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  window.scrollTo(0, 0);
+  root.style.scrollBehavior = previous;
+}
 
 /**
  * Next.js scrolls to the top of the new page's first element, not the window, which
@@ -21,7 +31,7 @@ export function ScrollToTop() {
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -36,7 +46,15 @@ export function ScrollToTop() {
       return;
     }
 
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    jumpToTop();
+    // Run once more after paint, in case Next.js or a closing menu scrolled afterwards.
+    const frame = requestAnimationFrame(jumpToTop);
+    const timeout = window.setTimeout(jumpToTop, 120);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+    };
   }, [pathname]);
 
   return null;

@@ -330,6 +330,10 @@ export const contactDetails = {
   location: "Mbagathi View, B10, Nairobi",
   locationMapUrl:
     "https://www.google.com/maps/dir/?api=1&destination=Mbagathi%20View%20Apartment%2C%20B10",
+  whatsapp: {
+    number: "+254 723 654 024",
+    href: `https://wa.me/254723654024?text=${encodeURIComponent("Hello Cheche Za Nuru, ")}`,
+  },
   socialHandle: "@chechezanurufoundation",
   socials: [
     {

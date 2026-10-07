@@ -6,6 +6,7 @@ type IconName =
   | "YouTube"
   | "Email"
   | "Phone"
+  | "WhatsApp"
   | "Location";
 
 type SocialIconProps = {
@@ -120,6 +121,28 @@ export function SocialIcon({ platform, className }: SocialIconProps) {
         <path d="M8 8v.5" />
         <path d="M12 16v-5" />
         <path d="M12 11a3 3 0 0 1 3 3v2" />
+      </svg>
+    );
+  }
+
+  if (platform === "WhatsApp") {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        className={className}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M3.6 20.4 4.9 16.5A8.6 8.6 0 1 1 8 19.3Z" />
+        <path
+          d="M9.1 8.4c.2-.4.5-.5.8-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6a6.4 6.4 0 0 0 2.8 2.8l.6-.5c.2-.1.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3-.1.6-.5.8-.7.3-1.5.4-2.4.1a7.6 7.6 0 0 1-4.6-4.6c-.3-.9-.2-1.7.1-2.3Z"
+          fill="currentColor"
+          stroke="none"
+        />
       </svg>
     );
   }

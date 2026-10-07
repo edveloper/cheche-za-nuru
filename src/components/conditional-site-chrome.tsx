@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-import { FloatingDonate } from "@/components/floating-donate";
+import { ActionBar } from "@/components/action-bar";
 import { Motion } from "@/components/motion";
 import { ScrollToTop } from "@/components/scroll-to-top";
 
@@ -31,7 +31,7 @@ export function ConditionalSiteChrome({ header, footer, children }: Props) {
       <div className="footer-band">
         <div className="page-shell footer-inner">{footer}</div>
       </div>
-      <FloatingDonate />
+      <ActionBar />
       <ScrollToTop />
       <Motion />
     </div>

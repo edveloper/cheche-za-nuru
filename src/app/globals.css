@@ -1375,81 +1375,6 @@ textarea {
 
   .menu-toggle {
     display: inline-flex;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    padding: 0.6rem;
-    border: 1px solid rgba(37, 36, 95, 0.12);
-    background: rgba(255, 255, 255, 0.82);
-    box-shadow: 0 10px 24px rgba(37, 36, 95, 0.08);
-  }
-
-  .menu-toggle span {
-    position: absolute;
-    display: block;
-    width: 1.3rem;
-    height: 2px;
-    background: var(--navy);
-    transition: transform 180ms ease, opacity 180ms ease;
-  }
-
-  .menu-toggle span:nth-child(1) {
-    transform: translateY(-0.34rem);
-  }
-
-  .menu-toggle span:nth-child(3) {
-    transform: translateY(0.34rem);
-  }
-
-  .menu-toggle-open span:nth-child(1) {
-    transform: rotate(45deg);
-  }
-
-  .menu-toggle-open span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .menu-toggle-open span:nth-child(3) {
-    transform: rotate(-45deg);
-  }
-
-  .mobile-menu {
-    position: absolute;
-    top: calc(100% + 0.35rem);
-    left: 0;
-    right: 0;
-    display: block;
-    padding-top: 0.75rem;
-  }
-
-  .mobile-nav {
-    display: grid;
-    gap: 0.25rem;
-    padding: 1.1rem;
-    border: 1px solid rgba(37, 36, 95, 0.1);
-    background: rgba(255, 253, 247, 0.98);
-    box-shadow: 0 18px 34px rgba(37, 36, 95, 0.12);
-  }
-
-  .mobile-nav a {
-    padding: 0.9rem 0.55rem;
-    color: var(--navy);
-    font-weight: 600;
-    border-bottom: 1px solid rgba(37, 36, 95, 0.08);
-  }
-
-  .mobile-nav a:last-child {
-    border-bottom: none;
-  }
-
-  .mobile-menu-cta {
-    margin-top: 0.5rem;
-    display: inline-flex;
-    justify-content: center;
-    background: var(--orange);
-    color: white !important;
   }
 }
 
@@ -2344,37 +2269,6 @@ textarea {
   text-align: left;
 }
 
-.floating-donate {
-  display: none;
-}
-
-@media (max-width: 1080px) {
-  .floating-donate {
-    position: fixed;
-    right: 1rem;
-    bottom: 1rem;
-    z-index: 70;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3.25rem;
-    padding: 0 1.6rem;
-    background: var(--orange);
-    color: var(--navy);
-    font-weight: 800;
-    box-shadow: 0 10px 30px rgba(42, 36, 94, 0.28);
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(1rem);
-    transition: opacity 200ms ease, transform 200ms ease;
-  }
-
-  .floating-donate-visible {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-  }
-}
 
 /* ── Redesign: responsive ────────────────────────────── */
 
@@ -2495,7 +2389,6 @@ textarea {
 .header-cta,
 .primary-button,
 .site-footer .footer-donate,
-.floating-donate,
 .social-pill,
 .impact-tab,
 .calendar-pill,
@@ -3211,14 +3104,6 @@ a:focus-visible .arrow {
   transform: scale(0.97);
 }
 
-/* Floating donate pops up with a little overshoot */
-@media (max-width: 1080px) {
-  .floating-donate {
-    transition:
-      opacity 200ms ease,
-      transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-}
 
 /* ── Home: responsive ────────────────────────────────── */
 
@@ -3262,6 +3147,307 @@ a:focus-visible .arrow {
   .page-intro-main > *,
   .hero-media,
   .page-intro-photo {
+    animation: none;
+  }
+}
+
+/* ── Mobile menu ─────────────────────────────────────── */
+
+html.menu-open {
+  overflow: hidden;
+}
+
+.mobile-backdrop {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .menu-toggle {
+    position: relative;
+    z-index: 2;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border: 0;
+    background: var(--cream);
+    cursor: pointer;
+    transition: background 200ms ease;
+  }
+
+  .menu-toggle span {
+    position: absolute;
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--navy);
+    transition:
+      transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 160ms ease,
+      background 200ms ease;
+  }
+
+  .menu-toggle span:nth-child(1) {
+    transform: translateY(-0.4rem);
+  }
+
+  .menu-toggle span:nth-child(3) {
+    transform: translateY(0.4rem);
+  }
+
+  .menu-toggle-open {
+    background: var(--navy);
+  }
+
+  .menu-toggle-open span {
+    background: white;
+  }
+
+  .menu-toggle-open span:nth-child(1) {
+    transform: rotate(45deg);
+  }
+
+  .menu-toggle-open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle-open span:nth-child(3) {
+    transform: rotate(-45deg);
+  }
+
+  .mobile-backdrop {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    display: block;
+    height: 100dvh;
+    background: rgba(42, 36, 94, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease;
+  }
+
+  .mobile-backdrop-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-menu:not([hidden]) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: grid;
+    gap: 1.75rem;
+    max-height: calc(100dvh - 6rem);
+    overflow-y: auto;
+    padding: 1.25rem max(1.25rem, calc((100% - 1280px) / 2)) 2rem;
+    background: var(--paper);
+    box-shadow: 0 24px 40px rgba(42, 36, 94, 0.18);
+    animation: menu-drop 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .mobile-nav {
+    display: grid;
+    gap: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .mobile-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 0;
+    color: var(--navy);
+    font-family: var(--font-display), sans-serif;
+    font-size: clamp(1.6rem, 6vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    animation: rise-in 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--item-index, 0) * 40ms + 60ms);
+  }
+
+  .mobile-nav a .arrow {
+    color: var(--orange);
+    font-size: 0.8em;
+    opacity: 0.6;
+  }
+
+  .mobile-nav a[aria-current="page"] {
+    color: var(--orange-ink);
+  }
+
+  .mobile-nav a[aria-current="page"] .arrow {
+    opacity: 1;
+  }
+
+  .mobile-menu-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .mobile-menu-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3.25rem;
+    border-radius: 999px;
+    background: var(--green);
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  .mobile-menu-email {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .mobile-menu-email a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+@keyframes menu-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── WhatsApp and the mobile action bar ──────────────── */
+
+.action-bar-icon {
+  display: inline-flex;
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.action-bar-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.85);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.whatsapp-float {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.75rem;
+  height: 3.75rem;
+  padding: 0.95rem;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--navy);
+  box-shadow: 0 14px 30px rgba(42, 36, 94, 0.25);
+  animation: pop-in 600ms cubic-bezier(0.2, 0.7, 0.2, 1) 800ms both;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.whatsapp-float svg {
+  width: 100%;
+  height: 100%;
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 36px rgba(42, 36, 94, 0.3);
+}
+
+.action-bar {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .whatsapp-float {
+    display: none;
+  }
+
+  .site-shell {
+    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+  }
+
+  .action-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 70;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(255, 253, 248, 0.96);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 -10px 30px rgba(42, 36, 94, 0.12);
+    animation: pop-in 500ms cubic-bezier(0.2, 0.7, 0.2, 1) 300ms both;
+  }
+
+  .action-bar-whatsapp,
+  .action-bar-donate {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3.25rem;
+    border-radius: 999px;
+    color: var(--navy);
+    font-weight: 800;
+    transition: transform 150ms ease;
+  }
+
+  .action-bar-whatsapp {
+    background: var(--green);
+  }
+
+  .action-bar-donate {
+    background: var(--orange);
+  }
+
+  .action-bar-whatsapp:active,
+  .action-bar-donate:active {
+    transform: scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-float,
+  .action-bar,
+  .mobile-menu:not([hidden]),
+  .mobile-nav a {
     animation: none;
   }
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Figtree } from "next/font/google";
 
 import { AuthErrorHandler } from "@/components/auth-error-handler";
@@ -37,6 +37,12 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#fffdf8",
+  // Lets the mobile action bar sit above the iPhone home indicator.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
