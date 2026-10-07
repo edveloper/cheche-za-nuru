@@ -7,16 +7,22 @@ import { ImpactMetrics } from "@/components/impact-metrics";
 import { JsonLd } from "@/components/json-ld";
 import { PageSection } from "@/components/page-section";
 import {
+  bootsAppeal,
+  fieldPhotos,
+  founderStory,
+  givingTiers,
   involvementOptions,
   outOfSchoolStat,
   pageVisuals,
+  photos,
   programs,
+  scholarshipSteps,
   whyWeExist,
 } from "@/data/site";
 import { getImpactMetrics } from "@/lib/impact-content";
 import { getProgramEvents } from "@/lib/program-content";
 import { absoluteUrl, siteConfig } from "@/lib/site-config";
-import { getStoryPosts } from "@/lib/story-content";
+import { getStoryPosts, getVoiceSnippets } from "@/lib/story-content";
 import { toTitleCase } from "@/lib/title-case";
 
 export const metadata: Metadata = {
@@ -33,12 +39,14 @@ export const metadata: Metadata = {
 const eventDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short" });
 
 export default async function Home() {
-  const [metrics, events, posts] = await Promise.all([
+  const [metrics, events, posts, voices] = await Promise.all([
     getImpactMetrics(),
     getProgramEvents({ limit: 3 }),
     getStoryPosts(),
+    getVoiceSnippets(),
   ]);
   const latestPosts = posts.slice(0, 3);
+  const featuredVoice = voices[0];
 
   return (
     <>
@@ -57,7 +65,7 @@ export default async function Home() {
             addressLocality: siteConfig.address.locality,
             addressCountry: siteConfig.address.country,
           },
-          areaServed: { "@type": "Country", name: "Kenya" },
+          areaServed: { "@type": "Place", name: "Kibera, Nairobi, Kenya" },
           sameAs: siteConfig.sameAs,
         }}
       />
@@ -101,7 +109,7 @@ export default async function Home() {
           ))}
         </div>
         <aside className="why-stat">
-          <strong>{outOfSchoolStat.value}</strong>
+          <strong data-count-up>{outOfSchoolStat.value}</strong>
           <span>{outOfSchoolStat.label}</span>
           <a href={outOfSchoolStat.sourceUrl} target="_blank" rel="noreferrer">
             Source: {outOfSchoolStat.sourceLabel}
@@ -133,12 +141,122 @@ export default async function Home() {
                 </h3>
                 <p>{programme.summary}</p>
                 <span className="card-arrow" aria-hidden="true">
-                  Read More →
+                  Read More <span className="arrow">→</span>
                 </span>
               </div>
             </Link>
           ))}
         </div>
+      </PageSection>
+
+      <section className="scholarship" aria-labelledby="scholarship-heading">
+        <div className="scholarship-intro">
+          <p className="section-label">Nuru Scholars</p>
+          <h2 id="scholarship-heading">How a Scholarship Works</h2>
+          <p>
+            We call it a scholarship, not a sponsorship. Support comes with expectations on
+            both sides, and that&apos;s the point.
+          </p>
+        </div>
+        <ol className="step-list">
+          {scholarshipSteps.map((step, index) => (
+            <li key={step.title} className="step">
+              <span className="step-number" aria-hidden="true">
+                {index + 1}
+              </span>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="tier-strip">
+          <p className="tier-strip-label">What Your Gift Does</p>
+          <ul className="tier-strip-list">
+            {givingTiers.map((tier) => (
+              <li key={tier.amount}>
+                <strong>{tier.amount}</strong>
+                <span>{tier.buys}</span>
+              </li>
+            ))}
+          </ul>
+          <Link className="primary-button" href="/donate">
+            Fund a Scholarship
+          </Link>
+        </div>
+      </section>
+
+      <section className="appeal full-bleed" aria-labelledby="appeal-heading">
+        <div className="appeal-inner">
+        <ContentImage
+          src={photos.sparkFc.src}
+          alt={photos.sparkFc.alt}
+          sizes="(max-width: 1000px) 100vw, 45vw"
+          className="appeal-photo"
+        />
+        <div className="appeal-panel">
+          <p className="appeal-label">{bootsAppeal.label}</p>
+          <h2 id="appeal-heading">{bootsAppeal.heading}</h2>
+          {bootsAppeal.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+          <Link className="primary-button" href="/donate">
+            {bootsAppeal.cta}
+          </Link>
+        </div>
+        </div>
+      </section>
+
+      <section className="story-feature" aria-labelledby="story-heading">
+        <ContentImage
+          src={photos.doctorChecksToddler.src}
+          alt={photos.doctorChecksToddler.alt}
+          sizes="(max-width: 1000px) 100vw, 45vw"
+          className="story-feature-photo"
+        />
+        <div className="story-feature-copy">
+          <p className="section-label">From Rene&apos;s Notebook</p>
+          <h2 id="story-heading">725 Shillings</h2>
+          <p>{founderStory.context}</p>
+          <blockquote>&ldquo;{founderStory.quote}&rdquo;</blockquote>
+          <p className="story-feature-attribution">{founderStory.attribution}</p>
+          <p>
+            That&apos;s why there&apos;s a medical budget. A few dollars, on the right day, is
+            sometimes the whole difference.
+          </p>
+          <Link className="text-link" href="/about">
+            Meet Rene <span className="arrow">→</span>
+          </Link>
+        </div>
+      </section>
+
+      {featuredVoice ? (
+        <figure className="voice-feature">
+          <blockquote>&ldquo;{featuredVoice.quote}&rdquo;</blockquote>
+          <figcaption>
+            <strong>{featuredVoice.displayName}</strong>
+            <span>
+              {[featuredVoice.roleLabel, featuredVoice.location].filter(Boolean).join(", ")}
+            </span>
+          </figcaption>
+        </figure>
+      ) : null}
+
+      <PageSection label="In Kibera" title="Where the Work Happens">
+        <ul className="field-strip">
+          {fieldPhotos.map((photo) => (
+            <li key={photo.src}>
+              <figure>
+                <ContentImage
+                  src={photo.src}
+                  alt={photo.alt}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 25vw"
+                  className="field-strip-photo"
+                />
+                <figcaption>{photo.caption}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
       </PageSection>
 
       {events.length ? (
@@ -157,7 +275,7 @@ export default async function Home() {
             ))}
           </ul>
           <Link className="text-link" href="/programs#calendar">
-            Full Calendar →
+            Full Calendar <span className="arrow">→</span>
           </Link>
         </PageSection>
       ) : null}
@@ -192,7 +310,7 @@ export default async function Home() {
               <h3>{option.title}</h3>
               <p>{option.description}</p>
               <span className="card-arrow" aria-hidden="true">
-                {option.cta} →
+                {option.cta} <span className="arrow">→</span>
               </span>
             </Link>
           ))}

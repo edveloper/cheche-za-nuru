@@ -3,7 +3,7 @@ export const siteConfig = {
   shortName: "Cheche Za Nuru",
   url: "https://www.chechezanurufoundation.org",
   description:
-    "Cheche Za Nuru Foundation helps children in Kibera, Nairobi stay in school, stay healthy and play sport, through scholarships, clinic care, a feeding programme and Spark Generation Football Club.",
+    "Cheche Za Nuru Foundation helps children in Kibera, Nairobi stay in school, stay healthy and play sport, through scholarships, clinic care, a feeding programme and a youth football club.",
   email: "info@chechezanurufoundation.org",
   locale: "en_KE",
   address: {

@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 
 import { FloatingDonate } from "@/components/floating-donate";
+import { Motion } from "@/components/motion";
 import { ScrollToTop } from "@/components/scroll-to-top";
 
 interface Props {
@@ -32,6 +33,7 @@ export function ConditionalSiteChrome({ header, footer, children }: Props) {
       </div>
       <FloatingDonate />
       <ScrollToTop />
+      <Motion />
     </div>
   );
 }

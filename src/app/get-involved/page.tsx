@@ -30,7 +30,7 @@ export default function GetInvolvedPage() {
             <h3>{option.title}</h3>
             <p>{option.description}</p>
             <span className="card-arrow" aria-hidden="true">
-              {option.cta} →
+              {option.cta} <span className="arrow">→</span>
             </span>
           </Link>
         ))}
@@ -48,7 +48,7 @@ export default function GetInvolvedPage() {
             </p>
             <p>If it&apos;s money you&apos;d like to give, the donate page is quicker.</p>
             <Link className="text-link" href="/donate">
-              Go to Donate →
+              Go to Donate <span className="arrow">→</span>
             </Link>
           </aside>
         </div>

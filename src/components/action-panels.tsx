@@ -52,14 +52,14 @@ export function ActionPanels() {
           <strong>Want to give?</strong> The donate page takes a minute.
         </p>
         <Link className="text-link" href="/donate">
-          Donate →
+          Donate <span className="arrow">→</span>
         </Link>
         <p>
           <strong>Want to volunteer or partner?</strong> The get involved form goes straight
           to the right person.
         </p>
         <Link className="text-link" href="/get-involved#involvement-form">
-          Get Involved →
+          Get Involved <span className="arrow">→</span>
         </Link>
       </aside>
 

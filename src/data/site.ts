@@ -63,8 +63,8 @@ export const photos = {
     alt: "Young people holding plates of chapati and beans at a shared meal.",
   },
   sparkFc: {
-    src: "/images/czn/spark-generation-fc.jpg",
-    alt: "Spark Generation Football Club players in blue kits posing with Rene Roby on a dirt pitch in Kibera.",
+    src: "/images/czn/kibera-football-club.jpg",
+    alt: "Young footballers in blue kits posing with Rene Roby on a dirt pitch in Kibera.",
   },
   wornBoots: {
     src: "/images/czn/worn-football-boots.jpg",
@@ -135,9 +135,9 @@ export const programs: Programme[] = [
     summary:
       "Coached football and more. Discipline, teammates and a route to scholarships.",
     description:
-      "Our football started with Spark Generation Football Club in Kibera, on a pitch of hard soil and loose rock where boys played in Crocs and street shoes. Good players get noticed, and that's leverage: we use it to argue for sports scholarships and further education. Boots are kept at the office so they can't be stolen or sold.",
+      "Our football started with a club in Kibera, on a pitch of hard soil and loose rock where boys played in Crocs and street shoes. Good players get noticed, and that's leverage: we use it to argue for sports scholarships and further education. Boots are kept at the office so they can't be stolen or sold.",
     bullets: [
-      "Spark Generation Football Club",
+      "A youth football club in Kibera",
       "Coaching and regular fixtures",
       "Boots and kit kept safe at the office",
       "Advocacy for sports scholarships",
@@ -151,7 +151,57 @@ export const givingTiers = [
   { amount: "$25 a month", buys: "A partial scholarship" },
   { amount: "$50 a month", buys: "A full scholarship: fees, books and uniform" },
   { amount: "$600 a year", buys: "A full scholarship, paid once" },
-  { amount: "$32", buys: "A pair of football boots for a Spark Generation player" },
+  { amount: "$32", buys: "A pair of football boots for one of our players" },
+];
+
+/** How a Nuru Scholars scholarship works, from the Spark of Opportunity scholarship page. */
+export const scholarshipSteps = [
+  {
+    title: "We Meet the Family",
+    body: "We work directly with the child, their family and the school they've chosen.",
+  },
+  {
+    title: "We Cover the Costs",
+    body: "Tuition, admission fees, assessment books, textbooks and uniform. The things that quietly push children out of class.",
+  },
+  {
+    title: "They Keep Showing Up",
+    body: "Scholars attend regularly and share their reports. You get a progress card every quarter.",
+  },
+];
+
+export const bootsAppeal = {
+  label: "Our Football Club",
+  heading: "Boots, Not Crocs",
+  paragraphs: [
+    "The pitch in Kibera is hard soil and small rock, and it gets slippery. Plenty of the boys have been playing in Crocs or street shoes, which makes it hard to move safely, let alone with confidence.",
+    "A local shop sells us proper boots for $32 a pair. They're kept at the office between sessions, so they can't be stolen or sold.",
+  ],
+  cta: "Buy a Pair of Boots",
+};
+
+/** Field photos for the homepage strip. Captions describe only what's in the frame. */
+export const fieldPhotos = [
+  {
+    src: "/images/czn/feeding-programme-meal.jpg",
+    alt: "Plates of chapati and beans being handed round at a shared meal.",
+    caption: "Lunch at the feeding programme",
+  },
+  {
+    src: "/images/czn/partner-clinic-team.jpg",
+    alt: "Clinicians in white coats with Rene Roby at a clinic and pharmacy counter.",
+    caption: "At the clinic",
+  },
+  {
+    src: "/images/czn/rene-kibera-children.jpg",
+    alt: "Rene Roby taking a selfie with three grinning children in Kibera.",
+    caption: "Rene in Kibera",
+  },
+  {
+    src: "/images/czn/worn-football-boots.jpg",
+    alt: "A pair of worn-out football boots on rocky ground.",
+    caption: "Worn-out football boots",
+  },
 ];
 
 export const founderStory = {
@@ -186,10 +236,10 @@ export const whyWeExist = {
 };
 
 export const foundingStory = {
-  heading: "From Spark to Cheche",
+  heading: "How It Started",
   paragraphs: [
-    "Cheche Za Nuru began as Spark of Opportunity International, a US charity working in Kibera, the largest informal settlement in East Africa, and in rural Western Kenya. It started with street outreach, trips to the clinic and a football club.",
-    "In 2024 the work put down Kenyan roots as Cheche Za Nuru Foundation. The name is the original idea in Swahili: cheche za nuru, sparks of light.",
+    "The work began years before the name, with Rene Roby walking alongside families in Kibera, the largest informal settlement in East Africa, and in rural Western Kenya. It started small: street outreach, trips to the clinic and a football club.",
+    "In 2024 it became Cheche Za Nuru Foundation. The name says what the work is about: cheche za nuru, sparks of light.",
   ],
 };
 
@@ -201,7 +251,7 @@ export const founderProfile = {
     alt: "Portrait of Rene Roby, founder of Cheche Za Nuru Foundation.",
   },
   paragraphs: [
-    "Rene has spent the past seven years alongside children and families in Kibera and the communities around it, through a ministry rooted in faith. She founded Spark of Opportunity International in the United States, then Cheche Za Nuru Foundation as its Kenyan affiliate in 2024.",
+    "Rene has spent the past seven years alongside children and families in Kibera and the communities around it, through a ministry rooted in faith. She founded Cheche Za Nuru Foundation in 2024.",
     "Her gifts are the unglamorous ones: administration, service and encouragement. She moves between Kibera and rural Western Kenya to organise and oversee the work, and she still takes young people and adults to the clinic herself when pneumonia, typhoid or malaria strike.",
     "For Rene, it isn't about programmes or projects. It's about showing up, day after day, for the families who need it most.",
   ],

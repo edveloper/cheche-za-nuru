@@ -19,7 +19,7 @@ import { getTeamMembers } from "@/lib/team-content";
 export const metadata: Metadata = pageMetadata({
   title: "About Us",
   description:
-    "Cheche za nuru is Swahili for 'sparks of light'. Founded by Rene Roby, the foundation grew out of Spark of Opportunity's work with families in Kibera, Nairobi.",
+    "Cheche za nuru is Swahili for 'sparks of light'. Founded by Rene Roby, the foundation works with families in Kibera, Nairobi.",
   path: "/about",
 });
 
