@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Cheche Za Nuru Foundation",
   shortName: "Cheche Za Nuru",
-  url: "https://www.chechezanurufoundation.org",
+  url: "https://chechezanurufoundation.org",
   description:
     "Cheche Za Nuru Foundation helps children in Kibera, Nairobi stay in school, stay healthy and play sport, through scholarships, clinic care, a feeding programme and a youth football club.",
   email: "info@chechezanurufoundation.org",
