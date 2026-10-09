@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Figtree } from "next/font/google";
 
 import { AuthErrorHandler } from "@/components/auth-error-handler";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { ConditionalSiteChrome } from "@/components/conditional-site-chrome";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -61,6 +62,7 @@ export default function RootLayout({
         <ConditionalSiteChrome header={<SiteHeader />} footer={<SiteFooter />}>
           {children}
         </ConditionalSiteChrome>
+        <GoogleAnalytics />
       </body>
     </html>
   );
