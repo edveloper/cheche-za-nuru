@@ -10,6 +10,7 @@ const staticRoutes: Array<{
 }> = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/donate", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/sponsor-a-child", changeFrequency: "monthly", priority: 0.9 },
   { path: "/programs", changeFrequency: "weekly", priority: 0.8 },
   { path: "/about", changeFrequency: "monthly", priority: 0.8 },
   { path: "/impact", changeFrequency: "monthly", priority: 0.7 },

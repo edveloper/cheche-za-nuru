@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import Link from "next/link";
+
 import { DonationForm } from "@/components/donation-form";
 import { PageIntro } from "@/components/page-intro";
 import { PageSection } from "@/components/page-section";
@@ -35,7 +37,8 @@ export default function DonatePage() {
         </ul>
         <p className="tier-note">
           A scholarship covers tuition, admission fees, assessment books, textbooks and
-          uniform. Scholarship supporters get a progress card every quarter.
+          uniform. Scholarship supporters get a progress card every quarter.{" "}
+          <Link href="/sponsor-a-child">How a scholarship works</Link>.
         </p>
       </section>
 
@@ -56,7 +59,7 @@ export default function DonatePage() {
               <p className="card-label">Giving a Larger Amount?</p>
               <p>
                 For sponsorships, company giving or anything over a few hundred dollars, email{" "}
-                <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a> and
+                <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>{" "}and
                 we&apos;ll talk it through.
               </p>
             </div>
