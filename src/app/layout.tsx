@@ -6,7 +6,8 @@ import { GoogleAnalytics } from "@/components/google-analytics";
 import { ConditionalSiteChrome } from "@/components/conditional-site-chrome";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { siteConfig } from "@/lib/site-config";
+import { JsonLd } from "@/components/json-ld";
+import { ngoSchema, siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
 
@@ -58,6 +59,7 @@ export default function RootLayout({
       className={`${display.variable} ${sans.variable}`}
     >
       <body>
+        <JsonLd data={ngoSchema} />
         <AuthErrorHandler />
         <ConditionalSiteChrome header={<SiteHeader />} footer={<SiteFooter />}>
           {children}

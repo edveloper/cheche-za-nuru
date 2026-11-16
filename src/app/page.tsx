@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ContentImage } from "@/components/content-image";
 import { CtaBand } from "@/components/cta-band";
 import { ImpactMetrics } from "@/components/impact-metrics";
-import { JsonLd } from "@/components/json-ld";
 import { PageSection } from "@/components/page-section";
 import {
   bootsAppeal,
@@ -21,7 +20,7 @@ import {
 } from "@/data/site";
 import { getImpactMetrics } from "@/lib/impact-content";
 import { getProgramEvents } from "@/lib/program-content";
-import { absoluteUrl, siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/lib/site-config";
 import { getStoryPosts, getVoiceSnippets } from "@/lib/story-content";
 import { toTitleCase } from "@/lib/title-case";
 
@@ -50,25 +49,6 @@ export default async function Home() {
 
   return (
     <>
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "NGO",
-          name: siteConfig.name,
-          alternateName: siteConfig.shortName,
-          url: siteConfig.url,
-          logo: absoluteUrl(siteConfig.logoPath),
-          description: siteConfig.description,
-          email: siteConfig.email,
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: siteConfig.address.locality,
-            addressCountry: siteConfig.address.country,
-          },
-          areaServed: { "@type": "Place", name: "Kibera, Nairobi, Kenya" },
-          sameAs: siteConfig.sameAs,
-        }}
-      />
 
       <section className="hero">
         <div className="hero-copy">

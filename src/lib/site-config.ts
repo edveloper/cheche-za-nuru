@@ -22,6 +22,37 @@ export function absoluteUrl(path = "/") {
   return new URL(path, siteConfig.url).toString();
 }
 
+/**
+ * The foundation as one entity, on every page. Several other "Nuru" foundations exist,
+ * so the alternate names, founder and place are spelled out for search engines.
+ */
+export const ngoSchema = {
+  "@context": "https://schema.org",
+  "@type": "NGO",
+  "@id": absoluteUrl("/#organization"),
+  name: siteConfig.name,
+  alternateName: [siteConfig.shortName, "CZN"],
+  url: siteConfig.url,
+  logo: absoluteUrl(siteConfig.logoPath),
+  description: siteConfig.description,
+  email: siteConfig.email,
+  founder: { "@type": "Person", name: "Rene Roby" },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Kibera",
+    addressRegion: "Nairobi",
+    addressCountry: siteConfig.address.country,
+  },
+  areaServed: { "@type": "Place", name: "Kibera, Nairobi, Kenya" },
+  knowsAbout: ["School scholarships", "Community health outreach", "Child nutrition", "Youth football"],
+  potentialAction: {
+    "@type": "DonateAction",
+    target: absoluteUrl("/donate"),
+    recipient: { "@id": absoluteUrl("/#organization") },
+  },
+  sameAs: siteConfig.sameAs,
+};
+
 type PageMetadataInput = {
   title: string;
   description: string;
