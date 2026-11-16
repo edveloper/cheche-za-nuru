@@ -10,9 +10,9 @@ import { getProgramEvents } from "@/lib/program-content";
 import { pageMetadata } from "@/lib/site-config";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Our Programmes",
+  title: "Programmes for Children in Kibera",
   description:
-    "Nuru Scholars school scholarships, Afya Kwa Wote community health outreach and the Rising Stars youth sports league: how Cheche Za Nuru supports children in Kenya.",
+    "How Cheche Za Nuru Foundation helps children in Kibera stay in school, stay healthy and keep playing, through Nuru Scholars, Afya Kwa Wote and the Rising Stars League.",
   path: "/programs",
 });
 
@@ -32,9 +32,24 @@ export default async function ProgramsPage() {
       <PageIntro
         label="Programmes"
         title="Classroom, Clinic and Pitch"
-        body="Our work runs through three programmes. Each one covers a gap that free schooling and public services leave open."
+        body="Our work with children in Kibera runs through three programmes. Each one covers a gap that free schooling and public services leave open."
         photo={pageVisuals.programs}
       />
+
+      <PageSection label="Why It Matters" title="Growing Up in Kibera">
+        <div className="section-heading">
+          <p className="section-body">
+            Kibera is the largest informal settlement in East Africa. Free primary education gets its children
+            through the school gate, but it doesn&apos;t buy the uniform, the books or the exam fee, and with most
+            adults out of work there is seldom money for the clinic when malaria comes. A week&apos;s medicine can
+            cost a week&apos;s wages.
+          </p>
+          <p className="section-body">
+            Each programme below closes one of those gaps, for the same children, so that a child who is in class
+            is also well enough to learn and has somewhere to play after the bell.
+          </p>
+        </div>
+      </PageSection>
 
       <section className="programme-rows" aria-label="Our programmes">
         {programs.map((programme, index) => (
