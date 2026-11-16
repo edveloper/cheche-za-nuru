@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { track } from "@/lib/track";
 
 const interestOptions = [
   { value: "volunteer", label: "Volunteer" },
@@ -61,6 +62,8 @@ export function InvolvementForm() {
       setStatus(result.error ?? "Unable to submit involvement request right now.");
       return;
     }
+
+    track("involvement_enquiry_sent", { interest_type: String(formData.get("interestType") ?? "") });
 
     setStatus(
       "Thank you. We've got your message and will be in touch.",

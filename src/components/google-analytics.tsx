@@ -1,4 +1,5 @@
 import Script from 'next/script';
+import { InteractionTracking } from '@/components/interaction-tracking';
 
 // GA4 for Cheche Za Nuru. Measurement IDs are public; the env var only exists to override it.
 // Preview deploys are skipped so test traffic stays out of the reports.
@@ -15,6 +16,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', '${GA_ID}');`}
       </Script>
+      <InteractionTracking internalLinks={{ '/donate': 'donate_click' }} />
     </>
   );
 }

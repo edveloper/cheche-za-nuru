@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { track } from "@/lib/track";
 
 import type { DonationFundOption } from "@/lib/donation-funds";
 
@@ -77,6 +78,8 @@ export function DonationForm() {
         setStatus(result.error ?? "Unable to submit donation intent.");
         return;
       }
+
+      track("donation_pledge_sent");
 
       setStatus(
         "Thank you. We've got your pledge and will be in touch to complete it.",

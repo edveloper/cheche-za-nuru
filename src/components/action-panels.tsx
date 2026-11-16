@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { track } from "@/lib/track";
 import { useState, useTransition } from "react";
 
 const interestOptions = [
@@ -40,6 +41,8 @@ export function ActionPanels() {
       setContactStatus(result.error ?? "Unable to send message right now.");
       return;
     }
+
+    track("contact_form_sent");
 
     setContactStatus("Thank you. We've got your message and will reply by email.");
   }
