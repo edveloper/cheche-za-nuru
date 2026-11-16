@@ -188,8 +188,8 @@ export default async function Home() {
       <section className="appeal full-bleed" aria-labelledby="appeal-heading">
         <div className="appeal-inner">
         <ContentImage
-          src={photos.sparkFc.src}
-          alt={photos.sparkFc.alt}
+          src={photos.footballClub.src}
+          alt={photos.footballClub.alt}
           sizes="(max-width: 1000px) 100vw, 45vw"
           className="appeal-photo"
         />

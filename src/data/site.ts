@@ -32,8 +32,7 @@ export type Photo = {
 };
 
 /**
- * The foundation's own photographs, carried over from sparkofopportunity.org (the site
- * of Spark of Opportunity International, CZN's US affiliate). Alt text describes only
+ * The foundation's own photographs. Alt text describes only
  * what is visible; don't caption a photo as a specific programme or event unless the
  * foundation confirms it.
  */
@@ -62,7 +61,7 @@ export const photos = {
     src: "/images/czn/feeding-programme-meal.jpg",
     alt: "Young people holding plates of chapati and beans at a shared meal.",
   },
-  sparkFc: {
+  footballClub: {
     src: "/images/czn/kibera-football-club.jpg",
     alt: "Young footballers in blue kits posing with Rene Roby on a dirt pitch in Kibera.",
   },
@@ -79,7 +78,7 @@ export const pageVisuals = {
   impact: photos.partnerClinic,
   stories: photos.kiberaChildren,
   involved: photos.wornBoots,
-  contact: photos.sparkFc,
+  contact: photos.footballClub,
   donate: photos.reneWithChildren,
 };
 
@@ -142,11 +141,11 @@ export const programs: Programme[] = [
       "Boots and kit kept safe at the office",
       "Advocacy for sports scholarships",
     ],
-    photo: photos.sparkFc,
+    photo: photos.footballClub,
   },
 ];
 
-/** What a gift buys. Figures from the Spark of Opportunity programme pages. */
+/** What a gift buys, in the foundation's own figures. */
 export const givingTiers = [
   { amount: "$25 a month", buys: "A partial scholarship" },
   { amount: "$50 a month", buys: "A full scholarship: fees, books and uniform" },
@@ -154,7 +153,7 @@ export const givingTiers = [
   { amount: "$32", buys: "A pair of football boots for one of our players" },
 ];
 
-/** How a Nuru Scholars scholarship works, from the Spark of Opportunity scholarship page. */
+/** How a Nuru Scholars scholarship works. */
 export const scholarshipSteps = [
   {
     title: "We Meet the Family",
